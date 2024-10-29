@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:models="clr-namespace:MauiRecipes.MVVM.Models"
+             xmlns:viewmodels="clr-namespace:MauiRecipes.MVVM.ViewModels"
+             x:Class="MauiRecipes.MVVM.Views.RecipesMainPage"
+             x:DataType ="viewmodels:SpoonacularViewModel"
+             Title="Recipes Main Page">
+
+
+    <Grid>
+        <ScrollView>
+            <VerticalStackLayout>
+                <Grid RowDefinitions="60, Auto, *">
+                    <Border Grid.Row="0" Margin="5, 0"  
+                            StrokeShape="RoundRectangle 0,0,50,50" 
+                            StrokeThickness="0" HeightRequest="160">
+                        <Border.Shadow>
+                            <Shadow Brush="Black" Offset="-10,20" Radius="10" Opacity="0.4" />
+                        </Border.Shadow>
+                    </Border>
+                    <Picker x:Name="picker" 
+                            Title="Escolha região" 
+                            Grid.Row="0" 
+                            Margin="10, 5"
+                            ItemsSource="{Binding Regions }" 
+                            ItemDisplayBinding="{Binding RegionName  }">
+                    </Picker>
+
+                    <CollectionView Grid.Row="1" 
+                                    ItemsSource="{Binding RecipesTitles}" 
+                                    SelectionMode="Single">
+                        <CollectionView.EmptyView>
+                            <StackLayout Grid.ColumnSpan="2">
+                                <Image HorizontalOptions="Center"
+                                       HeightRequest="60"
+                                       WidthRequest="60"
+                                       Source="nodata.png"
+                                       VerticalOptions="Center" />
+                            </StackLayout>
+                        </CollectionView.EmptyView>
+
+                        <CollectionView.ItemsLayout>
+                            <GridItemsLayout Orientation="Vertical" Span="2"
+                                             HorizontalItemSpacing="10"
+                                             VerticalItemSpacing="10" />
+                        </CollectionView.ItemsLayout>
+
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <VerticalStackLayout Margin="15, 0, 15, 0" x:DataType="viewmodels:SpoonacularViewModel">
+                                    <Border Stroke="Black" 
+                                            StrokeThickness="2" 
+                                            HeightRequest="140" 
+                                            WidthRequest="160" 
+                                            StrokeShape="RoundRectangle 20" 
+                                            HorizontalOptions="Center"
+                                            VerticalOptions="Center">
+                                        <Border.Shadow>
+                                            <Shadow Brush="Black" Offset="-5,5" Radius="10" Opacity="0.4" />
+                                        </Border.Shadow>
+                                        <Image Source="{Binding image}"
+                                               Aspect="AspectFill" 
+                                               HorizontalOptions="Fill"
+                                               VerticalOptions="Fill"
+                                               Margin="5, 0" />
+                                        <!--<Border.GestureRecognizers>
+                                            <TapGestureRecognizer 
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type local:PetViewModel}}, Path=DisplayPetCommand}"
+                                                CommandParameter="{Binding .}"/>
+                                        </Border.GestureRecognizers>-->
+                                    </Border>
+
+                                    <Label Text="{Binding title}"
+                                           TextColor="Green"
+                                           Padding="10"
+                                           FontSize="14"
+                                           FontAttributes="Bold"
+                                           HorizontalTextAlignment="Center" />
+                                </VerticalStackLayout>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+
+                </Grid>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>
