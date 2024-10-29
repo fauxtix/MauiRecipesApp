@@ -1,13 +1,19 @@
-﻿namespace MauiRecipes.MVVM.Models
+﻿using Newtonsoft.Json;
+
+namespace MauiRecipes.MVVM.Models
 {
     public class CountriesCuisines
     {
         public class Result
         {
-            public int id { get; set; }
-            public string title { get; set; }
-            public string image { get; set; }
-            public string imageType { get; set; }
+            [JsonProperty("id")]
+            public int Id { get; set; }
+            [JsonProperty("title")]
+            public string Title { get; set; }
+            [JsonProperty("image")]
+            public string Image { get; set; }
+            [JsonProperty("imageType")]
+            public string ImageType { get; set; }
         }
 
         public class Root

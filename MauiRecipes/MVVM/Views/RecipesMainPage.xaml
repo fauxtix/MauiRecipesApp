@@ -6,14 +6,14 @@
              xmlns:viewmodels="clr-namespace:MauiRecipes.MVVM.ViewModels"
              x:Class="MauiRecipes.MVVM.Views.RecipesMainPage"
              x:DataType ="viewmodels:SpoonacularViewModel"
-             Title="Recipes Main Page">
+             Title="Spoonacular Recipes">
 
 
     <Grid>
         <ScrollView>
             <VerticalStackLayout>
-                <Grid RowDefinitions="60, Auto, *">
-                    <Border Grid.Row="0" Margin="5, 0"  
+                <Grid RowDefinitions="70, *">
+                    <Border Margin="5, 0"  
                             StrokeShape="RoundRectangle 0,0,50,50" 
                             StrokeThickness="0" HeightRequest="160">
                         <Border.Shadow>
@@ -22,12 +22,13 @@
                     </Border>
                     <Picker x:Name="picker" 
                             Title="Escolha região" 
+                            FontSize="18"
+                            Margin="10, 15"
                             Grid.Row="0" 
-                            Margin="10, 5"
-                            ItemsSource="{Binding Regions }" 
+                            ItemsSource="{Binding Regions }"  
+                            SelectedItem="{Binding SelectedRegion}"
                             ItemDisplayBinding="{Binding RegionName  }">
                     </Picker>
-
                     <CollectionView Grid.Row="1" 
                                     ItemsSource="{Binding RecipesTitles}" 
                                     SelectionMode="Single">
@@ -60,19 +61,19 @@
                                         <Border.Shadow>
                                             <Shadow Brush="Black" Offset="-5,5" Radius="10" Opacity="0.4" />
                                         </Border.Shadow>
-                                        <Image Source="{Binding image}"
+                                        <Image Source="{Binding Image}"
                                                Aspect="AspectFill" 
                                                HorizontalOptions="Fill"
                                                VerticalOptions="Fill"
                                                Margin="5, 0" />
-                                        <!--<Border.GestureRecognizers>
+                                        <Border.GestureRecognizers>
                                             <TapGestureRecognizer 
-                                                Command="{Binding Source={RelativeSource AncestorType={x:Type local:PetViewModel}}, Path=DisplayPetCommand}"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SpoonacularViewModel}}, Path=GetRecipeInformationCommand}"
                                                 CommandParameter="{Binding .}"/>
-                                        </Border.GestureRecognizers>-->
+                                        </Border.GestureRecognizers>
                                     </Border>
 
-                                    <Label Text="{Binding title}"
+                                    <Label Text="{Binding Title}"
                                            TextColor="Green"
                                            Padding="10"
                                            FontSize="14"
@@ -82,7 +83,8 @@
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
                     </CollectionView>
-
+                    <ActivityIndicator  IsRunning="{Binding IsBusy}" Grid.RowSpan="2"
+                                        VerticalOptions="Start" HorizontalOptions="Center"/>
 
                 </Grid>
             </VerticalStackLayout>

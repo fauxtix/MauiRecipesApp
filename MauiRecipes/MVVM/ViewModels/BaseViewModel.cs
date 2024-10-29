@@ -22,6 +22,9 @@ public partial class BaseViewModel : ObservableObject
     private string _regionToFilter = "French";
 
     [ObservableProperty]
+    private CuisineRegion? selectedRegion;
+
+    [ObservableProperty]
     public List<CuisineRegion> regionsData = new();
 
 

@@ -53,7 +53,7 @@ public class SpoonacularService : ISpoonacularService
     // Método para obter detalhes de uma receita
     public async Task<List<Recipes.MyArray>> GetRecipeDetails(int id)
     {
-        string url = $"recipes/{id}/analyzedInstructions?apiKey={_apiKey}";
+        string url = $"{baseAddress}recipes/{id}/analyzedInstructions?apiKey={_apiKey}";
 
         try
         {
@@ -73,7 +73,7 @@ public class SpoonacularService : ISpoonacularService
     // Método para obter informações detalhadas de uma receita
     public async Task<RecipeInformation.RecipeInfo> GetRecipeInformation(int id)
     {
-        string url = $"recipes/{id}/information?includeNutrition=false&apiKey={_apiKey}";
+        string url = $"{baseAddress}recipes/{id}/information?includeNutrition=false&apiKey={_apiKey}";
 
         try
         {

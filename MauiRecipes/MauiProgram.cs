@@ -22,6 +22,12 @@ namespace MauiRecipes
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+                    fonts.AddFont("OpenSans-Medium.ttf", "sans-serif-medium");
+                    fonts.AddFont("NotoSerif-Bold.ttf", "NotoSerifBold");
+                    fonts.AddFont("Poppins-Bold.ttf", "PoppinsBold");
+                    fonts.AddFont("Poppins-SemiBold.ttf", "PoppinsSemiBold");
+                    fonts.AddFont("Poppins-Regular.ttf", "Poppins");
+                    fonts.AddFont("MaterialIconsOutlined-Regular.otf", "Material");
                 });
 
             // Services
@@ -31,6 +37,7 @@ namespace MauiRecipes
             // ViewModels
             builder.Services.AddSingleton<BaseViewModel>();
             builder.Services.AddTransient<SpoonacularViewModel>();
+            builder.Services.AddTransient<RecipeDetailViewModel>();
 
 
             // Views

@@ -1,7 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using MauiRecipes.MVVM.Models;
+using MauiRecipes.MVVM.Views;
 using MauiRecipes.Services.Interfaces;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 namespace MauiRecipes.MVVM.ViewModels;
 public partial class SpoonacularViewModel : BaseViewModel
 {
@@ -9,18 +12,26 @@ public partial class SpoonacularViewModel : BaseViewModel
 
     [ObservableProperty]
     private CountriesCuisines.Root titles;
+    [ObservableProperty]
+    private List<Recipes.MyArray> recipeDetail;
+
+    [ObservableProperty]
+    private RecipeInformation.RecipeInfo recipeInfo;
 
     public ObservableCollection<CountriesCuisines.Result> RecipesTitles { get; } = new();
+    public ObservableCollection<Recipes.MyArray> RecipeDetails { get; } = new();
 
     public readonly HttpClient Client = new HttpClient();
 
     public SpoonacularViewModel(ISpoonacularService service)
     {
         _service = service;
+        IsBusy = true;
+        PropertyChanged += SpoonacularViewModel_PropertyChanged;
         GetRecipesTitles();
         regionsData =
-[
-    new() { ID= "German", RegionName = "Alemã" },
+        [
+            new() { ID= "German", RegionName = "Alemã" },
             new() { ID= "American", RegionName= "Americana" },
             new() { ID= "Latin American", RegionName = "América Latina" },
             new() { ID= "British", RegionName= "Britânica" },
@@ -43,47 +54,71 @@ public partial class SpoonacularViewModel : BaseViewModel
             new() { ID= "Southern", RegionName = "Sulista"},
             new() { ID= "Thai", RegionName = "Thai"},
             new() { ID= "Vietnamese", RegionName= "Vietnamita"}
-];
+        ];
 
         Regions.Clear();
         foreach (var region in regionsData)
         {
             Regions.Add(region);
         }
+
+        SelectedRegion = Regions.FirstOrDefault(r => r.ID == RegionToFilter);
+        IsBusy = false;
     }
 
     public async void GetRecipesTitles()
     {
-        titles = await _service.GetRecipeTitles("French");
+        IsBusy = true;
+        Titles = await _service.GetRecipeTitles(RegionToFilter);
         RecipesTitles.Clear();
         foreach (var recipe in titles.results)
         {
             RecipesTitles.Add(recipe);
         }
+        IsBusy = false;
+
     }
 
-    //private async Task<CountriesCuisines.Root> GetRecipesTitles(string regionFilter)
-    //{
-    //    var output = await _service.GetRecipeTitles(regionFilter);
-    //    return output;
-    //}
 
+    [RelayCommand]
+    private async Task GetRecipeDetails(CountriesCuisines.Result param)
+    {
+        RecipeDetail = await _service.GetRecipeDetails(param.Id);
+    }
 
-    //[RelayCommand]
-    //private async Task GetRecipeTitles()
-    //{
-    //    RecipesTitles = await _service.GetRecipeTitles(RegionName);
-    //}
-    //[RelayCommand]
-    //private async Task GetRecipeDetails(int Id)
-    //{
-    //    RecipeDetails = await _service.GetRecipeDetails(Id);
-    //}
+    [RelayCommand]
+    private async Task GetRecipeInformation(CountriesCuisines.Result param)
+    {
+        RecipeInfo = await _service.GetRecipeInformation(param.Id);
 
-    //[RelayCommand]
-    //private async Task GetRecipeInformation(int Id)
-    //{
-    //    RecipeInformation = await _service.GetRecipeInformation(Id);
-    //}
+        try
+        {
+            IsBusy = true;
+            await Task.Yield();
+            await Shell.Current.GoToAsync($"//{nameof(ViewRecipePage)}", true,
+                new Dictionary<string, object>
+                {
+                    {"RecipeInfo", RecipeInfo },
+                 });
+        }
+        catch (Exception ex)
+        {
+            await Shell.Current.DisplayAlert("Error!", ex.Message, "OK");
+        }
+        finally
+        {
+            IsBusy = false;
+        }
 
+    }
+
+    private void SpoonacularViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+        // Verifica se a propriedade alterada foi SelectedRegion
+        if (e.PropertyName == nameof(SelectedRegion) && SelectedRegion != null)
+        {
+            RegionToFilter = SelectedRegion.ID;  // Atualiza o filtro com o ID da região selecionada
+            GetRecipesTitles();                  // Atualiza as receitas conforme a nova região
+        }
+    }
 }
