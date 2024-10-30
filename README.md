@@ -1,5 +1,22 @@
 # Playing with .Net NAUI by using the Spoonacular Api
 
+## Educational Purpose
+
+This project was developed as a way of learning and exploring the capabilities of ,Net NAUI. 
+The main objective is to get to know and experiment its various components and standards. 
+Additionally, the Spoonacular Api was incorporated to broaden the scope of exploration, allowing for experimentation with accessing external Apis into the application.
+The Spoonacular Api was used to obtain recipe data.
+
+### Learning Objectives
+
+- Gain familiarity with .Net MAUI components and their usage.
+- Understand how to integrate external APIs into the pplications.
+- Explore data visualization and presentation techniques.
+
+## Work in Progress
+
+This project is currently a work in progress. While it provides basic functionality for recipe search and access to the Spoonacular Api, it is expected to evolve over time.
+
 # Screenshots
 
 ![RecipesMainPage](https://github.com/user-attachments/assets/4aedc81f-c38f-4589-b84a-06deb88a0814)
