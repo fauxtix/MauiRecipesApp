@@ -31,7 +31,7 @@ public class SpoonacularService : ISpoonacularService
         Uri uri = new Uri(apiQuery);
         try
         {
-            HttpResponseMessage response = await _httpClient.GetAsync(uri).ConfigureAwait(false);
+            HttpResponseMessage response = await _httpClient.GetAsync(uri);
 
             response.EnsureSuccessStatusCode();
 
