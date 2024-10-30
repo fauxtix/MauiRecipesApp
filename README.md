@@ -5,7 +5,7 @@
 This project was developed as a way of learning and exploring the capabilities of .Net MAUI. 
 The main objective is to get to know and experiment its various components and standards. 
 Additionally, the Spoonacular Api was incorporated to broaden the scope of exploration, allowing for experimentation with accessing external Apis into the application.
-In the MauiRecipesApp, the Spoonacular Api was used to get recipe data.
+In the MauiRecipesApp, the Spoonacular Api was used to get recipe data from various regions of the world.
 
 ### Learning Objectives
 
