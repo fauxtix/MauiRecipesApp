@@ -11,6 +11,11 @@ namespace MauiRecipes.MVVM.ViewModels
     {
         [ObservableProperty]
         private RecipeInformation.RecipeInfo? recipeInfo;
+
+        [ObservableProperty]
+        private string? summary;
+        [ObservableProperty]
+        private string? recipeImage;
         public RecipeDetailViewModel()
         {
         }
@@ -18,6 +23,8 @@ namespace MauiRecipes.MVVM.ViewModels
         {
             var data = query[nameof(RecipeInformation.RecipeInfo)] as RecipeInformation.RecipeInfo;
             RecipeInfo = data;
+            Summary = RecipeInfo?.summary;
+            RecipeImage = RecipeInfo?.image;
         }
 
         [RelayCommand]

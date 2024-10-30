@@ -18,6 +18,7 @@ namespace MauiRecipes
         {
             Routes.Add(nameof(RecipesMainPage), typeof(RecipesMainPage));
             Routes.Add(nameof(ViewRecipePage), typeof(ViewRecipePage));
+            Routes.Add(nameof(ViewSummaryPage), typeof(ViewSummaryPage));
         }
     }
 }

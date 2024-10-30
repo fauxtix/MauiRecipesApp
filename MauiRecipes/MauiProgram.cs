@@ -43,6 +43,7 @@ namespace MauiRecipes
             // Views
             builder.Services.AddTransient<RecipesMainPage>();
             builder.Services.AddTransient<ViewRecipePage>();
+            builder.Services.AddTransient<ViewSummaryPage>();
 
 
 #if DEBUG

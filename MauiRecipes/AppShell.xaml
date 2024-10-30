@@ -5,14 +5,16 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:MauiRecipes.MVVM.Views"
     Shell.FlyoutBehavior="Disabled"
+        Shell.TabBarIsVisible="False"
     Title="MauiRecipes">
-
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:RecipesMainPage}"
-        Route="RecipesMainPage" />
-    <ShellContent 
-        Title="Edit"
-        ContentTemplate="{DataTemplate local:ViewRecipePage}"
-        Route="ViewRecipePage" />
+    <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
+        <ShellContent
+            Title="Home"
+            ContentTemplate="{DataTemplate local:RecipesMainPage}"
+            Route="RecipesMainPage" />
+            <ShellContent 
+                Title="Detail"
+                ContentTemplate="{DataTemplate local:ViewRecipePage}"
+                Route="ViewRecipePage" />
+    </FlyoutItem>
 </Shell>
