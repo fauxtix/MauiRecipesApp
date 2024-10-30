@@ -2,7 +2,7 @@
 
 ## Educational Purpose
 
-This project was developed as a way of learning and exploring the capabilities of .Net NAUI. 
+This project was developed as a way of learning and exploring the capabilities of .Net MAUI. 
 The main objective is to get to know and experiment its various components and standards. 
 Additionally, the Spoonacular Api was incorporated to broaden the scope of exploration, allowing for experimentation with accessing external Apis into the application.
 The Api was used to obtain recipe data.
