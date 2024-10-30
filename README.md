@@ -19,7 +19,7 @@ Set the `SpoonacularApiKey` environment variable on your system with your Spoona
 
   Replace YOUR_API_KEY_HERE with your actual Spoonacular API key.
 
-  ### Option 2: User Secrets (for Visual Studio Users)
+### Option 2: User Secrets (for Visual Studio Users)
   
   If you are using Visual Studio, you can configure the key securely using User Secrets.
   
