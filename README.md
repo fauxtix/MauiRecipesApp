@@ -9,8 +9,9 @@ The Api was used to obtain recipe data.
 
 ### Learning Objectives
 
-- Gain familiarity with .Net MAUI components and their usage.
-- Understand how to integrate external APIs into the pplications.
+- Gain familiarity with .Net MAUI components and their usage;
+- Understand how to integrate external APIs into .Net Maui apps;
+- Learn the MVVM architectural pattern, by using Maui.Community.Toolkit;
 - Explore data visualization and presentation techniques.
 
 ## Work in Progress
