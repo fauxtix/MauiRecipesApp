@@ -8,7 +8,7 @@ namespace MauiRecipes.Services.Implementations;
 public class SpoonacularService : ISpoonacularService
 {
     private readonly HttpClient _httpClient;
-    private readonly string? _apiKey = "871cc9ddc1ea4733830dd2c30e3d691a";
+    private readonly string? _apiKey = "871cc9ddc1ea4733830dd2c30e3d691a"; // create your own, this key will be removed shortly :)
     private readonly JsonSerializerOptions _serializerOptions;
     private readonly string baseAddress = "https://api.spoonacular.com/";
 
@@ -41,7 +41,7 @@ public class SpoonacularService : ISpoonacularService
         }
         catch (Exception ex)
         {
-            return new CountriesCuisines.Root();
+            return new(); // CountriesCuisines.Root();
         }
     }
 
@@ -60,7 +60,7 @@ public class SpoonacularService : ISpoonacularService
         }
         catch (Exception)
         {
-            return new List<Recipes.MyArray>();
+            return new(); // List<Recipes.MyArray>();
         }
     }
 
@@ -75,11 +75,11 @@ public class SpoonacularService : ISpoonacularService
             response.EnsureSuccessStatusCode();
 
             var responseString = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<RecipeInformation.RecipeInfo>(responseString) ?? new RecipeInformation.RecipeInfo();
+            return JsonConvert.DeserializeObject<RecipeInformation.RecipeInfo>(responseString) ?? new();
         }
         catch (Exception)
         {
-            return new RecipeInformation.RecipeInfo();
+            return new();
         }
     }
 }
