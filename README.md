@@ -1,3 +1,5 @@
+# Playing with .Net NAUI by using the Spoonacular Api
+
 # Screenshots
 
 ![RecipesMainPage](https://github.com/user-attachments/assets/4aedc81f-c38f-4589-b84a-06deb88a0814)
