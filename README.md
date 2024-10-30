@@ -10,7 +10,7 @@ In the MauiRecipesApp, the Spoonacular Api was used to get recipe data.
 ### Learning Objectives
 
 - Gain familiarity with .Net MAUI components and their usage;
-- Understand how to integrate external APIs into .Net Maui apps;
+- Understand how to integrate external APIs into the MauiRecipesApp;
 - Learn the MVVM architectural pattern, by using Maui.Community.Toolkit;
 - Explore data visualization and presentation techniques.
 
