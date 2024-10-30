@@ -1,4 +1,4 @@
-# Playing with .Net NAUI by using the Spoonacular Api
+# Playing with .Net MAUI by using the Spoonacular Api
 
 ## Educational Purpose
 
