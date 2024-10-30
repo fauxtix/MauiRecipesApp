@@ -25,3 +25,12 @@ This project is currently a work in progress. While it provides basic functional
 ![ViewRecipe](https://github.com/user-attachments/assets/68908bd8-49f9-462d-a03d-3eb4365155df)
 ![ViewRecipe_Summary](https://github.com/user-attachments/assets/fbe99f0a-0d37-4f76-925f-3981160f19e2)
 ![ViewRecipe_Instructions](https://github.com/user-attachments/assets/c7e78f35-14c3-4d08-bde5-c73af327888d)
+
+### Contributions
+
+Contributions are welcome! If you have suggestions for new features or improvements, feel free to submit a pull request or open an issue on GitHub.
+
+### Disclaimer
+
+This project is a work in progress and may undergo changes and updates without prior notice. It is being developed for educational purposes and may include experimental features and components.
+It does not serve any commercial or production purposes.
