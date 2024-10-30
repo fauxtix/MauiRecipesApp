@@ -12,5 +12,4 @@ public partial class ViewRecipePage : ContentPage
         _viewModel = viewModel;
         BindingContext = _viewModel;
     }
-
 }

@@ -14,9 +14,9 @@ public partial class BaseViewModel : ObservableObject
     public string? _editCaption;
 
     [ObservableProperty]
-    private string image;
+    private string? image;
     [ObservableProperty]
-    private string title;
+    private string? title;
 
     [ObservableProperty]
     private string _regionToFilter = "French";
@@ -27,8 +27,5 @@ public partial class BaseViewModel : ObservableObject
     [ObservableProperty]
     public List<CuisineRegion> regionsData = new();
 
-
     public ObservableCollection<CuisineRegion> Regions { get; } = new();
-
-
 }

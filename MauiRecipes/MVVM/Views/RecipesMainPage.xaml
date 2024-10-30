@@ -21,13 +21,13 @@
                         </Border.Shadow>
                     </Border>
                     <Picker x:Name="picker" 
-                            Title="Escolha região" 
+                            Title="Select Region" 
                             FontSize="18"
                             Margin="10, 15"
                             Grid.Row="0" 
                             ItemsSource="{Binding Regions }"  
                             SelectedItem="{Binding SelectedRegion}"
-                            ItemDisplayBinding="{Binding RegionName  }">
+                            ItemDisplayBinding="{Binding ID  }">
                     </Picker>
                     <CollectionView Grid.Row="1" 
                                     ItemsSource="{Binding RecipesTitles}" 

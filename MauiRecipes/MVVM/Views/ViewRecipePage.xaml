@@ -4,9 +4,11 @@
              xmlns:mct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:models="clr-namespace:MauiRecipes.MVVM.Models"
              xmlns:viewmodels="clr-namespace:MauiRecipes.MVVM.ViewModels"
+             xmlns:conv="clr-namespace:MauiRecipes.Converters"
              x:Class="MauiRecipes.MVVM.Views.ViewRecipePage"
              x:DataType ="viewmodels:RecipeDetailViewModel"
-             Title="View Recipe Page">
+             Shell.BackgroundColor="{DynamicResource Primary}"
+             Title="View Recipe">
 
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Return"  
@@ -15,11 +17,12 @@
     </ContentPage.ToolbarItems>
 
     <ContentPage.Resources>
+        <conv:BooleanToStringConverter x:Key="boolToStringConverter" />
+
         <ResourceDictionary>
             <Style x:Key="MediumLabelBold" TargetType="Label">
-                <Setter Property="FontSize" Value="12"/>
-                <Setter Property="FontFamily" Value="Poppins"/>
-                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="FontSize" Value="13"/>
+                <Setter Property="FontFamily" Value="PoppinsSemiBold"/>
             </Style>
             <Style x:Key="MediumLabel" TargetType="Label">
                 <Setter Property="FontSize" Value="12"/>
@@ -50,16 +53,17 @@
 
     <Grid>
         <ScrollView BackgroundColor="{AppThemeBinding Light={StaticResource LightBackground}, Dark={StaticResource DarkBackground}}">
-            <Grid RowDefinitions="Auto,Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, *">
+            <Grid RowDefinitions="Auto,Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, *"
+                  BackgroundColor="{DynamicResource Primary}">
                 <BoxView
                     BackgroundColor="{StaticResource Primary}"
                     Grid.RowSpan="2"
                     HorizontalOptions="Fill"
                     VerticalOptions="Fill"/>
                 <Border StrokeShape="RoundRectangle 50"
-                    Stroke="White"
+                    Stroke="{DynamicResource Primary}"
                     StrokeThickness="6"
-                    HeightRequest="260"
+                    HeightRequest="300"
                     WidthRequest="360"
                     Margin="0,8,0,0"
                     HorizontalOptions="Center"
@@ -68,7 +72,7 @@
                            HorizontalOptions="Center"
                            VerticalOptions="Center" 
                            Source="{Binding RecipeInfo.image}"
-                           HeightRequest="260"
+                           HeightRequest="300"
                            WidthRequest="340"/>
                 </Border>
                 <Frame Grid.Row="1" CornerRadius="30" HasShadow="True" Margin="0,5,0,5" BorderColor="Black"
@@ -76,59 +80,57 @@
                     <Editor  
                        FontAttributes="Bold"
                        FontSize="18"
-                       TextColor="LightCoral"
+                       TextColor="{DynamicResource Tertiary }"
                        Text="{Binding RecipeInfo.title}" 
                        Margin="0"/>
                 </Frame>
 
-                <Border Grid.Row="2" Stroke="#2B0B98"
+                <Border Grid.Row="2" 
+                    Stroke="{DynamicResource Primary}"
                     StrokeThickness="1"
                     StrokeShape="RoundRectangle 22"
-                    Background="#fff"
-                    Padding="8,2,8,0"
-                    Margin="5"
+                    Background="SteelBlue"
+                        Padding="5"
+                    Margin="5,2"
                     HorizontalOptions="FillAndExpand">
 
-                    <Frame Grid.Row="2" CornerRadius="40" HasShadow="False" Margin="5" BorderColor="Transparent">
+                    <Frame Grid.Row="2" CornerRadius="40" HasShadow="False" Margin="0" 
+                           BorderColor="Transparent">
                         <Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto" 
                           RowSpacing="5"
                           HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="120" />
+                                <ColumnDefinition Width="130" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
                             <Label Grid.Row="0" Grid.Column="0" Style="{StaticResource MediumLabel}" >Credits</Label>
                             <Label Grid.Row="0" Grid.Column="1" Style="{StaticResource MediumLabelBold}"  Text="{Binding RecipeInfo.creditsText}" />
-                            <Label Grid.Row="1" Grid.Column="0" Style="{StaticResource MediumLabel}"  >Gluten free</Label>
-                            <Label Grid.Row="1" Grid.Column="1" Style="{StaticResource MediumLabelBold}" Text="{Binding RecipeInfo.glutenFree}" />
-                            <Label Grid.Row="2" Grid.Column="0" Style="{StaticResource MediumLabel}"  >Health score</Label>
-                            <Label Grid.Row="2" Grid.Column="1"  Style="{StaticResource MediumLabelBold}" Text="{Binding RecipeInfo.healthScore}" />
-                            <Label Grid.Row="3" Grid.Column="0" Style="{StaticResource MediumLabel}" >Price per serving</Label>
-                            <Label Grid.Row="3" Grid.Column="1" Style="{StaticResource MediumLabelBold}" Text="{Binding RecipeInfo.pricePerServing}" />
-                            <Label Grid.Row="4" Grid.Column="0" Style="{StaticResource MediumLabel}" >Ready in minutes</Label>
-                            <Label Grid.Row="4" Grid.Column="1" Style="{StaticResource MediumLabelBold}" Text="{Binding RecipeInfo.readyInMinutes}" />
-                            <Label Grid.Row="5" Grid.Column="0" Style="{StaticResource MediumLabel}" >Servings</Label>
-                            <Label Grid.Row="5" Grid.Column="1" Style="{StaticResource MediumLabelBold}" Text="{Binding RecipeInfo.servings}" />
-                            <Label Grid.Row="6" Grid.Column="0" Style="{StaticResource MediumLabel}"  >Sustainable</Label>
-                            <Label Grid.Row="6" Grid.Column="1" Style="{StaticResource MediumLabelBold}" Text="{Binding RecipeInfo.sustainable}" />
-                            <Label Grid.Row="7" Grid.Column="0" Style="{StaticResource MediumLabel}"  >Vegan</Label>
-                            <Label Grid.Row="7" Grid.Column="1" Style="{StaticResource MediumLabelBold}" Text="{Binding RecipeInfo.vegan}" />
-                            <Label Grid.Row="8" Grid.Column="0" Style="{StaticResource MediumLabel}" >Vegetarian</Label>
-                            <Label Grid.Row="8" Grid.Column="1" Style="{StaticResource MediumLabelBold}" Text="{Binding RecipeInfo.vegetarian}" />
+                            <Label Grid.Row="1" Grid.Column="0" Style="{StaticResource MediumLabel}" >Servings</Label>
+                            <Label Grid.Row="1" Grid.Column="1" Style="{StaticResource MediumLabelBold}" Text="{Binding RecipeInfo.servings}" />
+                            <Label Grid.Row="2" Grid.Column="0" Style="{StaticResource MediumLabel}" >Ready in minutes</Label>
+                            <Label Grid.Row="2" Grid.Column="1" Style="{StaticResource MediumLabelBold}" Text="{Binding RecipeInfo.readyInMinutes}" />
+                            <Label Grid.Row="3" Grid.Column="0" Style="{StaticResource MediumLabel}"  >Health score</Label>
+                            <Label Grid.Row="3" Grid.Column="1"  Style="{StaticResource MediumLabelBold}" Text="{Binding RecipeInfo.spoonacularScore, StringFormat='{0:F2}'}" />
+                            <Label Grid.Row="4" Grid.Column="0" Style="{StaticResource MediumLabel}"  >Gluten free</Label>
+                            <Label Grid.Row="4" Grid.Column="1" Style="{StaticResource MediumLabelBold}" Text="{Binding RecipeInfo.glutenFree,Converter={StaticResource boolToStringConverter}}" />
+                            <Label Grid.Row="5" Grid.Column="0" Style="{StaticResource MediumLabel}"  >Vegan</Label>
+                            <Label Grid.Row="5" Grid.Column="1" Style="{StaticResource MediumLabelBold}" Text="{Binding RecipeInfo.vegan,Converter={StaticResource boolToStringConverter}}" />
+                            <Label Grid.Row="6" Grid.Column="0" Style="{StaticResource MediumLabel}" >Vegetarian</Label>
+                            <Label Grid.Row="6" Grid.Column="1" Style="{StaticResource MediumLabelBold}" Text="{Binding RecipeInfo.vegetarian,Converter={StaticResource boolToStringConverter}}" />
 
-                            <Label Grid.Row="9" Grid.Column="0" Style="{StaticResource MediumLabel}" >Cheap</Label>
-                            <Label Grid.Row="9" Grid.Column="1" Style="{StaticResource MediumLabelBold}" Text="{Binding RecipeInfo.cheap}" />
+                            <Label Grid.Row="7" Grid.Column="0" Style="{StaticResource MediumLabel}" >Cheap</Label>
+                            <Label Grid.Row="7" Grid.Column="1" Style="{StaticResource MediumLabelBold}" Text="{Binding RecipeInfo.cheap,Converter={StaticResource boolToStringConverter}}" />
                         </Grid>
                     </Frame>
                     
                     
                 </Border>
-                <Border Grid.Row="10" Stroke="#2B0B98"
+                <Border Grid.Row="8" Stroke="#2B0B98"                       
                     StrokeThickness="1"
                     StrokeShape="RoundRectangle 22"
-                    Background="#fff"
-                    Padding="18,10,18,10"
-                    Margin="5"
+                    Background="WhiteSmoke"
+                    Padding="3"
+                    Margin="10"
                     HorizontalOptions="FillAndExpand">
                     <mct:Expander Padding="6" Margin="2"
                                   IsExpanded="false"  >
@@ -137,7 +139,7 @@
                                     BorderColor="Black"
                                     BackgroundColor="LightSteelBlue"
                                     CornerRadius="10">
-                                <Label Text="Summary" FontSize="14" HorizontalOptions="Center"
+                                <Label Text="Summary" FontSize="16" HorizontalOptions="Center"
                                        FontFamily="Poppins"
                                        FontAttributes="Bold" TextColor="Black"/>
                             </Frame>
@@ -146,17 +148,17 @@
 
                             <VerticalStackLayout>
                                 <Label TextType="Html" FontSize="14" FontAttributes="None" Margin="0, 10"
-                                        Style="{StaticResource MediumLabelBold}" Text="{Binding RecipeInfo.summary}" />
+                                        Text="{Binding RecipeInfo.summary}" />
                             </VerticalStackLayout>
                         </mct:Expander.Content>
                     </mct:Expander>
                 </Border>
-                <Border Grid.Row="11" Stroke="#2B0B98"
+                <Border Grid.Row="9" Stroke="#2B0B98"
                     StrokeThickness="1"
                     StrokeShape="RoundRectangle 22"
-                    Background="#fff"
-                    Padding="18,10,18,10"
-                    Margin="5"
+                    Background="WhiteSmoke"
+                    Padding="3"
+                    Margin="10"
                     HorizontalOptions="FillAndExpand">
                     <mct:Expander Padding="6" Margin="2"
                                   IsExpanded="false"  >
@@ -165,7 +167,7 @@
                                     BorderColor="Black"
                                     BackgroundColor="LightSteelBlue"
                                     CornerRadius="10">
-                                <Label Text="Instructions" FontSize="14" 
+                                <Label Text="Instructions" FontSize="16" 
                                        HorizontalOptions="Center"
                                        FontFamily="Poppins"
                                        FontAttributes="Bold" TextColor="Black"/>
@@ -176,8 +178,8 @@
                             <VerticalStackLayout>
                                 <Label TextType="Html" FontSize="14" FontAttributes="None"
                                        FontFamily="Poppins"
-                                       Margin="0, 10"  
-                                       Style="{StaticResource MediumLabelBold}" Text="{Binding RecipeInfo.instructions}" />
+                                       Margin="0, 10" 
+                                      Text="{Binding RecipeInfo.instructions}" />
                             </VerticalStackLayout>
                         </mct:Expander.Content>
                     </mct:Expander>
