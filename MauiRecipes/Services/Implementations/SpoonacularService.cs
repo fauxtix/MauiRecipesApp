@@ -1,6 +1,5 @@
 ﻿using MauiRecipes.MVVM.Models;
 using MauiRecipes.Services.Interfaces;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System.Text.Json;
 
@@ -9,13 +8,11 @@ namespace MauiRecipes.Services.Implementations;
 public class SpoonacularService : ISpoonacularService
 {
     private readonly HttpClient _httpClient;
-    private readonly ILogger<SpoonacularService> _logger;
-    private readonly string _apiKey = "871cc9ddc1ea4733830dd2c30e3d691a";
-    private readonly string _apiKey1 = "68844774cab14f24986294fe1ccc6a4e";
+    private readonly string? _apiKey = "871cc9ddc1ea4733830dd2c30e3d691a";
     private readonly JsonSerializerOptions _serializerOptions;
     private readonly string baseAddress = "https://api.spoonacular.com/";
 
-    public SpoonacularService(ILogger<SpoonacularService> logger)
+    public SpoonacularService()
     {
         _httpClient = new HttpClient();
         _httpClient.Timeout = TimeSpan.FromSeconds(10);
@@ -25,7 +22,6 @@ public class SpoonacularService : ISpoonacularService
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
             WriteIndented = true
         };
-        _logger = logger;
     }
 
     // Método para obter títulos de receitas
@@ -45,7 +41,6 @@ public class SpoonacularService : ISpoonacularService
         }
         catch (Exception ex)
         {
-            _logger.LogError($"Error fetching recipe titles: {ex.Message}");
             return new CountriesCuisines.Root();
         }
     }
@@ -63,9 +58,8 @@ public class SpoonacularService : ISpoonacularService
             var responseString = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<List<Recipes.MyArray>>(responseString) ?? new List<Recipes.MyArray>();
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            _logger.LogError($"Error fetching recipe details: {ex.Message}");
             return new List<Recipes.MyArray>();
         }
     }
@@ -83,9 +77,8 @@ public class SpoonacularService : ISpoonacularService
             var responseString = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<RecipeInformation.RecipeInfo>(responseString) ?? new RecipeInformation.RecipeInfo();
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            _logger.LogError($"Error fetching recipe information: {ex.Message}");
             return new RecipeInformation.RecipeInfo();
         }
     }

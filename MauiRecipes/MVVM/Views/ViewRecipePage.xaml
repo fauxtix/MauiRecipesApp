@@ -8,6 +8,7 @@
              x:Class="MauiRecipes.MVVM.Views.ViewRecipePage"
              x:DataType ="viewmodels:RecipeDetailViewModel"
              Shell.BackgroundColor="{DynamicResource Primary}"
+             Shell.TitleColor="White"
              Title="View Recipe">
 
     <ContentPage.ToolbarItems>
@@ -34,20 +35,7 @@
             </Style>
             <Color x:Key="LightBackground">#FAF9F8</Color>
             <Color x:Key="DarkBackground">Black</Color>
-            <Color x:Key="Primary">#FFC107</Color>
-
-            <Style x:Key="CommonAddButtonStyle" TargetType="Button">
-                <Setter Property="HorizontalOptions" Value="End" />
-                <Setter Property="VerticalOptions" Value="Center" />
-                <Setter Property="HeightRequest" Value="35" />
-                <Setter Property="WidthRequest" Value="60" />
-                <Setter Property="CornerRadius" Value="15" />
-                <Setter Property="Padding" Value="0" />
-                <Setter Property="FontSize" Value="14" />
-                <Setter Property="FontAttributes" Value="Bold" />
-                <Setter Property="Margin" Value="0, 3, 0, 8" />
-                <Setter Property="BackgroundColor" Value="SteelBlue" />
-            </Style>
+            <Color x:Key="Primary">#1e9acc</Color>
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -128,7 +116,7 @@
                 <Border Grid.Row="8" Stroke="#2B0B98"                       
                     StrokeThickness="1"
                     StrokeShape="RoundRectangle 22"
-                    Background="WhiteSmoke"
+                    Background="SteelBlue"
                     Padding="3"
                     Margin="10"
                     HorizontalOptions="FillAndExpand">
@@ -147,7 +135,11 @@
                         <mct:Expander.Content>
 
                             <VerticalStackLayout>
-                                <Label TextType="Html" FontSize="14" FontAttributes="None" Margin="0, 10"
+                                <Label TextType="Html" 
+                                       FontSize="14" FontAttributes="None"
+                                       FontFamily="Poppins"
+                                       Margin="0, 10"
+                                       TextColor="White"
                                         Text="{Binding RecipeInfo.summary}" />
                             </VerticalStackLayout>
                         </mct:Expander.Content>
@@ -156,7 +148,7 @@
                 <Border Grid.Row="9" Stroke="#2B0B98"
                     StrokeThickness="1"
                     StrokeShape="RoundRectangle 22"
-                    Background="WhiteSmoke"
+                    Background="SteelBlue"
                     Padding="3"
                     Margin="10"
                     HorizontalOptions="FillAndExpand">
@@ -176,8 +168,10 @@
                         <mct:Expander.Content>
 
                             <VerticalStackLayout>
-                                <Label TextType="Html" FontSize="14" FontAttributes="None"
+                                <Label TextType="Html" FontSize="14" 
+                                       FontAttributes="None"
                                        FontFamily="Poppins"
+                                       TextColor="White"
                                        Margin="0, 10" 
                                       Text="{Binding RecipeInfo.instructions}" />
                             </VerticalStackLayout>

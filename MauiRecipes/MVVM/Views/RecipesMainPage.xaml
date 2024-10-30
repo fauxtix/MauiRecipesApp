@@ -6,28 +6,53 @@
              xmlns:viewmodels="clr-namespace:MauiRecipes.MVVM.ViewModels"
              x:Class="MauiRecipes.MVVM.Views.RecipesMainPage"
              x:DataType ="viewmodels:SpoonacularViewModel"
+             Shell.BackgroundColor="{DynamicResource Primary}"
+             Shell.TitleColor="White"
              Title="Spoonacular Recipes">
 
+    <ContentPage.Resources>
+
+        <ResourceDictionary>
+            <Style x:Key="MediumLabelBold" TargetType="Label">
+                <Setter Property="FontSize" Value="13"/>
+                <Setter Property="FontFamily" Value="PoppinsSemiBold"/>
+            </Style>
+            <Style x:Key="MediumLabel" TargetType="Label">
+                <Setter Property="FontSize" Value="12"/>
+                <Setter Property="FontFamily" Value="Poppins"/>
+            </Style>
+            <Style x:Key="LargeLabel" TargetType="Label">
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="FontFamily" Value="Poppins"/>
+            </Style>
+            <Color x:Key="LightBackground">#FAF9F8</Color>
+            <Color x:Key="DarkBackground">Black</Color>
+            <Color x:Key="Primary">#1e9acc</Color>
+
+        </ResourceDictionary>
+    </ContentPage.Resources>
 
     <Grid>
-        <ScrollView>
+        <ScrollView BackgroundColor="{AppThemeBinding Light={StaticResource LightBackground}, Dark={StaticResource DarkBackground}}">
             <VerticalStackLayout>
-                <Grid RowDefinitions="70, *">
+                <Grid RowDefinitions="80, *" BackgroundColor="{DynamicResource Primary}">
                     <Border Margin="5, 0"  
                             StrokeShape="RoundRectangle 0,0,50,50" 
                             StrokeThickness="0" HeightRequest="160">
                         <Border.Shadow>
-                            <Shadow Brush="Black" Offset="-10,20" Radius="10" Opacity="0.4" />
+                            <Shadow Brush="DarkGray" Offset="-10,20" Radius="10" Opacity="0.4" />
                         </Border.Shadow>
                     </Border>
-                    <Picker x:Name="picker" 
+                    <Picker x:Name="picker" TitleColor="SteelBlue"
                             Title="Select Region" 
-                            FontSize="18"
-                            Margin="10, 15"
+                            FontSize="20"
+                            FontAttributes="Bold"
+                            FontFamily="PoppinsSemiBold"
+                            Margin="10, 15" TextColor="Gold"
                             Grid.Row="0" 
                             ItemsSource="{Binding Regions }"  
                             SelectedItem="{Binding SelectedRegion}"
-                            ItemDisplayBinding="{Binding ID  }">
+                            ItemDisplayBinding="{Binding ID }">
                     </Picker>
                     <CollectionView Grid.Row="1" 
                                     ItemsSource="{Binding RecipesTitles}" 
@@ -51,21 +76,21 @@
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
                                 <VerticalStackLayout Margin="15, 0, 15, 0" x:DataType="viewmodels:SpoonacularViewModel">
-                                    <Border Stroke="Black" 
-                                            StrokeThickness="2" 
+                                    <Border Stroke="Yellow" 
+                                            StrokeThickness="1" 
                                             HeightRequest="140" 
                                             WidthRequest="160" 
                                             StrokeShape="RoundRectangle 20" 
                                             HorizontalOptions="Center"
                                             VerticalOptions="Center">
                                         <Border.Shadow>
-                                            <Shadow Brush="Black" Offset="-5,5" Radius="10" Opacity="0.4" />
+                                            <Shadow Brush="LightGray" Offset="-5,5" Radius="10" Opacity="0.4" />
                                         </Border.Shadow>
                                         <Image Source="{Binding Image}"
                                                Aspect="AspectFill" 
                                                HorizontalOptions="Fill"
-                                               VerticalOptions="Fill"
-                                               Margin="5, 0" />
+                                               VerticalOptions="Fill"                                              
+                                               Margin="7, 3" />
                                         <Border.GestureRecognizers>
                                             <TapGestureRecognizer 
                                                 Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SpoonacularViewModel}}, Path=GetRecipeInformationCommand}"
@@ -74,10 +99,11 @@
                                     </Border>
 
                                     <Label Text="{Binding Title}"
-                                           TextColor="Green"
+                                           TextColor="White"
                                            Padding="10"
-                                           FontSize="14"
-                                           FontAttributes="Bold"
+                                           FontSize="16"
+                                           FontFamily="Poppins"
+                                           VerticalOptions="Center"
                                            HorizontalTextAlignment="Center" />
                                 </VerticalStackLayout>
                             </DataTemplate>
