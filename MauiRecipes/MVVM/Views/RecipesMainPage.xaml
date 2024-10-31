@@ -35,7 +35,7 @@
     <Grid>
         <ScrollView BackgroundColor="{AppThemeBinding Light={StaticResource LightBackground}, Dark={StaticResource DarkBackground}}">
             <VerticalStackLayout>
-                <Grid RowDefinitions="80, *" BackgroundColor="{DynamicResource Primary}">
+                <Grid RowDefinitions="80, 60, *" BackgroundColor="{DynamicResource Primary}">
                     <Border Margin="5, 0"  
                             StrokeShape="RoundRectangle 0,0,50,50" 
                             StrokeThickness="0" HeightRequest="160">
@@ -54,7 +54,26 @@
                             SelectedItem="{Binding SelectedRegion}"
                             ItemDisplayBinding="{Binding ID }">
                     </Picker>
-                    <CollectionView Grid.Row="1" 
+                    <VerticalStackLayout Grid.Row="1">
+                        <SearchBar x:Name="searchBar" 
+                                   TextColor="White"
+                                   PlaceholderColor="White"
+                                   FontSize="16"
+                                   FontAttributes="Bold"
+                                   FontFamily="Poppins"
+                                   Placeholder="Ingredient" Keyboard="Text"
+                                   HorizontalOptions="Start"
+                                   Margin=" 0, -15, 0, 0"
+                                   WidthRequest="350">
+                            <SearchBar.Behaviors>
+                                <toolkit:EventToCommandBehavior EventName="TextChanged"
+                                                    Command="{Binding SetRecipientToSearchCommand}" 
+                                                    CommandParameter="{Binding Text, Source={x:Reference searchBar}}"/>
+                            </SearchBar.Behaviors>
+                        </SearchBar>
+                        <BoxView HeightRequest="0.4" BackgroundColor="Gray" Margin="0,7,0,5"/>
+                    </VerticalStackLayout>
+                    <CollectionView Grid.Row="2" 
                                     ItemsSource="{Binding RecipesTitles}" 
                                     SelectionMode="Single">
                         <CollectionView.EmptyView>
@@ -109,7 +128,7 @@
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
                     </CollectionView>
-                    <ActivityIndicator  IsRunning="{Binding IsBusy}" Grid.RowSpan="2"
+                    <ActivityIndicator  IsRunning="{Binding IsBusy}" Grid.RowSpan="3"
                                         VerticalOptions="Start" HorizontalOptions="Center"/>
 
                 </Grid>

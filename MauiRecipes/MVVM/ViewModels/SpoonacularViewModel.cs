@@ -22,6 +22,9 @@ public partial class SpoonacularViewModel : BaseViewModel
     [ObservableProperty]
     private RecipeInformation.RecipeInfo? recipeInfo;
 
+    [ObservableProperty]
+    private string? recipient;
+
     public ObservableCollection<CountriesCuisines.Result?> RecipesTitles { get; } = new();
     public ObservableCollection<Recipes.MyArray?> RecipeDetails { get; } = new();
 
@@ -31,7 +34,7 @@ public partial class SpoonacularViewModel : BaseViewModel
 
         if (Connectivity.Current.NetworkAccess == NetworkAccess.None)
         {
-            ShowRedAlert("No internet access");
+            ShowInfoOrAlert(Colors.Red, Colors.White, "No internet access");
             return;
         }
 
@@ -80,14 +83,22 @@ public partial class SpoonacularViewModel : BaseViewModel
     public async void GetRecipesTitles()
     {
         IsBusy = true;
-        Titles = await _service!.GetRecipeTitles(RegionToFilter);
+        await Task.Delay(200);
+        Titles = await _service!.GetRecipeTitles(RegionToFilter, Recipient!);
         RecipesTitles.Clear();
         foreach (var recipe in Titles.results)
         {
             RecipesTitles.Add(recipe);
         }
         IsBusy = false;
+        ShowInfoOrAlert(Colors.BlueViolet, Colors.White, $"Recipes loaded for Region '{RegionToFilter}'", 2);
+    }
 
+    [RelayCommand]
+    private void SetRecipientToSearch(string searchText)
+    {
+        Recipient = searchText;
+        GetRecipesTitles();
     }
 
 
@@ -105,7 +116,7 @@ public partial class SpoonacularViewModel : BaseViewModel
         try
         {
             IsBusy = true;
-            await Task.Yield();
+            await Task.Delay(200);
             await Shell.Current.GoToAsync($"//{nameof(ViewRecipePage)}", true,
                 new Dictionary<string, object>
                 {
@@ -114,7 +125,7 @@ public partial class SpoonacularViewModel : BaseViewModel
         }
         catch (Exception ex)
         {
-            ShowRedAlert($"{ex.Message}");
+            ShowInfoOrAlert(Colors.Red, Colors.White, $"{ex.Message}");
         }
         finally
         {
@@ -132,22 +143,22 @@ public partial class SpoonacularViewModel : BaseViewModel
         }
     }
 
-    private async void ShowRedAlert(string alertMessage, int secondsDuration = 3)
+    private async void ShowInfoOrAlert(Color backgroundColor, Color textColor, string alertMessage = "", int durationInSeconds = 5)
     {
         CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
         var snackbarOptions = new SnackbarOptions
         {
-            BackgroundColor = Colors.Red,
-            TextColor = Colors.White,
+            BackgroundColor = backgroundColor,
+            TextColor = textColor,
             ActionButtonTextColor = Colors.Yellow,
             CornerRadius = new CornerRadius(10),
-            Font = Font.SystemFontOfSize(14),
-            ActionButtonFont = Font.SystemFontOfSize(14),
-            CharacterSpacing = 0.5
+            Font = Font.SystemFontOfSize(12),
+            ActionButtonFont = Font.SystemFontOfSize(12),
+            CharacterSpacing = 0.2
         };
 
-        TimeSpan duration = TimeSpan.FromSeconds(secondsDuration);
+        TimeSpan duration = TimeSpan.FromSeconds(durationInSeconds);
         var snackbar = Snackbar.Make(alertMessage, null, "Ok", duration, snackbarOptions);
         await snackbar.Show(cancellationTokenSource.Token);
     }

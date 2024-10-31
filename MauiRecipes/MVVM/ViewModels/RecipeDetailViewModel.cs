@@ -9,6 +9,10 @@ namespace MauiRecipes.MVVM.ViewModels
 
     public partial class RecipeDetailViewModel : ObservableObject, IQueryAttributable
     {
+
+        [ObservableProperty]
+        bool isBusy;
+
         [ObservableProperty]
         private RecipeInformation.RecipeInfo? recipeInfo;
 
@@ -30,7 +34,9 @@ namespace MauiRecipes.MVVM.ViewModels
         [RelayCommand]
         public void GoBack()
         {
+            IsBusy = true;
             Shell.Current.GoToAsync("//RecipesMainPage");
+            IsBusy = false;
         }
     }
 }

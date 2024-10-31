@@ -64,7 +64,7 @@
                            WidthRequest="340"/>
                 </Border>
                 <Frame Grid.Row="1" CornerRadius="30" HasShadow="True" Margin="0,5,0,5" BorderColor="Black"
-                       HeightRequest="105" WidthRequest="350">
+                       HeightRequest="115" WidthRequest="350">
                     <Editor  
                        FontAttributes="Bold"
                        FontSize="18"
@@ -178,6 +178,9 @@
                         </mct:Expander.Content>
                     </mct:Expander>
                 </Border>
+
+                <ActivityIndicator  IsRunning="{Binding  IsBusy}" Grid.RowSpan="10"
+                                        VerticalOptions="Start" HorizontalOptions="Center"/>
 
             </Grid>
         </ScrollView>
