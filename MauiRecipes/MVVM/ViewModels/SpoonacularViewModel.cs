@@ -8,23 +8,30 @@ using System.ComponentModel;
 namespace MauiRecipes.MVVM.ViewModels;
 public partial class SpoonacularViewModel : BaseViewModel
 {
-    private readonly ISpoonacularService _service;
+    private readonly ISpoonacularService? _service;
 
     [ObservableProperty]
-    private CountriesCuisines.Root titles;
+    private CountriesCuisines.Root? titles;
     [ObservableProperty]
-    private List<Recipes.MyArray> recipeDetail;
+    private List<Recipes.MyArray>? recipeDetail;
 
     [ObservableProperty]
-    private RecipeInformation.RecipeInfo recipeInfo;
+    private RecipeInformation.RecipeInfo? recipeInfo;
 
-    public ObservableCollection<CountriesCuisines.Result> RecipesTitles { get; } = new();
-    public ObservableCollection<Recipes.MyArray> RecipeDetails { get; } = new();
+    public ObservableCollection<CountriesCuisines.Result?> RecipesTitles { get; } = new();
+    public ObservableCollection<Recipes.MyArray?> RecipeDetails { get; } = new();
 
-    public readonly HttpClient Client = new HttpClient();
 
     public SpoonacularViewModel(ISpoonacularService service)
     {
+
+        if (Connectivity.Current.NetworkAccess == NetworkAccess.None)
+        {
+            Shell.Current.DisplayAlert("Alert", "Internet access", "Ok");
+            return;
+        }
+
+
         _service = service;
         IsBusy = true;
         PropertyChanged += SpoonacularViewModel_PropertyChanged;
@@ -69,9 +76,9 @@ public partial class SpoonacularViewModel : BaseViewModel
     public async void GetRecipesTitles()
     {
         IsBusy = true;
-        Titles = await _service.GetRecipeTitles(RegionToFilter);
+        Titles = await _service!.GetRecipeTitles(RegionToFilter);
         RecipesTitles.Clear();
-        foreach (var recipe in titles.results)
+        foreach (var recipe in Titles.results)
         {
             RecipesTitles.Add(recipe);
         }
@@ -83,13 +90,13 @@ public partial class SpoonacularViewModel : BaseViewModel
     [RelayCommand]
     private async Task GetRecipeDetails(CountriesCuisines.Result param)
     {
-        RecipeDetail = await _service.GetRecipeDetails(param.Id);
+        RecipeDetail = await _service!.GetRecipeDetails(param.Id);
     }
 
     [RelayCommand]
     private async Task GetRecipeInformation(CountriesCuisines.Result param)
     {
-        RecipeInfo = await _service.GetRecipeInformation(param.Id);
+        RecipeInfo = await _service!.GetRecipeInformation(param.Id);
 
         try
         {
@@ -114,11 +121,10 @@ public partial class SpoonacularViewModel : BaseViewModel
 
     private void SpoonacularViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
-        // Verifica se a propriedade alterada foi SelectedRegion
         if (e.PropertyName == nameof(SelectedRegion) && SelectedRegion != null)
         {
-            RegionToFilter = SelectedRegion.ID;  // Atualiza o filtro com o ID da região selecionada
-            GetRecipesTitles();                  // Atualiza as receitas conforme a nova região
+            RegionToFilter = SelectedRegion.ID;
+            GetRecipesTitles();
         }
     }
 }
