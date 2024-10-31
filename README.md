@@ -1,5 +1,10 @@
 # Playing with .Net MAUI by using the Spoonacular Api
 
+## Functionalities
+
+- Search recipes by Region
+- Within Region, search for an ingredient
+
 ## Educational Purpose
 
 This project was developed as a way of learning and exploring the capabilities of .Net MAUI. 
@@ -20,8 +25,8 @@ This project is currently a work in progress. While it provides basic functional
 
 # Screenshots
 
-![RecipesMainPage](https://github.com/user-attachments/assets/4aedc81f-c38f-4589-b84a-06deb88a0814)
-![RecipeRegionsPicker](https://github.com/user-attachments/assets/9f141cf2-d49d-4982-8a08-266c7a36a5ce)
+![RecipesMainPage](https://github.com/user-attachments/assets/1d8044d9-03c8-448d-8ab7-5b43be4cd58b)
+![RecipesMainPageWithIngredientSearch](https://github.com/user-attachments/assets/0ce5ae17-bdeb-4b22-b246-e7ea2579208f)
 ![ViewRecipe](https://github.com/user-attachments/assets/68908bd8-49f9-462d-a03d-3eb4365155df)
 ![ViewRecipe_Summary](https://github.com/user-attachments/assets/fbe99f0a-0d37-4f76-925f-3981160f19e2)
 ![ViewRecipe_Instructions](https://github.com/user-attachments/assets/c7e78f35-14c3-4d08-bde5-c73af327888d)
