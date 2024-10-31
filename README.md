@@ -1,5 +1,10 @@
 # Playing with .Net MAUI by using the Spoonacular Api
 
+## Functionalities
+
+- Search recipes by Region
+- Within Region, search for an ingredient
+
 ## Educational Purpose
 
 This project was developed as a way of learning and exploring the capabilities of .Net MAUI. 
