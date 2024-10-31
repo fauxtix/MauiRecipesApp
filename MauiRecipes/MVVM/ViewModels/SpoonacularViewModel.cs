@@ -1,10 +1,14 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MauiRecipes.MVVM.Models;
 using MauiRecipes.MVVM.Views;
 using MauiRecipes.Services.Interfaces;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using Font = Microsoft.Maui.Font;
+
 namespace MauiRecipes.MVVM.ViewModels;
 public partial class SpoonacularViewModel : BaseViewModel
 {
@@ -27,7 +31,7 @@ public partial class SpoonacularViewModel : BaseViewModel
 
         if (Connectivity.Current.NetworkAccess == NetworkAccess.None)
         {
-            Shell.Current.DisplayAlert("Alert", "Internet access", "Ok");
+            ShowRedAlert("No internet access");
             return;
         }
 
@@ -110,7 +114,7 @@ public partial class SpoonacularViewModel : BaseViewModel
         }
         catch (Exception ex)
         {
-            await Shell.Current.DisplayAlert("Error!", ex.Message, "OK");
+            ShowRedAlert($"{ex.Message}");
         }
         finally
         {
@@ -126,5 +130,25 @@ public partial class SpoonacularViewModel : BaseViewModel
             RegionToFilter = SelectedRegion.ID;
             GetRecipesTitles();
         }
+    }
+
+    private async void ShowRedAlert(string alertMessage, int secondsDuration = 3)
+    {
+        CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+
+        var snackbarOptions = new SnackbarOptions
+        {
+            BackgroundColor = Colors.Red,
+            TextColor = Colors.White,
+            ActionButtonTextColor = Colors.Yellow,
+            CornerRadius = new CornerRadius(10),
+            Font = Font.SystemFontOfSize(14),
+            ActionButtonFont = Font.SystemFontOfSize(14),
+            CharacterSpacing = 0.5
+        };
+
+        TimeSpan duration = TimeSpan.FromSeconds(secondsDuration);
+        var snackbar = Snackbar.Make(alertMessage, null, "Ok", duration, snackbarOptions);
+        await snackbar.Show(cancellationTokenSource.Token);
     }
 }
