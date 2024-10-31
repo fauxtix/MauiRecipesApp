@@ -8,7 +8,7 @@ namespace MauiRecipes.Services.Implementations;
 public class SpoonacularService : ISpoonacularService
 {
     private static HttpClient? _httpClient;
-    private readonly string? _apiKey = "871cc9ddc1ea4733830dd2c30e3d691a"; // create your own, this key will be removed shortly :)
+    private readonly string? _apiKey = "871cc9ddc1ea4733830dd2c30e3d691a"; // get your own key from the site, this one will be removed shortly :)
     private readonly JsonSerializerOptions _serializerOptions;
     private readonly string baseAddress = "https://api.spoonacular.com/";
 
@@ -42,7 +42,7 @@ public class SpoonacularService : ISpoonacularService
         Uri uri = new Uri(apiQuery);
         try
         {
-            var client = SpoonacularService.GetClient();
+            var client = GetClient();
             HttpResponseMessage response = await client.GetAsync(uri);
 
             response.EnsureSuccessStatusCode();
