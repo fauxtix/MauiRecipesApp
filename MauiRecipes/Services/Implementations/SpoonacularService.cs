@@ -7,7 +7,7 @@ namespace MauiRecipes.Services.Implementations;
 
 public class SpoonacularService : ISpoonacularService
 {
-    private static HttpClient _httpClient;
+    private static HttpClient? _httpClient;
     private readonly string? _apiKey = "871cc9ddc1ea4733830dd2c30e3d691a"; // create your own, this key will be removed shortly :)
     private readonly JsonSerializerOptions _serializerOptions;
     private readonly string baseAddress = "https://api.spoonacular.com/";
@@ -22,7 +22,7 @@ public class SpoonacularService : ISpoonacularService
         };
     }
 
-    private HttpClient GetClient()
+    private static HttpClient GetClient()
     {
         if (_httpClient is not null)
         {
@@ -36,15 +36,14 @@ public class SpoonacularService : ISpoonacularService
         return _httpClient;
     }
 
-    // Método para obter títulos de receitas
     public async Task<CountriesCuisines.Root> GetRecipeTitles(string regionName)
     {
         var apiQuery = $"{baseAddress}recipes/complexSearch?apiKey={_apiKey}&cuisine={regionName}";
         Uri uri = new Uri(apiQuery);
         try
         {
-            GetClient();
-            HttpResponseMessage response = await _httpClient.GetAsync(uri);
+            var client = SpoonacularService.GetClient();
+            HttpResponseMessage response = await client.GetAsync(uri);
 
             response.EnsureSuccessStatusCode();
 
@@ -63,14 +62,15 @@ public class SpoonacularService : ISpoonacularService
         }
     }
 
-    // Método para obter detalhes de uma receita
     public async Task<List<Recipes.MyArray>> GetRecipeDetails(int id)
     {
         string url = $"{baseAddress}recipes/{id}/analyzedInstructions?apiKey={_apiKey}";
 
         try
         {
-            HttpResponseMessage response = await _httpClient.GetAsync(url);
+            var client = GetClient();
+
+            HttpResponseMessage response = await client.GetAsync(url);
             response.EnsureSuccessStatusCode();
 
             var responseString = await response.Content.ReadAsStringAsync();
@@ -88,14 +88,15 @@ public class SpoonacularService : ISpoonacularService
         }
     }
 
-    // Método para obter informações detalhadas de uma receita
     public async Task<RecipeInformation.RecipeInfo> GetRecipeInformation(int id)
     {
         string url = $"{baseAddress}recipes/{id}/information?includeNutrition=false&apiKey={_apiKey}";
 
         try
         {
-            HttpResponseMessage response = await _httpClient.GetAsync(url);
+            var client = GetClient();
+
+            HttpResponseMessage response = await client.GetAsync(url);
             response.EnsureSuccessStatusCode();
 
             var responseString = await response.Content.ReadAsStringAsync();
