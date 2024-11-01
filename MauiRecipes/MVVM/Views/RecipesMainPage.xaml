@@ -45,7 +45,7 @@
                     </Border>
                     <Picker x:Name="picker" TitleColor="SteelBlue"
                             Title="Select Region" 
-                            FontSize="20"
+                            FontSize="18"
                             FontAttributes="Bold"
                             FontFamily="PoppinsSemiBold"
                             Margin="10, 15" TextColor="Gold"
@@ -79,9 +79,9 @@
                         <CollectionView.EmptyView>
                             <StackLayout Grid.ColumnSpan="2">
                                 <Image HorizontalOptions="Center"
-                                       HeightRequest="60"
-                                       WidthRequest="60"
-                                       Source="nodata.png"
+                                       HeightRequest="120"
+                                       WidthRequest="120" 
+                                       Source="nocook.png"
                                        VerticalOptions="Center" />
                             </StackLayout>
                         </CollectionView.EmptyView>
