@@ -43,7 +43,8 @@
                             <Shadow Brush="DarkGray" Offset="-10,20" Radius="10" Opacity="0.4" />
                         </Border.Shadow>
                     </Border>
-                    <Picker x:Name="picker" TitleColor="SteelBlue"
+                    <Grid ColumnDefinitions=".7*, .1*, .1*, .1*" >
+                        <Picker x:Name="picker" TitleColor="SteelBlue" Grid.Column="0"
                             Title="Select Region" 
                             FontSize="18"
                             FontAttributes="Bold"
@@ -53,7 +54,27 @@
                             ItemsSource="{Binding Regions }"  
                             SelectedItem="{Binding SelectedRegion}"
                             ItemDisplayBinding="{Binding ID }">
-                    </Picker>
+                        </Picker>
+                        <Button Text="10" Grid.Column="1"
+                                IsEnabled="{Binding Is10Enabled}"
+                                BackgroundColor="White" 
+                                TextColor="Black" Padding="1" 
+                                WidthRequest="30" HeightRequest="30" 
+                                Clicked="Button10_Clicked" />
+                        <Button Text="20" Grid.Column="2"
+                                IsEnabled="{Binding Is20Enabled}"
+                                BackgroundColor="White"
+                                TextColor="Black" Padding="1" 
+                                WidthRequest="30" 
+                                HeightRequest="30" 
+                                Clicked="Button20_Clicked"/>
+                        <Button Text="30" Grid.Column="3" 
+                                IsEnabled="{Binding Is30Enabled}"
+                                BackgroundColor="White"
+                                TextColor="Black" Padding="1" 
+                                WidthRequest="30" 
+                                HeightRequest="30" Clicked="Button30_Clicked"/>
+                    </Grid>
                     <VerticalStackLayout Grid.Row="1">
                         <SearchBar x:Name="searchBar" 
                                    TextColor="White"

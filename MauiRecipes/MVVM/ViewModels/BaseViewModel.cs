@@ -19,7 +19,16 @@ public partial class BaseViewModel : ObservableObject
     private string? title;
 
     [ObservableProperty]
-    private string _regionToFilter = "French";
+    private string _regionToFilter = "American";
+
+    [ObservableProperty]
+    private int _numberOfRecipes = 10;
+    [ObservableProperty]
+    private bool _is10Enabled = false;
+    [ObservableProperty]
+    private bool _is20Enabled = true;
+    [ObservableProperty]
+    private bool _is30Enabled = true;
 
     [ObservableProperty]
     private CuisineRegion? selectedRegion;

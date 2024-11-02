@@ -36,9 +36,9 @@ public class SpoonacularService : ISpoonacularService
         return _httpClient;
     }
 
-    public async Task<CountriesCuisines.Root> GetRecipeTitles(string regionName, string ingredient = "")
+    public async Task<CountriesCuisines.Root> GetRecipeTitles(string regionName, string ingredient = "", int number = 10)
     {
-        var apiQuery = $"{baseAddress}recipes/complexSearch?apiKey={_apiKey}&query={ingredient}&cuisine={regionName}&number=20";
+        var apiQuery = $"{baseAddress}recipes/complexSearch?apiKey={_apiKey}&query={ingredient}&cuisine={regionName}&number={number}";
         Uri uri = new Uri(apiQuery);
         try
         {

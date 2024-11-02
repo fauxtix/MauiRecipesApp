@@ -84,7 +84,7 @@ public partial class SpoonacularViewModel : BaseViewModel
     {
         IsBusy = true;
         await Task.Delay(200);
-        Titles = await _service!.GetRecipeTitles(RegionToFilter, Recipient!);
+        Titles = await _service!.GetRecipeTitles(RegionToFilter, Recipient!, NumberOfRecipes);
         RecipesTitles.Clear();
         foreach (var recipe in Titles.results)
         {

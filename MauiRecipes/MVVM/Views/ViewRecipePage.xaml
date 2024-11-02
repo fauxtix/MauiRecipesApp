@@ -9,7 +9,7 @@
              x:DataType ="viewmodels:RecipeDetailViewModel"
              Shell.BackgroundColor="{DynamicResource Primary}"
              Shell.TitleColor="White"
-             Title="View Recipe">
+             Title="Recipe Detail">
 
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Return"  
