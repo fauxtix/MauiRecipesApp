@@ -25,11 +25,12 @@ This project is currently a work in progress. While it provides basic functional
 
 # Screenshots
 
-![RecipesMainPage](https://github.com/user-attachments/assets/1d8044d9-03c8-448d-8ab7-5b43be4cd58b)
-![RecipesMainPageWithIngredientSearch](https://github.com/user-attachments/assets/0ce5ae17-bdeb-4b22-b246-e7ea2579208f)
-![ViewRecipe](https://github.com/user-attachments/assets/68908bd8-49f9-462d-a03d-3eb4365155df)
-![ViewRecipe_Summary](https://github.com/user-attachments/assets/fbe99f0a-0d37-4f76-925f-3981160f19e2)
-![ViewRecipe_Instructions](https://github.com/user-attachments/assets/c7e78f35-14c3-4d08-bde5-c73af327888d)
+![RecipesMainPage](https://github.com/user-attachments/assets/c1f0550c-4f01-4184-9c53-7985dd00faaa)
+![RecipesMainPageWithIngredientSearch](https://github.com/user-attachments/assets/d08acb4a-4ffa-4109-a7ba-7ca0c945e194)
+![ViewRecipe](https://github.com/user-attachments/assets/13334ef1-cd10-48b9-85e2-9810f424ffcd)
+![ViewRecipe_Summary](https://github.com/user-attachments/assets/b4d1751c-9dae-49c1-a22e-97a9279e2cb0)
+![ViewRecipe_Instructions](https://github.com/user-attachments/assets/e73a7a71-d8bf-42a2-a2f5-ed67342c4b54)
+
 
 ### Contributions
 
