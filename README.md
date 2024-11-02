@@ -28,7 +28,6 @@ This project is currently a work in progress. While it provides basic functional
 ![RecipesMainPage](https://github.com/user-attachments/assets/c1f0550c-4f01-4184-9c53-7985dd00faaa)
 ![RecipesMainPageWithIngredientSearch](https://github.com/user-attachments/assets/d08acb4a-4ffa-4109-a7ba-7ca0c945e194)
 ![ViewRecipe](https://github.com/user-attachments/assets/13334ef1-cd10-48b9-85e2-9810f424ffcd)
-![ViewRecipe](https://github.com/user-attachments/assets/68908bd8-49f9-462d-a03d-3eb4365155df)
 ![ViewRecipe_Summary](https://github.com/user-attachments/assets/b4d1751c-9dae-49c1-a22e-97a9279e2cb0)
 ![ViewRecipe_Instructions](https://github.com/user-attachments/assets/e73a7a71-d8bf-42a2-a2f5-ed67342c4b54)
 
