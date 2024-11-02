@@ -17,10 +17,10 @@ public partial class RecipesMainPage : ContentPage
         if (_spoonacularViewModel.NumberOfRecipes != 10)
         {
             _spoonacularViewModel.NumberOfRecipes = 10;
-            _spoonacularViewModel.GetRecipesTitles();
             _spoonacularViewModel.Is10Enabled = false;
             _spoonacularViewModel.Is20Enabled = true;
             _spoonacularViewModel.Is30Enabled = true;
+            _spoonacularViewModel.GetRecipesTitles();
         }
     }
 
@@ -29,10 +29,10 @@ public partial class RecipesMainPage : ContentPage
         if (_spoonacularViewModel.NumberOfRecipes != 20)
         {
             _spoonacularViewModel.NumberOfRecipes = 20;
-            _spoonacularViewModel.GetRecipesTitles();
-            _spoonacularViewModel.Is20Enabled = false;
             _spoonacularViewModel.Is10Enabled = true;
+            _spoonacularViewModel.Is20Enabled = false;
             _spoonacularViewModel.Is30Enabled = true;
+            _spoonacularViewModel.GetRecipesTitles();
         }
     }
     private void Button30_Clicked(object sender, EventArgs e)
@@ -40,10 +40,10 @@ public partial class RecipesMainPage : ContentPage
         if (_spoonacularViewModel.NumberOfRecipes != 30)
         {
             _spoonacularViewModel.NumberOfRecipes = 30;
-            _spoonacularViewModel.GetRecipesTitles();
-            _spoonacularViewModel.Is30Enabled = false;
             _spoonacularViewModel.Is10Enabled = true;
             _spoonacularViewModel.Is20Enabled = true;
+            _spoonacularViewModel.Is30Enabled = false;
+            _spoonacularViewModel.GetRecipesTitles();
         }
     }
 }

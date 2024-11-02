@@ -8,7 +8,7 @@
              x:DataType ="viewmodels:SpoonacularViewModel"
              Shell.BackgroundColor="{DynamicResource Primary}"
              Shell.TitleColor="White"
-             Title="Spoonacular Recipes">
+             Title="Maui Recipes - FL 2024">
 
     <ContentPage.Resources>
 
@@ -35,21 +35,22 @@
     <Grid>
         <ScrollView BackgroundColor="{AppThemeBinding Light={StaticResource LightBackground}, Dark={StaticResource DarkBackground}}">
             <VerticalStackLayout>
-                <Grid RowDefinitions="80, 60, *" BackgroundColor="{DynamicResource Primary}">
-                    <Border Margin="5, 0"  
+                <Grid RowDefinitions="80, 60, *" 
+                      BackgroundColor="{DynamicResource Primary}">
+                    <Border 
                             StrokeShape="RoundRectangle 0,0,50,50" 
                             StrokeThickness="0" HeightRequest="160">
                         <Border.Shadow>
                             <Shadow Brush="DarkGray" Offset="-10,20" Radius="10" Opacity="0.4" />
                         </Border.Shadow>
                     </Border>
-                    <Grid ColumnDefinitions=".7*, .1*, .1*, .1*" >
-                        <Picker x:Name="picker" TitleColor="SteelBlue" Grid.Column="0"
-                            Title="Select Region" 
+                    <Grid ColumnDefinitions=".7*, .1*, .1*, .1*" Margin="10,0" >
+                        <Picker x:Name="picker" TitleColor="Black" Grid.Column="0"
+                            Title="Select Region"  
                             FontSize="18"
                             FontAttributes="Bold"
                             FontFamily="PoppinsSemiBold"
-                            Margin="10, 15" TextColor="Gold"
+                            Margin="10, 15" TextColor="Black"
                             Grid.Row="0" 
                             ItemsSource="{Binding Regions }"  
                             SelectedItem="{Binding SelectedRegion}"
@@ -97,7 +98,7 @@
                     <CollectionView Grid.Row="2" 
                                     ItemsSource="{Binding RecipesTitles}" 
                                     SelectionMode="Single">
-                        <CollectionView.EmptyView>
+                        <CollectionView.EmptyView >
                             <StackLayout Grid.ColumnSpan="2">
                                 <Image HorizontalOptions="Center"
                                        HeightRequest="120"

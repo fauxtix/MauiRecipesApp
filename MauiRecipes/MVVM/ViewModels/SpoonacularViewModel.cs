@@ -28,6 +28,9 @@ public partial class SpoonacularViewModel : BaseViewModel
     public ObservableCollection<CountriesCuisines.Result?> RecipesTitles { get; } = new();
     public ObservableCollection<Recipes.MyArray?> RecipeDetails { get; } = new();
 
+    public bool AreThereRecipes => RecipesTitles.Count > 0;
+
+
 
     public SpoonacularViewModel(ISpoonacularService service)
     {
@@ -37,10 +40,7 @@ public partial class SpoonacularViewModel : BaseViewModel
             ShowInfoOrAlert(Colors.Red, Colors.White, "No internet access");
             return;
         }
-
-
         _service = service;
-        IsBusy = true;
         PropertyChanged += SpoonacularViewModel_PropertyChanged;
         GetRecipesTitles();
         regionsData =
@@ -70,11 +70,14 @@ public partial class SpoonacularViewModel : BaseViewModel
             new() { ID= "Vietnamese", RegionName= "Vietnamita"}
         ];
 
+        regionsData = regionsData.OrderBy(o => o.ID).ToList();
+
         Regions.Clear();
         foreach (var region in regionsData)
         {
             Regions.Add(region);
         }
+
 
         SelectedRegion = Regions.FirstOrDefault(r => r.ID == RegionToFilter);
         IsBusy = false;
