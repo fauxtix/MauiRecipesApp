@@ -15,11 +15,24 @@ namespace MauiRecipes.MVVM.ViewModels
 
         [ObservableProperty]
         private RecipeInformation.RecipeInfo? recipeInfo;
+        [ObservableProperty]
+        private List<RecipeInformation.ExtendedIngredient>? ingredients = new();
+
 
         [ObservableProperty]
         private string? summary;
         [ObservableProperty]
         private string? recipeImage;
+        [ObservableProperty]
+        private string? image;
+        [ObservableProperty]
+        private string? original;
+        [ObservableProperty]
+        private string? originalName;
+        [ObservableProperty]
+        private string? name;
+        [ObservableProperty]
+        private double amount;
         public RecipeDetailViewModel()
         {
         }
@@ -29,6 +42,11 @@ namespace MauiRecipes.MVVM.ViewModels
             RecipeInfo = data;
             Summary = RecipeInfo?.summary;
             RecipeImage = RecipeInfo?.image;
+            Ingredients?.Clear();
+            if (RecipeInfo?.extendedIngredients?.Count > 0)
+            {
+                Ingredients = RecipeInfo.extendedIngredients?.ToList();
+            }
         }
 
         [RelayCommand]

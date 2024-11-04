@@ -103,6 +103,7 @@
 	  <None Remove="Resources\Images\icon_close.svg" />
 	  <None Remove="Resources\Images\nocook.png" />
 	  <None Remove="Resources\Images\nodata.png" />
+	  <None Remove="Resources\Images\pin.svg" />
 	  <None Remove="Resources\Images\recipe_1.png" />
 	  <None Remove="Resources\Images\recipe_2.png" />
 	  <None Remove="Resources\Splash\splash.svg" />

@@ -1,4 +1,6 @@
-﻿namespace MauiRecipes.MVVM.Models
+﻿using Newtonsoft.Json;
+
+namespace MauiRecipes.MVVM.Models
 {
     public class RecipeInformation
     {
@@ -26,13 +28,23 @@
         {
             public int id { get; set; }
             public string aisle { get; set; }
-            public string image { get; set; }
+
+            [JsonProperty("image")]
+            public string? Image { get; set; }
             public string consistency { get; set; }
-            public string name { get; set; }
-            public string original { get; set; }
+            [JsonProperty("name")]
+            public string? Name { get; set; }
+
+            [JsonProperty("original")]
+            public string? Original { get; set; }
             public string originalString { get; set; }
-            public string originalName { get; set; }
-            public double amount { get; set; }
+
+            [JsonProperty("originalName")]
+
+            public string? OriginalName { get; set; }
+
+            [JsonProperty("amount")]
+            public double Amount { get; set; }
             public string unit { get; set; }
             public IList<string> meta { get; set; }
             public IList<string> metaInformation { get; set; }
@@ -104,7 +116,7 @@
             public double spoonacularScore { get; set; }
             public double healthScore { get; set; }
             public double pricePerServing { get; set; }
-            public IList<ExtendedIngredient> extendedIngredients { get; set; }
+            public IList<ExtendedIngredient>? extendedIngredients { get; set; }
             public int id { get; set; }
             public string title { get; set; }
             public int readyInMinutes { get; set; }

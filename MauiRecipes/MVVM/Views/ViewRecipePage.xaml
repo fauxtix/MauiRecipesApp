@@ -41,7 +41,7 @@
 
     <Grid>
         <ScrollView BackgroundColor="{AppThemeBinding Light={StaticResource LightBackground}, Dark={StaticResource DarkBackground}}">
-            <Grid RowDefinitions="Auto,Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, *"
+            <Grid RowDefinitions="Auto,Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, *"
                   BackgroundColor="{DynamicResource Primary}">
                 <BoxView
                     BackgroundColor="{StaticResource Primary}"
@@ -49,28 +49,25 @@
                     HorizontalOptions="Fill"
                     VerticalOptions="Fill"/>
                 <Border StrokeShape="RoundRectangle 50"
-                    Stroke="{DynamicResource Primary}"
-                    StrokeThickness="6"
-                    HeightRequest="300"
-                    WidthRequest="360"
-                    Margin="0,8,0,0"
-                    HorizontalOptions="Center"
-                    VerticalOptions="Center">
+                        Stroke="{DynamicResource Secondary}"
+                        StrokeThickness="3" 
+                        Opacity="0.8" 
+                        Margin="10,8,10,8"
+                        HorizontalOptions="Center"
+                        VerticalOptions="FillAndExpand">
                     <Image Aspect="AspectFill"
-                           HorizontalOptions="Center"
-                           VerticalOptions="Center" 
-                           Source="{Binding RecipeInfo.image}"
-                           HeightRequest="300"
-                           WidthRequest="340"/>
+                           HorizontalOptions="Center" 
+                           VerticalOptions="Center"  
+                           Source="{Binding RecipeInfo.image}"/>
                 </Border>
-                <Frame Grid.Row="1" CornerRadius="30" HasShadow="True" Margin="0,5,0,5" BorderColor="Black"
-                       HeightRequest="115" WidthRequest="350">
-                    <Editor  
-                       FontAttributes="Bold"
-                       FontSize="18"
-                       TextColor="{DynamicResource Tertiary }"
-                       Text="{Binding RecipeInfo.title}" 
-                       Margin="0"/>
+                <Frame Grid.Row="1" CornerRadius="30" HasShadow="True" Margin="10,5,10,5" BorderColor="Black"
+                       HeightRequest="90" >
+                    <Label  FontAttributes="Bold"
+                            FontSize="18"
+                            FontFamily="Poppins"
+                            TextColor="{DynamicResource Tertiary }"
+                            Text="{Binding RecipeInfo.title}" 
+                            Margin="0"/>
                 </Frame>
 
                 <Border Grid.Row="2" 
@@ -110,8 +107,8 @@
                             <Label Grid.Row="7" Grid.Column="1" Style="{StaticResource MediumLabelBold}" Text="{Binding RecipeInfo.cheap,Converter={StaticResource boolToStringConverter}}" />
                         </Grid>
                     </Frame>
-                    
-                    
+
+
                 </Border>
                 <Border Grid.Row="8" Stroke="#2B0B98"                       
                     StrokeThickness="1"
@@ -175,6 +172,65 @@
                                        Margin="0, 10" 
                                       Text="{Binding RecipeInfo.instructions}" />
                             </VerticalStackLayout>
+                        </mct:Expander.Content>
+                    </mct:Expander>
+                </Border>
+                <Border Grid.Row="10" Stroke="#2B0B98"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 22"
+                    Background="SteelBlue"
+                    Padding="3"
+                    Margin="10"
+                    HorizontalOptions="FillAndExpand">
+                    <mct:Expander Padding="6" Margin="2"
+                                  IsExpanded="false"  >
+                        <mct:Expander.Header>
+                            <Frame 
+                                    BorderColor="Black"
+                                    BackgroundColor="LightSteelBlue"
+                                    CornerRadius="10">
+                                <Label Text="Ingredients" FontSize="16" 
+                                       HorizontalOptions="Center"
+                                       FontFamily="Poppins"
+                                       FontAttributes="Bold" TextColor="Black"/>
+                            </Frame>
+                        </mct:Expander.Header>
+                        <mct:Expander.Content>
+                            <CollectionView ItemsSource="{Binding Ingredients}" Margin="0, 10">
+                                <CollectionView.EmptyView >
+                                    <StackLayout Grid.ColumnSpan="2">
+                                        <Image HorizontalOptions="Center"
+                                           HeightRequest="220"
+                                           WidthRequest="220" 
+                                           Source="nocook.png"
+                                           VerticalOptions="Center" />
+                                    </StackLayout>
+                                </CollectionView.EmptyView>
+                                <CollectionView.ItemsLayout>
+                                    <GridItemsLayout Orientation="Vertical" />
+                                </CollectionView.ItemsLayout>
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <VerticalStackLayout>
+                                            <Grid ColumnDefinitions="0.1*, 0.9*" Padding="2" VerticalOptions="FillAndExpand">
+                                                <Image Source="pin.svg" VerticalOptions="Start" 
+                                                       WidthRequest="20" 
+                                                       HeightRequest="20" Grid.Column="0" >
+                                                    <Image.Behaviors>
+                                                        <mct:IconTintColorBehavior TintColor="DarkKhaki" />
+                                                    </Image.Behaviors>
+                                                </Image>
+                                                <Label Text="{Binding Original}"
+                                                       Grid.Column="1"
+                                                       TextColor="White"
+                                                       FontSize="13"
+                                                       VerticalOptions="FillAndExpand"
+                                                       FontFamily="Poppins"/>
+                                            </Grid>
+                                        </VerticalStackLayout>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
                         </mct:Expander.Content>
                     </mct:Expander>
                 </Border>
