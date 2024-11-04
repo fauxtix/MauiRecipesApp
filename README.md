@@ -30,7 +30,7 @@ This project is currently a work in progress. While it provides basic functional
 ![ViewRecipe](https://github.com/user-attachments/assets/13334ef1-cd10-48b9-85e2-9810f424ffcd)
 ![ViewRecipe_Summary](https://github.com/user-attachments/assets/b4d1751c-9dae-49c1-a22e-97a9279e2cb0)
 ![ViewRecipe_Instructions](https://github.com/user-attachments/assets/e73a7a71-d8bf-42a2-a2f5-ed67342c4b54)
-
+![ViewRecipe_Ingredients](https://github.com/user-attachments/assets/ee1cbbff-c409-4d13-843a-67b899a60320)
 
 ### Contributions
 
