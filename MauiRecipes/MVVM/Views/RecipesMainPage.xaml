@@ -35,7 +35,7 @@
     <Grid>
         <ScrollView BackgroundColor="{AppThemeBinding Light={StaticResource LightBackground}, Dark={StaticResource DarkBackground}}">
             <VerticalStackLayout>
-                <Grid RowDefinitions="80, 60, *" 
+                <Grid RowDefinitions="90, 60, *" 
                       BackgroundColor="{DynamicResource Primary}">
                     <Border 
                             StrokeShape="RoundRectangle 0,0,50,50" 
@@ -44,10 +44,10 @@
                             <Shadow Brush="DarkGray" Offset="-10,20" Radius="10" Opacity="0.4" />
                         </Border.Shadow>
                     </Border>
-                    <Grid ColumnDefinitions=".7*, .1*, .1*, .1*" Margin="10,0" >
+                    <Grid ColumnDefinitions=".67*, .11*, .11*, .11*" Margin="10,0" >
                         <Picker x:Name="picker" TitleColor="Black" Grid.Column="0"
                             Title="Select Region"  
-                            FontSize="18"
+                            FontSize="16"
                             FontAttributes="Bold"
                             FontFamily="PoppinsSemiBold"
                             Margin="10, 15" TextColor="Black"
@@ -80,7 +80,7 @@
                         <SearchBar x:Name="searchBar" 
                                    TextColor="White"
                                    PlaceholderColor="White"
-                                   FontSize="16"
+                                   FontSize="14"
                                    FontAttributes="Bold"
                                    FontFamily="Poppins"
                                    Placeholder="Ingredient" Keyboard="Text"
@@ -141,8 +141,8 @@
 
                                     <Label Text="{Binding Title}"
                                            TextColor="White"
-                                           Padding="10"
-                                           FontSize="16"
+                                           Padding="5"
+                                           FontSize="12"
                                            FontFamily="Poppins"
                                            VerticalOptions="Center"
                                            HorizontalTextAlignment="Center" />

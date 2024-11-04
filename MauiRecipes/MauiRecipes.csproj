@@ -21,7 +21,7 @@
 		<Nullable>enable</Nullable>
 
 		<!-- Display name -->
-		<ApplicationTitle>MauiRecipes</ApplicationTitle>
+		<ApplicationTitle>Recipes</ApplicationTitle>
 
 		<!-- App Identifier -->
 		<ApplicationId>com.companyname.mauirecipes</ApplicationId>
@@ -75,7 +75,11 @@
 
 	<ItemGroup>
 		<!-- App Icon -->
-		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
+		<MauiIcon Include="Resources\AppIcon\appicon.svg">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		  <Resize>True</Resize>
+		  <BaseSize>128,128</BaseSize>
+		</MauiIcon>
 		<MauiSplashScreen Include="Resources\Splash\splash.svg" Resize="True" BaseSize="300,185">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</MauiSplashScreen>
@@ -94,6 +98,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\AppIcon\appicon.svg" />
 	  <None Remove="Resources\Fonts\MaterialIconsOutlined-Regular.otf" />
 	  <None Remove="Resources\Fonts\NotoSerif-Bold.ttf" />
 	  <None Remove="Resources\Fonts\OpenSans-Medium.ttf" />

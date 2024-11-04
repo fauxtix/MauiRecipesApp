@@ -63,10 +63,11 @@
                 <Frame Grid.Row="1" CornerRadius="30" HasShadow="True" Margin="10,5,10,5" BorderColor="Black"
                        HeightRequest="90" >
                     <Label  FontAttributes="Bold"
-                            FontSize="18"
+                            FontSize="14"
                             FontFamily="Poppins"
                             TextColor="{DynamicResource Tertiary }"
                             Text="{Binding RecipeInfo.title}" 
+                            VerticalOptions="FillAndExpand"
                             Margin="0"/>
                 </Frame>
 
