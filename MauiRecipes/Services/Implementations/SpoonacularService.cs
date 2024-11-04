@@ -49,6 +49,7 @@ public class SpoonacularService : ISpoonacularService
 
             var responseString = await response.Content.ReadAsStringAsync();
             CountriesCuisines.Root? output = JsonConvert.DeserializeObject<CountriesCuisines.Root>(responseString);
+
             return output ?? new();
         }
 

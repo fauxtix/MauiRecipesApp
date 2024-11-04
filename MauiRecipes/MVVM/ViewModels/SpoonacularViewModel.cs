@@ -94,7 +94,8 @@ public partial class SpoonacularViewModel : BaseViewModel
             RecipesTitles.Add(recipe);
         }
         IsBusy = false;
-        ShowInfoOrAlert(Colors.BlueViolet, Colors.White, $"Recipes loaded for Region '{RegionToFilter}'", 2);
+
+        ShowInfoOrAlert(Colors.BlueViolet, Colors.White, $"Recipes loaded for Region '{RegionToFilter}'", durationInSeconds: 2);
     }
 
     [RelayCommand]
