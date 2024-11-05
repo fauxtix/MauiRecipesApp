@@ -3,7 +3,9 @@
 ## Functionalities
 
 - Search recipes by Region
-- Within Region, search for an ingredient
+- Search for an ingredient (within Region, or not)
+
+  You may select 10, 20 or 30 recipes from the Api
 
 ## Educational Purpose
 
@@ -15,7 +17,7 @@ In the MauiRecipesApp, the Spoonacular Api was used to get recipe data from vari
 ### Learning Objectives
 
 - Gain familiarity with .Net MAUI components and their usage;
-- Understand how to integrate external APIs into the MauiRecipesApp;
+- Understand how to integrate external APIs into MAUI apps;
 - Learn the MVVM architectural pattern, by using Maui.Community.Toolkit;
 - Explore data visualization and presentation techniques.
 
