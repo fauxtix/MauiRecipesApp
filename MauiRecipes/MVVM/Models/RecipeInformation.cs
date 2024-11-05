@@ -87,7 +87,9 @@ namespace MauiRecipes.MVVM.Models
         public class Step
         {
             public int number { get; set; }
-            public string step { get; set; }
+
+            [JsonProperty("step")]
+            public string? InstructionStepText { get; set; }
             public IList<Ingredient> ingredients { get; set; }
             public IList<Equipment> equipment { get; set; }
             public Length length { get; set; }
@@ -95,8 +97,10 @@ namespace MauiRecipes.MVVM.Models
 
         public class AnalyzedInstruction
         {
-            public string name { get; set; }
-            public IList<Step> steps { get; set; }
+            [JsonProperty("name")]
+            public string? InstructionName { get; set; }
+            [JsonProperty("steps")]
+            public IList<Step>? Steps { get; set; }
         }
 
         public class RecipeInfo

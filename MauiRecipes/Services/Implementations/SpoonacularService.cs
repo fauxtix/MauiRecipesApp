@@ -65,6 +65,9 @@ public class SpoonacularService : ISpoonacularService
 
     public async Task<List<Recipes.MyArray>> GetRecipeDetails(int id)
     {
+
+        // https://api.spoonacular.com/recipes/324694/analyzedInstructions?stepBreakdown=true
+
         string url = $"{baseAddress}recipes/{id}/analyzedInstructions?apiKey={_apiKey}";
 
         try

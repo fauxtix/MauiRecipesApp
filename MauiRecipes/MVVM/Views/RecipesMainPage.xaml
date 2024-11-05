@@ -44,7 +44,7 @@
                             <Shadow Brush="DarkGray" Offset="-10,20" Radius="10" Opacity="0.4" />
                         </Border.Shadow>
                     </Border>
-                    <Grid ColumnDefinitions=".67*, .11*, .11*, .11*" Margin="10,0" >
+                    <Grid ColumnDefinitions=".64*, .12*, .12*, .12*" Margin="10,0" >
                         <Picker x:Name="picker" TitleColor="Black" Grid.Column="0"
                             Title="Select Region"  
                             FontSize="16"
@@ -59,20 +59,23 @@
                         <Button Text="10" Grid.Column="1"
                                 IsEnabled="{Binding Is10Enabled}"
                                 BackgroundColor="White" 
-                                TextColor="Black" Padding="1" 
+                                FontSize="12"
+                                TextColor="Black" Padding="2" 
                                 WidthRequest="30" HeightRequest="30" 
                                 Clicked="Button10_Clicked" />
                         <Button Text="20" Grid.Column="2"
                                 IsEnabled="{Binding Is20Enabled}"
                                 BackgroundColor="White"
-                                TextColor="Black" Padding="1" 
+                                FontSize="12"
+                                TextColor="Black" Padding="2" 
                                 WidthRequest="30" 
                                 HeightRequest="30" 
                                 Clicked="Button20_Clicked"/>
                         <Button Text="30" Grid.Column="3" 
                                 IsEnabled="{Binding Is30Enabled}"
                                 BackgroundColor="White"
-                                TextColor="Black" Padding="1" 
+                                TextColor="Black" Padding="2" 
+                                FontSize="12"
                                 WidthRequest="30" 
                                 HeightRequest="30" Clicked="Button30_Clicked"/>
                     </Grid>
