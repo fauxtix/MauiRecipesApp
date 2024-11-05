@@ -63,9 +63,9 @@
                 <Frame Grid.Row="1" CornerRadius="30" HasShadow="True" Margin="10,5,10,5" BorderColor="Black"
                        HeightRequest="90" >
                     <Label  FontAttributes="Bold"
-                            FontSize="14"
-                            FontFamily="Poppins"
-                            TextColor="{DynamicResource Tertiary }"
+                            FontSize="16"
+                            FontFamily="PoppinsSemiBold"
+                            TextColor="HotPink"
                             Text="{Binding RecipeInfo.title}" 
                             VerticalOptions="FillAndExpand"
                             Margin="0"/>
@@ -134,7 +134,7 @@
 
                             <VerticalStackLayout>
                                 <Label TextType="Html" 
-                                       FontSize="14" FontAttributes="None"
+                                       FontSize="16" FontAttributes="None"
                                        FontFamily="Poppins"
                                        Margin="0, 10"
                                        TextColor="White"
@@ -164,18 +164,48 @@
                             </Frame>
                         </mct:Expander.Header>
                         <mct:Expander.Content>
-
-                            <VerticalStackLayout>
-                                <Label TextType="Html" FontSize="14" 
-                                       FontAttributes="None"
-                                       FontFamily="Poppins"
-                                       TextColor="White"
-                                       Margin="0, 10" 
-                                      Text="{Binding RecipeInfo.instructions}" />
-                            </VerticalStackLayout>
+                            <!--<VerticalStackLayout>
+                                <Label Text="{Binding InstructionName}"></Label>
+                            </VerticalStackLayout>-->
+                            <CollectionView ItemsSource="{Binding StepsList}" Margin="0, 10">
+                                <CollectionView.EmptyView >
+                                    <StackLayout Grid.ColumnSpan="2">
+                                        <Image HorizontalOptions="Center"
+                                           HeightRequest="220"
+                                           WidthRequest="220" 
+                                           Source="nocook.png"
+                                           VerticalOptions="Center" />
+                                    </StackLayout>
+                                </CollectionView.EmptyView>
+                                <CollectionView.ItemsLayout>
+                                    <GridItemsLayout Orientation="Vertical" />
+                                </CollectionView.ItemsLayout>
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <VerticalStackLayout>
+                                            <Grid ColumnDefinitions="0.1*, 0.9*" Padding="3" VerticalOptions="FillAndExpand">
+                                                <Image Source="instructions.png" VerticalOptions="Start" 
+                                                       WidthRequest="20" 
+                                                       HeightRequest="20" Grid.Column="0" >
+                                                    <Image.Behaviors>
+                                                        <mct:IconTintColorBehavior TintColor="DarkKhaki" />
+                                                    </Image.Behaviors>
+                                                </Image>
+                                                <Label Text="{Binding InstructionStepText }"
+                                                       Grid.Column="1"
+                                                       TextColor="White"
+                                                       FontSize="16"
+                                                       VerticalOptions="FillAndExpand"
+                                                       FontFamily="Poppins"/>
+                                            </Grid>
+                                        </VerticalStackLayout>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
                         </mct:Expander.Content>
                     </mct:Expander>
                 </Border>
+
                 <Border Grid.Row="10" Stroke="#2B0B98"
                     StrokeThickness="1"
                     StrokeShape="RoundRectangle 22"
@@ -214,7 +244,7 @@
                                     <DataTemplate>
                                         <VerticalStackLayout>
                                             <Grid ColumnDefinitions="0.1*, 0.9*" Padding="2" VerticalOptions="FillAndExpand">
-                                                <Image Source="pin.svg" VerticalOptions="Start" 
+                                                <Image Source="ingredients.png" VerticalOptions="Start" 
                                                        WidthRequest="20" 
                                                        HeightRequest="20" Grid.Column="0" >
                                                     <Image.Behaviors>
@@ -224,7 +254,7 @@
                                                 <Label Text="{Binding Original}"
                                                        Grid.Column="1"
                                                        TextColor="White"
-                                                       FontSize="13"
+                                                       FontSize="16"
                                                        VerticalOptions="FillAndExpand"
                                                        FontFamily="Poppins"/>
                                             </Grid>
@@ -236,68 +266,6 @@
                     </mct:Expander>
                 </Border>
 
-                <Border Grid.Row="11" Stroke="#2B0B98"
-                    StrokeThickness="1"
-                    StrokeShape="RoundRectangle 22"
-                    Background="SteelBlue"
-                    Padding="3"
-                    Margin="10"
-                    HorizontalOptions="FillAndExpand">
-                    <mct:Expander Padding="6" Margin="2"
-                                  IsExpanded="false"  >
-                        <mct:Expander.Header>
-                            <Frame 
-                                    BorderColor="Black"
-                                    BackgroundColor="LightSteelBlue"
-                                    CornerRadius="10">
-                                <Label Text="Instructions (2)" FontSize="16" 
-                                       HorizontalOptions="Center"
-                                       FontFamily="Poppins"
-                                       FontAttributes="Bold" TextColor="Black"/>
-                            </Frame>
-                        </mct:Expander.Header>
-                        <mct:Expander.Content>
-                            <!--<VerticalStackLayout>
-                                <Label Text="{Binding InstructionName}"></Label>
-                            </VerticalStackLayout>-->
-                            <CollectionView ItemsSource="{Binding StepsList}" Margin="0, 10">
-                                <CollectionView.EmptyView >
-                                    <StackLayout Grid.ColumnSpan="2">
-                                        <Image HorizontalOptions="Center"
-                                           HeightRequest="220"
-                                           WidthRequest="220" 
-                                           Source="nocook.png"
-                                           VerticalOptions="Center" />
-                                    </StackLayout>
-                                </CollectionView.EmptyView>
-                                <CollectionView.ItemsLayout>
-                                    <GridItemsLayout Orientation="Vertical" />
-                                </CollectionView.ItemsLayout>
-                                <CollectionView.ItemTemplate>
-                                    <DataTemplate>
-                                        <VerticalStackLayout>
-                                            <Grid ColumnDefinitions="0.1*, 0.9*" Padding="2" VerticalOptions="FillAndExpand">
-                                                <Image Source="pin.svg" VerticalOptions="Start" 
-                                                       WidthRequest="20" 
-                                                       HeightRequest="20" Grid.Column="0" >
-                                                    <Image.Behaviors>
-                                                        <mct:IconTintColorBehavior TintColor="DarkKhaki" />
-                                                    </Image.Behaviors>
-                                                </Image>
-                                                <Label Text="{Binding InstructionStepText }"
-                                                       Grid.Column="1"
-                                                       TextColor="White"
-                                                       FontSize="13"
-                                                       VerticalOptions="FillAndExpand"
-                                                       FontFamily="Poppins"/>
-                                            </Grid>
-                                        </VerticalStackLayout>
-                                    </DataTemplate>
-                                </CollectionView.ItemTemplate>
-                            </CollectionView>
-                        </mct:Expander.Content>
-                    </mct:Expander>
-                </Border>
 
 
                 <ActivityIndicator  IsRunning="{Binding  IsBusy}" Grid.RowSpan="10"

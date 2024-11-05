@@ -106,11 +106,11 @@
 	  <None Remove="Resources\Fonts\Poppins-Regular.ttf" />
 	  <None Remove="Resources\Fonts\Poppins-SemiBold.ttf" />
 	  <None Remove="Resources\Images\icon_close.svg" />
+	  <None Remove="Resources\Images\ingredients.png" />
+	  <None Remove="Resources\Images\instructions.png" />
 	  <None Remove="Resources\Images\nocook.png" />
 	  <None Remove="Resources\Images\nodata.png" />
 	  <None Remove="Resources\Images\pin.svg" />
-	  <None Remove="Resources\Images\recipe_1.png" />
-	  <None Remove="Resources\Images\recipe_2.png" />
 	  <None Remove="Resources\Splash\splash.svg" />
 	</ItemGroup>
 
