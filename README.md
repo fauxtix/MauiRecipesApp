@@ -3,7 +3,9 @@
 ## Functionalities
 
 - Search recipes by Region
-- Within Region, search for an ingredient
+- Search for an ingredient (within Region, or not)
+
+  You may select 10, 20 or 30 recipes from the Api
 
 ## Educational Purpose
 
