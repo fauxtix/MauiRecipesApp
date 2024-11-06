@@ -30,7 +30,7 @@ namespace MauiRecipes.MVVM.Models
             public string aisle { get; set; }
 
             [JsonProperty("image")]
-            public string? Image { get; set; }
+            public string? IngredientImage { get; set; }
             public string consistency { get; set; }
             [JsonProperty("name")]
             public string? Name { get; set; }

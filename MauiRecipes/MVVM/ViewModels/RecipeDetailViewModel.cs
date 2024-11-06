@@ -37,6 +37,9 @@ namespace MauiRecipes.MVVM.ViewModels
         [ObservableProperty]
         private string? name;
         [ObservableProperty]
+        private string? ingredientImage;
+
+        [ObservableProperty]
         private double amount;
 
         [ObservableProperty]

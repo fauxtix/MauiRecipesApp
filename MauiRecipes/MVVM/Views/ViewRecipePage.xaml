@@ -20,6 +20,7 @@
     <ContentPage.Resources>
         <conv:BooleanToStringConverter x:Key="boolToStringConverter" />
         <conv:FontSizeConverter x:Key="FontSizeConverter" />
+        <conv:IngredientImageToFullUrlConverter x:Key="ingredientImageConverter" />
 
         <ResourceDictionary>
             <Style x:Key="MediumLabelBold" TargetType="Label">
@@ -245,19 +246,18 @@
                                 <CollectionView.ItemTemplate>
                                     <DataTemplate>
                                         <VerticalStackLayout>
-                                            <Grid ColumnDefinitions="0.1*, 0.9*" Padding="2" VerticalOptions="FillAndExpand">
-                                                <Image Source="ingredients.png" VerticalOptions="Start" 
-                                                       WidthRequest="20" 
-                                                       HeightRequest="20" Grid.Column="0" >
-                                                    <Image.Behaviors>
-                                                        <mct:IconTintColorBehavior TintColor="DarkKhaki" />
-                                                    </Image.Behaviors>
+                                            <Grid ColumnDefinitions="0.2*, 0.8*" Padding="2" ColumnSpacing="10">
+                                                <Image Source="{Binding IngredientImage, Converter={StaticResource ingredientImageConverter}}"                                                       
+                                                       VerticalOptions="CenterAndExpand" 
+                                                       HorizontalOptions="CenterAndExpand"
+                                                       WidthRequest="50" 
+                                                       HeightRequest="50" Grid.Column="0" >
                                                 </Image>
                                                 <Label Text="{Binding Original}"
                                                        Grid.Column="1"
                                                        TextColor="White"
                                                        FontSize="16"
-                                                       VerticalOptions="FillAndExpand"
+                                                       VerticalOptions="CenterAndExpand"
                                                        FontFamily="Poppins"/>
                                             </Grid>
                                         </VerticalStackLayout>
