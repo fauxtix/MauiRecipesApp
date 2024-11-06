@@ -19,6 +19,7 @@
 
     <ContentPage.Resources>
         <conv:BooleanToStringConverter x:Key="boolToStringConverter" />
+        <conv:FontSizeConverter x:Key="FontSizeConverter" />
 
         <ResourceDictionary>
             <Style x:Key="MediumLabelBold" TargetType="Label">
@@ -60,17 +61,18 @@
                            VerticalOptions="Center"  
                            Source="{Binding RecipeInfo.image}"/>
                 </Border>
-                <Frame Grid.Row="1" CornerRadius="30" HasShadow="True" Margin="10,5,10,5" BorderColor="Black"
-                       HeightRequest="90" >
+                <Frame Grid.Row="1" CornerRadius="30" 
+                       HasShadow="True" Margin="10,5,10,5" BorderColor="Black"
+                       HeightRequest="90">
                     <Label  FontAttributes="Bold"
-                            FontSize="16"
+                            FontSize="{Binding RecipeInfo.title, Converter={StaticResource FontSizeConverter}}"
                             FontFamily="PoppinsSemiBold"
                             TextColor="HotPink"
                             Text="{Binding RecipeInfo.title}" 
-                            VerticalOptions="FillAndExpand"
+                            VerticalOptions="Center"
+                            HorizontalOptions="Center"
                             Margin="0"/>
                 </Frame>
-
                 <Border Grid.Row="2" 
                     Stroke="{DynamicResource Primary}"
                     StrokeThickness="1"
