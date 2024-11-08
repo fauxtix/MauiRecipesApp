@@ -9,22 +9,19 @@ This application allows users to search, view, and store cooking recipes locally
   - Search results can be filtered by the number of recipes (10, 20, or 30 recipes).
 
 - **Local Storage**:
-  - Recipes can be stored locally using an SQLite database.
-  - Recipes are associated with a unique key (`RecipeKey`) to ensure they are not duplicated.
-  - Local caching is used to store recipes and provide faster, optimized responses to the user.
+  - Recipes already searched, are stored locally using an SQLite database.
+    This feature is used to provide faster, optimized responses to the user.
 
 - **Data Expiration and Cleanup**:
   - Recipes stored locally have an **`ExpirationDate`** field that defines their validity period.
-  - When a recipe’s expiration date is earlier than the current date, it is **removed** from the database.
-  - There is an option to manually clean expired recipes via the app's interface.
+  - There's an option to manually clean expired recipes via the app's interface.
 
 - **Choose Number of Recipes**:
   - Users can select the number of recipes to load, with options for 10, 20, or 30 recipes.
 
 - **Search Interface**:
-  - The search field allows users to search for recipes by either clicking a search button or pressing **Enter**.
-  - The search field can also be used to find recipes by ingredients or specific keywords.
-
+  - The search field allows users to search for recipes and/or ingredient by clicking a **search** button.
+  
 - **Recipe Details View**:
   - By selecting a recipe, users can view detailed information, including ingredients, preparation instructions, and additional information about the recipe.
 
@@ -36,14 +33,14 @@ This application allows users to search, view, and store cooking recipes locally
 - **.NET MAUI** - Framework for building cross-platform mobile applications for Android, iOS, MacOS, and Windows.
 - **SQLite** - Local database for storing recipes.
 - **Spoonacular API** - External API for fetching information on cooking recipes.
-- **CommunityToolkit.Maui** - Library to simplify mobile app development with MAUI.
+- **CommunityToolkit.Maui/MVVM** - Libraries to simplify mobile app development with MAUI.
 
 ## **How to Run**
 
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/your-username/recipes-app.git
+    git clone https://github.com/fauxtix/MauiRecipesApp
     ```
 
 2. Open the project in Visual Studio or Visual Studio Code.
@@ -56,16 +53,6 @@ This application allows users to search, view, and store cooking recipes locally
 
 - Implement functionality to sort recipes by different criteria such as preparation time, popularity, etc.
 - UI improvements, including additional search filters.
-
-
-# Playing with .Net MAUI by using the Spoonacular Api
-
-## Functionalities
-
-- Search recipes by Region
-- Search for an ingredient (within Region, or not)
-
-  You may select 10, 20 or 30 recipes from the Api
 
 ## Educational Purpose
 
@@ -93,7 +80,6 @@ This project is currently a work in progress. While it provides basic functional
 ![ViewRecipe_Summary](https://github.com/user-attachments/assets/b4d1751c-9dae-49c1-a22e-97a9279e2cb0)
 ![ViewRecipe_Instructions](https://github.com/user-attachments/assets/e58a59c4-d234-4a45-a330-2fd647538aef)
 ![ViewRecipe_Ingredients](https://github.com/user-attachments/assets/6bb6b93a-7826-43cb-8551-81864f375232)
-
 
 
 ### Contributions
