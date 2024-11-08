@@ -10,6 +10,7 @@
              Shell.TitleColor="White"
              Title="Maui Recipes - FL 2024">
 
+    
     <ContentPage.Resources>
 
         <ResourceDictionary>
@@ -31,6 +32,12 @@
 
         </ResourceDictionary>
     </ContentPage.Resources>
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Return"  
+                     Command="{Binding ClearCacheAsyncCommand}"
+                 IconImageSource="icon_clear.png" />
+    </ContentPage.ToolbarItems>
 
     <Grid>
         <ScrollView BackgroundColor="{AppThemeBinding Light={StaticResource LightBackground}, Dark={StaticResource DarkBackground}}">
@@ -102,7 +109,7 @@
                                     ItemsSource="{Binding RecipesTitles}" 
                                     SelectionMode="Single">
                         <CollectionView.EmptyView >
-                            <StackLayout Grid.ColumnSpan="2">
+                            <StackLayout Grid.ColumnSpan="2"  IsVisible="{Binding IsInitialLoadComplete}">
                                 <Image HorizontalOptions="Center"
                                        HeightRequest="120"
                                        WidthRequest="120" 
@@ -110,7 +117,7 @@
                                        VerticalOptions="Center" />
                             </StackLayout>
                         </CollectionView.EmptyView>
-
+                       
                         <CollectionView.ItemsLayout>
                             <GridItemsLayout Orientation="Vertical" Span="2"
                                              HorizontalItemSpacing="10"

@@ -68,7 +68,7 @@ public class SpoonacularService : ISpoonacularService
 
         // https://api.spoonacular.com/recipes/324694/analyzedInstructions?stepBreakdown=true
 
-        string url = $"{baseAddress}recipes/{id}/analyzedInstructions?apiKey={_apiKey}";
+        string url = $"{baseAddress}recipes/{id}/analyzedInstructions?apiKey={_apiKey}&language=pt";
 
         try
         {
@@ -94,7 +94,7 @@ public class SpoonacularService : ISpoonacularService
 
     public async Task<RecipeInformation.RecipeInfo> GetRecipeInformation(int id)
     {
-        string url = $"{baseAddress}recipes/{id}/information?includeNutrition=false&apiKey={_apiKey}";
+        string url = $"{baseAddress}recipes/{id}/information?includeNutrition=false&apiKey={_apiKey}&language=pt";
 
         try
         {

@@ -13,6 +13,7 @@ namespace MauiRecipes.MVVM.ViewModels;
 public partial class SpoonacularViewModel : BaseViewModel
 {
     private readonly ISpoonacularService? _service;
+    private readonly IRecipeCacheService? _cacheService;
 
     [ObservableProperty]
     private CountriesCuisines.Root? titles;
@@ -28,11 +29,10 @@ public partial class SpoonacularViewModel : BaseViewModel
     public ObservableCollection<CountriesCuisines.Result?> RecipesTitles { get; } = new();
     public ObservableCollection<Recipes.MyArray?> RecipeDetails { get; } = new();
 
-    public bool AreThereRecipes => RecipesTitles.Count > 0;
+    [ObservableProperty]
+    private bool isInitialLoadComplete;
 
-
-
-    public SpoonacularViewModel(ISpoonacularService service)
+    public SpoonacularViewModel(ISpoonacularService service, IRecipeCacheService cacheService)
     {
 
         if (Connectivity.Current.NetworkAccess == NetworkAccess.None)
@@ -40,9 +40,16 @@ public partial class SpoonacularViewModel : BaseViewModel
             ShowInfoOrAlert(Colors.Red, Colors.White, "No internet access");
             return;
         }
+
         _service = service;
-        PropertyChanged += SpoonacularViewModel_PropertyChanged;
+        _cacheService = cacheService;
+
+        PropertyChanged += SpoonacularViewModel_PropertyChanged!;
+
+        IsBusy = true;
         GetRecipesTitles();
+        IsBusy = false;
+
         regionsData =
         [
             new() { ID= "German", RegionName = "Alemã" },
@@ -83,19 +90,61 @@ public partial class SpoonacularViewModel : BaseViewModel
         IsBusy = false;
     }
 
+    [RelayCommand]
+    public void ClearCacheAsync()
+    {
+        _cacheService?.ClearCache();
+        ShowInfoOrAlert(Colors.Orange, Colors.Black, "Recipes removed from cache.", durationInSeconds: 2);
+    }
+
     public async void GetRecipesTitles()
     {
         IsBusy = true;
-        await Task.Delay(200);
-        Titles = await _service!.GetRecipeTitles(RegionToFilter, Recipient!, NumberOfRecipes);
-        RecipesTitles.Clear();
-        foreach (var recipe in Titles.results)
-        {
-            RecipesTitles.Add(recipe);
-        }
-        IsBusy = false;
 
-        ShowInfoOrAlert(Colors.BlueViolet, Colors.White, $"Recipes loaded for Region '{RegionToFilter}'", durationInSeconds: 2);
+        try
+        {
+            string region = !string.IsNullOrEmpty(RegionToFilter) ? RegionToFilter : "defaultRegion";
+            string recipient = !string.IsNullOrEmpty(Recipient) ? Recipient : "defaultRecipient";
+
+            string cacheFileName = $"{region}_{recipient}_{NumberOfRecipes}";
+
+            Titles = await _cacheService!.LoadFromCacheAsync<CountriesCuisines.Root>(cacheFileName);
+
+            if (Titles != null)
+            {
+                // Se houver dados no cache, atualiza a UI com esses dados
+                RecipesTitles.Clear();
+                foreach (var recipe in Titles.results)
+                {
+                    RecipesTitles.Add(recipe);
+                }
+                ShowInfoOrAlert(Colors.Green, Colors.White, "Recipes loaded from cache.", durationInSeconds: 2);
+            }
+            else
+            {
+                // Se não houver dados no cache, chama a API
+                Titles = await _service!.GetRecipeTitles(RegionToFilter, Recipient!, NumberOfRecipes);
+
+                RecipesTitles.Clear();
+                foreach (var recipe in Titles.results)
+                {
+                    RecipesTitles.Add(recipe);
+                }
+
+                await _cacheService.SaveToCacheAsync(cacheFileName, Titles);
+
+                ShowInfoOrAlert(Colors.BlueViolet, Colors.White, $"Recipes loaded for Region '{RegionToFilter}'", durationInSeconds: 2);
+            }
+        }
+        catch
+        {
+            ShowInfoOrAlert(Colors.Red, Colors.White, $"Recipes failed to load for Region '{RegionToFilter}'", durationInSeconds: 5);
+        }
+        finally
+        {
+            IsBusy = false;
+            IsInitialLoadComplete = true;
+        }
     }
 
     [RelayCommand]

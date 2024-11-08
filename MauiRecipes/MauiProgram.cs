@@ -30,6 +30,7 @@ namespace MauiRecipes
 
             // Services
             builder.Services.AddTransient<ISpoonacularService, SpoonacularService>();
+            builder.Services.AddTransient<IRecipeCacheService, RecipeCacheService>();
 
             // ViewModels
             builder.Services.AddSingleton<BaseViewModel>();
