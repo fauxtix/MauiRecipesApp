@@ -28,9 +28,16 @@ namespace MauiRecipes
                     fonts.AddFont("Poppins-Regular.ttf", "Poppins");
                 });
 
+
             // Services
             builder.Services.AddTransient<ISpoonacularService, SpoonacularService>();
             builder.Services.AddTransient<IRecipeCacheService, RecipeCacheService>();
+
+
+            var databasePath = Path.Combine(FileSystem.AppDataDirectory, "recipes.db3");
+
+            builder.Services.AddSingleton<IRecipeStorageService>(serviceProvider =>
+                new RecipeStorageService(databasePath));
 
             // ViewModels
             builder.Services.AddSingleton<BaseViewModel>();

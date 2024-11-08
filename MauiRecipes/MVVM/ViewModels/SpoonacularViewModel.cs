@@ -14,7 +14,7 @@ public partial class SpoonacularViewModel : BaseViewModel
 {
     private readonly ISpoonacularService? _service;
     private readonly IRecipeCacheService? _cacheService;
-
+    private readonly IRecipeStorageService? _storageService;
     [ObservableProperty]
     private CountriesCuisines.Root? titles;
     [ObservableProperty]
@@ -32,8 +32,13 @@ public partial class SpoonacularViewModel : BaseViewModel
     [ObservableProperty]
     private bool isInitialLoadComplete;
 
-    public SpoonacularViewModel(ISpoonacularService service, IRecipeCacheService cacheService)
+    public SpoonacularViewModel(ISpoonacularService service,
+                                   IRecipeCacheService cacheService,
+                                   IRecipeStorageService storageService) // Injeção do serviço
     {
+        _service = service;
+        _cacheService = cacheService;
+        _storageService = storageService;
 
         if (Connectivity.Current.NetworkAccess == NetworkAccess.None)
         {
@@ -46,9 +51,7 @@ public partial class SpoonacularViewModel : BaseViewModel
 
         PropertyChanged += SpoonacularViewModel_PropertyChanged!;
 
-        IsBusy = true;
-        GetRecipesTitles();
-        IsBusy = false;
+        GetFirstData();
 
         regionsData =
         [
@@ -90,6 +93,11 @@ public partial class SpoonacularViewModel : BaseViewModel
         IsBusy = false;
     }
 
+    private async void GetFirstData()
+    {
+        await GetRecipesTitles();
+    }
+
     [RelayCommand]
     public void ClearCacheAsync()
     {
@@ -97,7 +105,8 @@ public partial class SpoonacularViewModel : BaseViewModel
         ShowInfoOrAlert(Colors.Orange, Colors.Black, "Recipes removed from cache.", durationInSeconds: 2);
     }
 
-    public async void GetRecipesTitles()
+    [RelayCommand]
+    public async Task GetRecipesTitles()
     {
         IsBusy = true;
 
@@ -105,24 +114,23 @@ public partial class SpoonacularViewModel : BaseViewModel
         {
             string region = !string.IsNullOrEmpty(RegionToFilter) ? RegionToFilter : "defaultRegion";
             string recipient = !string.IsNullOrEmpty(Recipient) ? Recipient : "defaultRecipient";
+            string cacheKey = $"{region}_{recipient}_{NumberOfRecipes}";
 
-            string cacheFileName = $"{region}_{recipient}_{NumberOfRecipes}";
-
-            Titles = await _cacheService!.LoadFromCacheAsync<CountriesCuisines.Root>(cacheFileName);
+            // Tentativa de carregar do cache SQLite primeiro
+            Titles = await _storageService!.LoadFromStorageAsync<CountriesCuisines.Root>(cacheKey);
 
             if (Titles != null)
             {
-                // Se houver dados no cache, atualiza a UI com esses dados
                 RecipesTitles.Clear();
                 foreach (var recipe in Titles.results)
                 {
                     RecipesTitles.Add(recipe);
                 }
-                ShowInfoOrAlert(Colors.Green, Colors.White, "Recipes loaded from cache.", durationInSeconds: 2);
+                ShowInfoOrAlert(Colors.Green, Colors.White, "Recipes loaded from database....", durationInSeconds: 2);
             }
             else
             {
-                // Se não houver dados no cache, chama a API
+                // Caso não haja dados no cache, chama a API e armazena no SQLite
                 Titles = await _service!.GetRecipeTitles(RegionToFilter, Recipient!, NumberOfRecipes);
 
                 RecipesTitles.Clear();
@@ -131,9 +139,22 @@ public partial class SpoonacularViewModel : BaseViewModel
                     RecipesTitles.Add(recipe);
                 }
 
-                await _cacheService.SaveToCacheAsync(cacheFileName, Titles);
+                await _storageService.SaveToStorageAsync(cacheKey, Titles);
 
-                ShowInfoOrAlert(Colors.BlueViolet, Colors.White, $"Recipes loaded for Region '{RegionToFilter}'", durationInSeconds: 2);
+                var message = "";
+
+                var filterMsg = !string.IsNullOrEmpty(RegionToFilter) ? RegionToFilter : "";
+                var recipientMsg = !string.IsNullOrEmpty(Recipient) ? Recipient : "";
+                if (string.IsNullOrEmpty(filterMsg) && string.IsNullOrEmpty(recipientMsg))
+                    message = "Recipes loaded with no selection";
+                else if (string.IsNullOrEmpty(filterMsg) && !string.IsNullOrEmpty(recipientMsg))
+                    message = $"Recipes loaded for ingredient {recipientMsg}";
+                else if (!string.IsNullOrEmpty(filterMsg) && string.IsNullOrEmpty(recipientMsg))
+                    message = $"Recipes loaded for region {RegionToFilter}";
+                else if (!string.IsNullOrEmpty(filterMsg) && !string.IsNullOrEmpty(recipientMsg))
+                    message = $"Recipes loaded for region '{filterMsg}' and ingredient '{recipientMsg}'";
+
+                ShowInfoOrAlert(Colors.BlueViolet, Colors.White, message, durationInSeconds: 2);
             }
         }
         catch
@@ -148,12 +169,11 @@ public partial class SpoonacularViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    private void SetRecipientToSearch(string searchText)
+    private async Task SearchRecipes()
     {
-        Recipient = searchText;
-        GetRecipesTitles();
+        if (string.IsNullOrEmpty(Recipient) && string.IsNullOrEmpty(RegionToFilter)) return;
+        await GetRecipesTitles();
     }
-
 
     [RelayCommand]
     private async Task GetRecipeDetails(CountriesCuisines.Result param)
@@ -192,7 +212,7 @@ public partial class SpoonacularViewModel : BaseViewModel
         if (e.PropertyName == nameof(SelectedRegion) && SelectedRegion != null)
         {
             RegionToFilter = SelectedRegion.ID;
-            GetRecipesTitles();
+            // GetRecipesTitles();
         }
     }
 

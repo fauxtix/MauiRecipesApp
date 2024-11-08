@@ -110,6 +110,7 @@
 	  <None Remove="Resources\Fonts\Poppins-SemiBold.ttf" />
 	  <None Remove="Resources\Images\icon_clear.png" />
 	  <None Remove="Resources\Images\icon_close.svg" />
+	  <None Remove="Resources\Images\icon_search.png" />
 	  <None Remove="Resources\Images\ingredients.png" />
 	  <None Remove="Resources\Images\instructions.png" />
 	  <None Remove="Resources\Images\nocook.png" />

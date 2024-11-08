@@ -10,7 +10,7 @@
              Shell.TitleColor="White"
              Title="Maui Recipes - FL 2024">
 
-    
+
     <ContentPage.Resources>
 
         <ResourceDictionary>
@@ -87,22 +87,36 @@
                                 HeightRequest="30" Clicked="Button30_Clicked"/>
                     </Grid>
                     <VerticalStackLayout Grid.Row="1">
-                        <SearchBar x:Name="searchBar" 
+                        <FlexLayout JustifyContent="SpaceBetween" AlignItems="Center" >
+                            <Entry x:Name="searchEntry"
+                                   ClearButtonVisibility="WhileEditing"
+                                   Text="{Binding Recipient}"
                                    TextColor="White"
                                    PlaceholderColor="White"
                                    FontSize="14"
                                    FontAttributes="Bold"
                                    FontFamily="Poppins"
-                                   Placeholder="Ingredient" Keyboard="Text"
-                                   HorizontalOptions="Start"
-                                   Margin=" 0, -15, 0, 0"
-                                   WidthRequest="350">
-                            <SearchBar.Behaviors>
-                                <toolkit:EventToCommandBehavior EventName="TextChanged"
-                                                    Command="{Binding SetRecipientToSearchCommand}" 
-                                                    CommandParameter="{Binding Text, Source={x:Reference searchBar}}"/>
-                            </SearchBar.Behaviors>
-                        </SearchBar>
+                                   Margin="10, 0, 10, 0"
+                                   Placeholder="Ingredient" Keyboard="Text" 
+                                   HorizontalOptions="Start"                                  
+                                   WidthRequest="300">
+                            </Entry>
+                            <Border  HeightRequest="36"
+                               WidthRequest="36"
+                               Margin="0,10,15,10"
+                               Padding="6"
+                               BackgroundColor="{StaticResource Neutral085}"
+>
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="18" />
+                                </Border.StrokeShape>
+                                <Image Source="icon_search.png">
+                                    <Image.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding SearchRecipesCommand}"/>
+                                    </Image.GestureRecognizers>
+                                </Image>
+                            </Border>
+                        </FlexLayout>
                         <BoxView HeightRequest="0.4" BackgroundColor="Gray" Margin="0,7,0,5"/>
                     </VerticalStackLayout>
                     <CollectionView Grid.Row="2" 
@@ -117,7 +131,7 @@
                                        VerticalOptions="Center" />
                             </StackLayout>
                         </CollectionView.EmptyView>
-                       
+
                         <CollectionView.ItemsLayout>
                             <GridItemsLayout Orientation="Vertical" Span="2"
                                              HorizontalItemSpacing="10"
