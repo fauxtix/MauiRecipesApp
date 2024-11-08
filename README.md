@@ -1,3 +1,63 @@
+# **Cooking Recipes - Mobile Application**
+
+This application allows users to search, view, and store cooking recipes locally, using the Spoonacular API. Recipes can be filtered by region and ingredient, with features for local caching and data expiration.
+
+## **Features**
+
+- **Recipe Search**:
+  - Allows searching for recipes by region and ingredient. Users can choose from different regions of the world (e.g., Italian, American, Japanese, etc.).
+  - Search results can be filtered by the number of recipes (10, 20, or 30 recipes).
+
+- **Local Storage**:
+  - Recipes can be stored locally using an SQLite database.
+  - Recipes are associated with a unique key (`RecipeKey`) to ensure they are not duplicated.
+  - Local caching is used to store recipes and provide faster, optimized responses to the user.
+
+- **Data Expiration and Cleanup**:
+  - Recipes stored locally have an **`ExpirationDate`** field that defines their validity period.
+  - When a recipe’s expiration date is earlier than the current date, it is **removed** from the database.
+  - There is an option to manually clean expired recipes via the app's interface.
+
+- **Choose Number of Recipes**:
+  - Users can select the number of recipes to load, with options for 10, 20, or 30 recipes.
+
+- **Search Interface**:
+  - The search field allows users to search for recipes by either clicking a search button or pressing **Enter**.
+  - The search field can also be used to find recipes by ingredients or specific keywords.
+
+- **Recipe Details View**:
+  - By selecting a recipe, users can view detailed information, including ingredients, preparation instructions, and additional information about the recipe.
+
+- **Notifications and Alerts**:
+  - The app shows notifications and alerts to inform the user about the status of loaded recipes (e.g., "Recipes loaded successfully", "Error loading recipes", etc.).
+
+## **Technologies Used**
+
+- **.NET MAUI** - Framework for building cross-platform mobile applications for Android, iOS, MacOS, and Windows.
+- **SQLite** - Local database for storing recipes.
+- **Spoonacular API** - External API for fetching information on cooking recipes.
+- **CommunityToolkit.Maui** - Library to simplify mobile app development with MAUI.
+
+## **How to Run**
+
+1. Clone the repository:
+
+    ```bash
+    git clone https://github.com/your-username/recipes-app.git
+    ```
+
+2. Open the project in Visual Studio or Visual Studio Code.
+
+3. Run the app on an emulator or real device.
+
+4. The SQLite database will be automatically created in the app's data directory.
+
+## **Future Features**
+
+- Implement functionality to sort recipes by different criteria such as preparation time, popularity, etc.
+- UI improvements, including additional search filters.
+
+
 # Playing with .Net MAUI by using the Spoonacular Api
 
 ## Functionalities
@@ -44,63 +104,4 @@ Contributions are welcome! If you have suggestions for new features or improveme
 
 This project is a work in progress and may undergo changes and updates without prior notice. It is being developed for educational purposes and may include experimental features and components.
 It does not serve any commercial or production purposes.
-
-# **Receitas de Cozinha - Aplicação Mobile**
-
-Esta aplicação permite aos usuários pesquisar, visualizar e armazenar receitas de cozinha localmente, utilizando a API Spoonacular. As receitas podem ser filtradas por região e ingrediente, além de oferecer funcionalidades de cache local e expiração de dados.
-
-## **Funcionalidades**
-
-- **Pesquisa de Receitas**:
-  - Permite pesquisar receitas por região e ingrediente. O usuário pode escolher entre diferentes regiões do mundo (ex: italiana, americana, japonesa, etc.).
-  - A pesquisa pode ser filtrada por número de receitas (10, 20 ou 30 receitas).
-
-- **Armazenamento Local**:
-  - As receitas podem ser armazenadas localmente usando um banco de dados SQLite.
-  - As receitas são associadas a uma chave única (`RecipeKey`) para garantir que não sejam duplicadas.
-  - O cache local é utilizado para armazenar as receitas e permitir uma resposta mais rápida e otimizada ao usuário.
-
-- **Expiração e Limpeza de Dados**:
-  - As receitas armazenadas localmente têm um campo **`ExpirationDate`** que define o tempo de validade.
-  - Quando a data de expiração de uma receita é anterior à data atual, a receita é **removida** da base de dados.
-  - A opção para limpar receitas expiradas pode ser acionada manualmente através da interface da aplicação.
-
-- **Escolha de Número de Receitas**:
-  - O usuário pode selecionar o número de receitas a serem carregadas, com as opções de 10, 20 ou 30 receitas.
-
-- **Interface de Pesquisa**:
-  - O campo de pesquisa permite ao usuário buscar por receitas usando um botão de pesquisa ou pressionando **Enter**.
-  - O campo de pesquisa também pode ser usado para pesquisar receitas por ingredientes ou palavras-chave específicas.
-
-- **Exibição de Detalhes da Receita**:
-  - Ao selecionar uma receita, o usuário pode visualizar os detalhes completos, incluindo ingredientes, instruções de preparo e informações adicionais sobre a receita.
-
-- **Notificações e Alertas**:
-  - A aplicação exibe notificações e alertas ao usuário para informar sobre o status das receitas carregadas (ex: "Receitas carregadas com sucesso", "Erro ao carregar receitas", etc.).
-
-## **Tecnologias Utilizadas**
-
-- **.NET MAUI** - Framework para construção de aplicações móveis nativas para Android, iOS, MacOS e Windows.
-- **SQLite** - Banco de dados local para armazenamento de receitas.
-- **Spoonacular API** - API externa para buscar informações sobre receitas de cozinha.
-- **CommunityToolkit.Maui** - Biblioteca para simplificar a criação de aplicações móveis no MAUI.
-
-## **Como Executar**
-
-1. Clone o repositório:
-
-    ```bash
-    git clone https://github.com/seu-usuario/receitas-app.git
-    ```
-
-2. Abra o projeto no Visual Studio ou Visual Studio Code.
-
-3. Execute o aplicativo no emulador ou dispositivo real.
-
-4. O banco de dados SQLite será criado automaticamente no diretório de dados da aplicação.
-
-## **Funcionalidades Futuras**
-
-- Implementação de uma funcionalidade para ordenar as receitas por diferentes critérios, como tempo de preparo, popularidade, etc.
-- Melhorias na interface do usuário, incluindo filtros adicionais de pesquisa.
 
