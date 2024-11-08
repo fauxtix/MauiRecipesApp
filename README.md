@@ -9,7 +9,7 @@ This application allows users to search, view, and store cooking recipes locally
   - Search results can be filtered by the number of recipes (10, 20, or 30 recipes).
 
 - **Local Storage**:
-  - Recipes already searched, are stored locally using an SQLite database.
+  - Recipes already researched, are stored locally using an SQLite database.
     This feature is used to provide faster, optimized responses to the user.
 
 - **Data Expiration and Cleanup**:
@@ -20,7 +20,7 @@ This application allows users to search, view, and store cooking recipes locally
   - Users can select the number of recipes to load, with options for 10, 20, or 30 recipes.
 
 - **Search Interface**:
-  - The search field allows users to search for recipes and/or ingredient by clicking a **search** button.
+  - The text search field and the dropdown, allows users to search by region and/or ingredient, by clicking a **search** button.
   
 - **Recipe Details View**:
   - By selecting a recipe, users can view detailed information, including ingredients, preparation instructions, and additional information about the recipe.
@@ -75,11 +75,17 @@ This project is currently a work in progress. While it provides basic functional
 # Screenshots
 
 ![RecipesMainPage](https://github.com/user-attachments/assets/c1f0550c-4f01-4184-9c53-7985dd00faaa)
+*Main page showing the list of recipes.*
 ![RecipesMainPageWithIngredientSearch](https://github.com/user-attachments/assets/d08acb4a-4ffa-4109-a7ba-7ca0c945e194)
+*Main page with ingredient search functionality enabled.*
 ![ViewRecipe](https://github.com/user-attachments/assets/13334ef1-cd10-48b9-85e2-9810f424ffcd)
+*Recipe detail page.*
 ![ViewRecipe_Summary](https://github.com/user-attachments/assets/b4d1751c-9dae-49c1-a22e-97a9279e2cb0)
+*Recipe summary view.*
 ![ViewRecipe_Instructions](https://github.com/user-attachments/assets/e58a59c4-d234-4a45-a330-2fd647538aef)
+*Recipe instructions view.*
 ![ViewRecipe_Ingredients](https://github.com/user-attachments/assets/6bb6b93a-7826-43cb-8551-81864f375232)
+*Recipe ingredients view.*
 
 
 ### Contributions
