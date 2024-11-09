@@ -20,7 +20,6 @@ public partial class RecipesMainPage : ContentPage
             _spoonacularViewModel.Is10Enabled = false;
             _spoonacularViewModel.Is20Enabled = true;
             _spoonacularViewModel.Is30Enabled = true;
-            //await _spoonacularViewModel.GetRecipesTitles();
         }
     }
 
@@ -32,7 +31,6 @@ public partial class RecipesMainPage : ContentPage
             _spoonacularViewModel.Is10Enabled = true;
             _spoonacularViewModel.Is20Enabled = false;
             _spoonacularViewModel.Is30Enabled = true;
-            //await _spoonacularViewModel.GetRecipesTitles();
         }
     }
     private void Button30_Clicked(object sender, EventArgs e)
@@ -43,7 +41,6 @@ public partial class RecipesMainPage : ContentPage
             _spoonacularViewModel.Is10Enabled = true;
             _spoonacularViewModel.Is20Enabled = true;
             _spoonacularViewModel.Is30Enabled = false;
-            //await _spoonacularViewModel.GetRecipesTitles();
         }
     }
 }

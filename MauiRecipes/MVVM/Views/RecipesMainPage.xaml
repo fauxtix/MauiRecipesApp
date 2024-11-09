@@ -33,11 +33,6 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Return"  
-                     Command="{Binding ClearCacheAsyncCommand}"
-                 IconImageSource="icon_clear.png" />
-    </ContentPage.ToolbarItems>
 
     <Grid>
         <ScrollView BackgroundColor="{AppThemeBinding Light={StaticResource LightBackground}, Dark={StaticResource DarkBackground}}">
@@ -53,7 +48,7 @@
                     </Border>
                     <Grid ColumnDefinitions=".64*, .12*, .12*, .12*" Margin="10,0" >
                         <Picker x:Name="picker" TitleColor="Black" Grid.Column="0"
-                            Title="Select Region"  
+                            Title="Regions"  
                             FontSize="16"
                             FontAttributes="Bold"
                             FontFamily="PoppinsSemiBold"
@@ -99,11 +94,11 @@
                                    Margin="10, 0, 10, 0"
                                    Placeholder="Ingredient" Keyboard="Text" 
                                    HorizontalOptions="Start"                                  
-                                   WidthRequest="300">
+                                   WidthRequest="250">
                             </Entry>
                             <Border  HeightRequest="36"
                                WidthRequest="36"
-                               Margin="0,10,15,10"
+                               Margin="0,10,5,10"
                                Padding="6"
                                BackgroundColor="{StaticResource Neutral085}"
 >
@@ -116,6 +111,25 @@
                                     </Image.GestureRecognizers>
                                 </Image>
                             </Border>
+                            <Border  HeightRequest="36"
+                               WidthRequest="36"
+                               Margin="0,10,5,10"
+                               Padding="6"
+                                     BackgroundColor="OrangeRed">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="18" />
+                                </Border.StrokeShape>
+                                <Image Source="icon_clear.png">
+                                    <Image.Behaviors>
+                                        <toolkit:IconTintColorBehavior TintColor="White" />
+                                    </Image.Behaviors>
+                                    <Image.GestureRecognizers>
+                                        
+                                        <TapGestureRecognizer Command="{Binding ClearCacheCommand}"/>
+                                    </Image.GestureRecognizers>
+                                </Image>
+                            </Border>
+
                         </FlexLayout>
                         <BoxView HeightRequest="0.4" BackgroundColor="Gray" Margin="0,7,0,5"/>
                     </VerticalStackLayout>

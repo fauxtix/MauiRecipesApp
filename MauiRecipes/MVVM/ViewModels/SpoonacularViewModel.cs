@@ -99,10 +99,14 @@ public partial class SpoonacularViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    public void ClearCacheAsync()
+    public async Task ClearCacheAsync()
     {
-        _cacheService?.ClearCache();
-        ShowInfoOrAlert(Colors.Orange, Colors.Black, "Recipes removed from cache.", durationInSeconds: 2);
+        bool okToDelete = await Shell.Current.DisplayAlert("Please confirm", $"Delete past searches from database?", "Yes", "No");
+        if (okToDelete)
+        {
+            _cacheService?.ClearCache();
+            ShowInfoOrAlert(Colors.Orange, Colors.Black, "Recipes removed from cache.", durationInSeconds: 5);
+        }
     }
 
     [RelayCommand]
