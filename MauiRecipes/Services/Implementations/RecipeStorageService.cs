@@ -11,13 +11,12 @@ public class RecipeStorageService : IRecipeStorageService
     {
         var exist = File.Exists(dbPath); ;
         _connection = new SQLiteAsyncConnection(dbPath);
-        if (!exist)
-            _connection.CreateTableAsync<LocalRecipeData>().Wait();
-        else
-        {
-            test();
-        }
 
+        if (!exist)
+        {
+            _connection.CreateTableAsync<LocalRecipeData>().Wait();
+            _connection.CreateTableAsync<LocalRecipeDetailsData>().Wait();
+        }
     }
 
     async void test()
@@ -27,33 +26,70 @@ public class RecipeStorageService : IRecipeStorageService
 
     }
 
-    public async Task SaveToStorageAsync<T>(string recipeKey, T data)
+    public async Task SaveToStorageAsync<T>(string recipeKey, T data) // Titles
     {
         var recipeData = new LocalRecipeData
         {
             RecipeKey = recipeKey,
             JsonData = JsonSerializer.Serialize(data),
-            ExpirationDate = DateTime.UtcNow.AddDays(3)
+            ExpirationDate = DateTime.Now.Date
         };
 
         await _connection.InsertAsync(recipeData);
     }
 
-    public async Task<T?> LoadFromStorageAsync<T>(string recipeKey)
+    public async Task SaveDetailToStorageAsync<T>(int recipeId, T data) // Detail
+    {
+        var recipeData = new LocalRecipeDetailsData
+        {
+            RecipeId = recipeId,
+            JsonData = JsonSerializer.Serialize(data),
+            ExpirationDate = DateTime.Now.Date
+        };
+
+        await _connection.InsertAsync(recipeData);
+    }
+
+
+    public async Task<T?> LoadFromStorageAsync<T>(string recipeKey) // Titles
     {
         var recipeData = await _connection.Table<LocalRecipeData>()
                                           .FirstOrDefaultAsync(r => r.RecipeKey == recipeKey);
-        return recipeData != null ? JsonSerializer.Deserialize<T>(recipeData.JsonData) : default;
+        var output = recipeData != null ? JsonSerializer.Deserialize<T>(recipeData.JsonData!) : default;
+        return output;
+    }
+    public async Task<T?> LoadDetailFromStorageAsync<T>(int recipeId) // Detail
+    {
+        var recipeDetailData = await _connection.Table<LocalRecipeDetailsData>()
+                                          .FirstOrDefaultAsync(r => r.RecipeId == recipeId);
+        return recipeDetailData != null ? JsonSerializer.Deserialize<T>(recipeDetailData.JsonData!) : default;
     }
 
     public async Task ClearExpiredDataAsync()
     {
-        var expiredRecipes = await _connection.Table<LocalRecipeData>()
-                                              .Where(r => r.ExpirationDate.Date < DateTime.UtcNow.Date)
-                                              .ToListAsync();
-        foreach (var recipe in expiredRecipes)
+        try
         {
-            await _connection.DeleteAsync(recipe);
+            var allRecipes = await _connection.Table<LocalRecipeData>()
+                .ToListAsync();
+
+            foreach (var recipe in allRecipes)
+            {
+                await _connection.DeleteAsync(recipe);
+            }
+
+            var allRecipesDetails = await _connection.Table<LocalRecipeDetailsData>()
+                                                    .ToListAsync();
+
+            foreach (var detail in allRecipesDetails)
+            {
+                await _connection.DeleteAsync(detail);
+            }
+
+        }
+        catch (Exception ex)
+        {
+
+            throw;
         }
     }
 }

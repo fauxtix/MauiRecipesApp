@@ -13,7 +13,7 @@ namespace MauiRecipes.MVVM.ViewModels;
 public partial class SpoonacularViewModel : BaseViewModel
 {
     private readonly ISpoonacularService? _service;
-    private readonly IRecipeCacheService? _cacheService;
+    //private readonly IRecipeCacheService? _cacheService;
     private readonly IRecipeStorageService? _storageService;
     [ObservableProperty]
     private CountriesCuisines.Root? titles;
@@ -33,11 +33,9 @@ public partial class SpoonacularViewModel : BaseViewModel
     private bool isInitialLoadComplete;
 
     public SpoonacularViewModel(ISpoonacularService service,
-                                   IRecipeCacheService cacheService,
-                                   IRecipeStorageService storageService) // Injeção do serviço
+        IRecipeStorageService storageService)
     {
         _service = service;
-        _cacheService = cacheService;
         _storageService = storageService;
 
         if (Connectivity.Current.NetworkAccess == NetworkAccess.None)
@@ -47,8 +45,8 @@ public partial class SpoonacularViewModel : BaseViewModel
         }
 
         _service = service;
-        _cacheService = cacheService;
 
+        //_cacheService = cacheService;
         PropertyChanged += SpoonacularViewModel_PropertyChanged!;
 
         GetFirstData();
@@ -99,17 +97,6 @@ public partial class SpoonacularViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    public async Task ClearCacheAsync()
-    {
-        bool okToDelete = await Shell.Current.DisplayAlert("Please confirm", $"Delete past searches from database?", "Yes", "No");
-        if (okToDelete)
-        {
-            _cacheService?.ClearCache();
-            ShowInfoOrAlert(Colors.Orange, Colors.Black, "Recipes removed from cache.", durationInSeconds: 5);
-        }
-    }
-
-    [RelayCommand]
     public async Task GetRecipesTitles()
     {
         IsBusy = true;
@@ -120,7 +107,6 @@ public partial class SpoonacularViewModel : BaseViewModel
             string recipient = !string.IsNullOrEmpty(Recipient) ? Recipient : "defaultRecipient";
             string cacheKey = $"{region}_{recipient}_{NumberOfRecipes}";
 
-            // Tentativa de carregar do cache SQLite primeiro
             Titles = await _storageService!.LoadFromStorageAsync<CountriesCuisines.Root>(cacheKey);
 
             if (Titles != null)
@@ -182,18 +168,39 @@ public partial class SpoonacularViewModel : BaseViewModel
     [RelayCommand]
     private async Task GetRecipeDetails(CountriesCuisines.Result param)
     {
-        RecipeDetail = await _service!.GetRecipeDetails(param.Id);
+        RecipeDetail = await _storageService!.LoadDetailFromStorageAsync<List<Recipes.MyArray>>(param.Id);
+
+        if (RecipeDetail == null)
+        {
+            RecipeDetail = await _service!.GetRecipeDetails(param.Id);
+            await _storageService.SaveDetailToStorageAsync(param.Id, RecipeDetail);
+
+        }
     }
 
     [RelayCommand]
     private async Task GetRecipeInformation(CountriesCuisines.Result param)
     {
-        RecipeInfo = await _service!.GetRecipeInformation(param.Id);
+        IsBusy = true;
+        await Task.Yield();
 
         try
         {
-            IsBusy = true;
-            await Task.Delay(200);
+            // try get the recipe detail from database
+            RecipeInfo = await _storageService!.LoadDetailFromStorageAsync<RecipeInformation.RecipeInfo>(param.Id);
+
+            if (RecipeInfo is null)
+            {
+                // not save yet, get it from the api
+                RecipeInfo = await _service!.GetRecipeInformation(param.Id);
+                await _storageService.SaveDetailToStorageAsync(param.Id, RecipeInfo);
+                ShowInfoOrAlert(Colors.Blue, Colors.White, "Recipe detail loaded from api....", durationInSeconds: 2);
+            }
+            else
+            {
+                ShowInfoOrAlert(Colors.Green, Colors.White, "Recipe detail loaded from the database....", durationInSeconds: 2);
+            }
+
             await Shell.Current.GoToAsync($"//{nameof(ViewRecipePage)}", true,
                 new Dictionary<string, object>
                 {
@@ -202,7 +209,7 @@ public partial class SpoonacularViewModel : BaseViewModel
         }
         catch (Exception ex)
         {
-            ShowInfoOrAlert(Colors.Red, Colors.White, $"{ex.Message}");
+            ShowInfoOrAlert(Colors.Red, Colors.White, $"Error: (GetRecipeInformation) {ex.Message}");
         }
         finally
         {
@@ -210,6 +217,33 @@ public partial class SpoonacularViewModel : BaseViewModel
         }
 
     }
+    [RelayCommand]
+    public async Task ClearCacheAsync()
+    {
+        try
+        {
+            bool okToDelete = await Shell.Current.DisplayAlert("Please confirm", $"Delete ALL cached searches from database?", "Yes", "No");
+            if (okToDelete)
+            {
+                IsBusy = true;
+                await Task.Yield();
+                await _storageService!.ClearExpiredDataAsync();
+                ShowInfoOrAlert(Colors.Orange, Colors.Black, "ALLcached searches removed from database.", durationInSeconds: 5);
+                await GetRecipesTitles();
+            }
+        }
+        catch (Exception ex)
+        {
+            ShowInfoOrAlert(Colors.Red, Colors.White,
+                $"Error removing recipes from cache {ex.Message}.",
+                durationInSeconds: 5);
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+    }
+
 
     private void SpoonacularViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {

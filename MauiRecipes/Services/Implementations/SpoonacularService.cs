@@ -78,7 +78,10 @@ public class SpoonacularService : ISpoonacularService
             response.EnsureSuccessStatusCode();
 
             var responseString = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<List<Recipes.MyArray>>(responseString) ?? new List<Recipes.MyArray>();
+            var output = JsonConvert.DeserializeObject<List<Recipes.MyArray>>(responseString) ?? new List<Recipes.MyArray>();
+
+            return output;
+
         }
 
         catch (HttpRequestException e)
@@ -94,6 +97,7 @@ public class SpoonacularService : ISpoonacularService
 
     public async Task<RecipeInformation.RecipeInfo> GetRecipeInformation(int id)
     {
+
         string url = $"{baseAddress}recipes/{id}/information?includeNutrition=false&apiKey={_apiKey}&language=pt";
 
         try

@@ -77,17 +77,17 @@ namespace MauiRecipes.MVVM.ViewModels
                     {
                         foreach (var step in instruction.Steps)
                         {
-                            StepsList?.Add(step);  // Add steps one by one
+                            StepsList?.Add(step);
                         }
                     }
                 }
             }
         }
         [RelayCommand]
-        public void GoBack()
+        public async Task GoBack()
         {
             IsBusy = true;
-            Shell.Current.GoToAsync("//RecipesMainPage");
+            await Shell.Current.GoToAsync("//RecipesMainPage");
             IsBusy = false;
         }
     }
