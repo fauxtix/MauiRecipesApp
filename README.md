@@ -26,7 +26,7 @@ This application allows users to search, view, and store cooking recipes locally
   - By selecting a recipe, users can view detailed information, including ingredients, preparation instructions, and additional information about the recipe.
 
 - **Notifications and Alerts**:
-  - The app shows notifications and alerts to inform the user about the status of loaded recipes (e.g., "Recipes loaded successfully", "Error loading recipes", etc.).
+  - The app shows notifications and alerts to inform the user about the status of loaded recipes (e.g., "Recipes loaded successfully", "Recipes loaded from database", "Error loading recipes", etc.).
 
 ## **Technologies Used**
 
