@@ -31,7 +31,8 @@ namespace MauiRecipes
 
             // Services
             builder.Services.AddTransient<ISpoonacularService, SpoonacularService>();
-            builder.Services.AddTransient<IRecipeCacheService, RecipeCacheService>();
+            builder.Services.AddTransient<IRecipeStorageService, RecipeStorageService>();
+            builder.Services.AddTransient<IAlertService, AlertService>();
 
 
             var databasePath = Path.Combine(FileSystem.AppDataDirectory, "recipes.db3");
