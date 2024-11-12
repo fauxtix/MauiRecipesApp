@@ -151,18 +151,6 @@ public partial class SpoonacularViewModel : BaseViewModel
         await GetRecipesTitles();
     }
 
-    [RelayCommand]
-    private async Task GetRecipeDetails(CountriesCuisines.Result param)
-    {
-        RecipeDetail = await _storageService!.LoadDetailFromStorageAsync<List<Recipes.MyArray>>(param.Id);
-
-        if (RecipeDetail == null)
-        {
-            RecipeDetail = await _service!.GetRecipeDetails(param.Id);
-            await _storageService.SaveDetailToStorageAsync(param.Id, RecipeDetail);
-
-        }
-    }
 
     [RelayCommand]
     private async Task GetRecipeInformation(CountriesCuisines.Result param)
@@ -266,12 +254,12 @@ public partial class SpoonacularViewModel : BaseViewModel
             return ("Recipes loaded with no selection", MessageType.Info);  // Return both message and type
         }
 
-        if (string.IsNullOrEmpty(RegionToFilter))
+        if (string.IsNullOrEmpty(Recipient))
         {
             return ($"Recipes loaded for ingredient {Recipient}", MessageType.Info);
         }
 
-        if (string.IsNullOrEmpty(Recipient))
+        if (string.IsNullOrEmpty(RegionToFilter))
         {
             return ($"Recipes loaded for region {RegionToFilter}", MessageType.Info);
         }

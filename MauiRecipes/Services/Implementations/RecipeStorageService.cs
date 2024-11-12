@@ -9,21 +9,14 @@ public class RecipeStorageService : IRecipeStorageService
 
     public RecipeStorageService(string dbPath)
     {
-        var exist = File.Exists(dbPath); ;
+        var dbExist = File.Exists(dbPath); ;
         _connection = new SQLiteAsyncConnection(dbPath);
 
-        if (!exist)
+        if (!dbExist)
         {
             _connection.CreateTableAsync<LocalRecipeData>().Wait();
             _connection.CreateTableAsync<LocalRecipeDetailsData>().Wait();
         }
-    }
-
-    async void test()
-    {
-        var test = await _connection.Table<LocalRecipeData>()
-                          .ToListAsync();
-
     }
 
     public async Task SaveToStorageAsync<T>(string recipeKey, T data) // Titles
