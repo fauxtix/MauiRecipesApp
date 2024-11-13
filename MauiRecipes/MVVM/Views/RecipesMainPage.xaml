@@ -37,7 +37,7 @@
     <Grid>
         <ScrollView BackgroundColor="{AppThemeBinding Light={StaticResource LightBackground}, Dark={StaticResource DarkBackground}}">
             <VerticalStackLayout>
-                <Grid RowDefinitions="90, 60, *" 
+                <Grid RowDefinitions="90, 60, 80, *" 
                       BackgroundColor="{DynamicResource Primary}">
                     <Border 
                             StrokeShape="RoundRectangle 0,0,50,50" 
@@ -130,11 +130,24 @@
                                     </Image.GestureRecognizers>
                                 </Image>
                             </Border>
-
                         </FlexLayout>
+                        <VerticalStackLayout Grid.Row="2">
+                            <ProgressBar
+                                         ProgressColor="LightBlue" 
+                                         HeightRequest="50"
+                                         Margin="10">
+                                <ProgressBar.Behaviors>
+                                    <toolkit:ProgressBarAnimationBehavior 
+                                        Progress="{Binding RequestsProgress}"
+                                        Length="2000"/>
+                                </ProgressBar.Behaviors>
+                            </ProgressBar>
+                            <Label Text="{Binding ApiQuotaUsed, StringFormat='{0:F2}'}" TextColor="White" HorizontalOptions="Center" FontAttributes="Bold"/>
+                            <Label Text="{Binding RequestsProgress, StringFormat='{0:P2}'}" TextColor="White" HorizontalOptions="Center" FontAttributes="Bold"/>
+                        </VerticalStackLayout>
                         <BoxView HeightRequest="0.4" BackgroundColor="Gray" Margin="0,7,0,5"/>
                     </VerticalStackLayout>
-                    <CollectionView Grid.Row="2" 
+                    <CollectionView Grid.Row="3" 
                                     ItemsSource="{Binding RecipesTitles}" 
                                     SelectionMode="Single">
                         <CollectionView.EmptyView >

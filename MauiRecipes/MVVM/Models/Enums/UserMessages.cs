@@ -6,6 +6,7 @@
         {
             Info,
             Success,
+            Warning,
             Error
         }
     }

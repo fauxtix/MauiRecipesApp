@@ -13,6 +13,7 @@ public class AlertService : IAlertService
         {
             MessageType.Info => Colors.Blue,
             MessageType.Success => Colors.Green,
+            MessageType.Warning => Colors.Orange,
             MessageType.Error => Colors.Red,
             _ => Colors.Gray
         };

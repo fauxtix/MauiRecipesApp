@@ -55,7 +55,9 @@ public class RecipeStorageService : IRecipeStorageService
     {
         var recipeDetailData = await _connection.Table<LocalRecipeDetailsData>()
                                           .FirstOrDefaultAsync(r => r.RecipeId == recipeId);
-        return recipeDetailData != null ? JsonSerializer.Deserialize<T>(recipeDetailData.JsonData!) : default;
+
+        var output = recipeDetailData != null ? JsonSerializer.Deserialize<T>(recipeDetailData.JsonData!) : default;
+        return output;
     }
 
     public async Task ClearExpiredDataAsync()

@@ -31,6 +31,18 @@ public partial class SpoonacularViewModel : BaseViewModel
     [ObservableProperty]
     private bool isInitialLoadComplete;
 
+    [ObservableProperty]
+    private double apiQuotaUsed;
+    [ObservableProperty]
+    private double apiQuotaLeft;
+    [ObservableProperty]
+    private double apiRequestCost;
+
+    [ObservableProperty]
+    private double _requestsProgress = 0;
+
+    public double TotalQuota => ApiQuotaUsed + ApiQuotaLeft;
+
     public SpoonacularViewModel(ISpoonacularService service,
         IRecipeStorageService storageService, IAlertService alertService)
     {
@@ -103,11 +115,14 @@ public partial class SpoonacularViewModel : BaseViewModel
     [RelayCommand]
     public async Task GetRecipesTitles()
     {
+
         IsBusy = true;
         await Task.Yield();
 
         try
         {
+
+
             string region = !string.IsNullOrEmpty(RegionToFilter) ? RegionToFilter : "defaultRegion";
             string recipient = !string.IsNullOrEmpty(Recipient) ? Recipient : "defaultRecipient";
             string cacheKey = $"{region}_{recipient}_{NumberOfRecipes}";
@@ -121,14 +136,55 @@ public partial class SpoonacularViewModel : BaseViewModel
             }
             else
             {
-                // Caso não haja dados no cache, chama a API e armazena no SQLite
+                // Caso não haja dados no cache, chama a API; se forem retornados dados, armazena no SQLite
+                // caso haja Região selecionada
+
+                var (quotaUsed, quotaLeft, requestCost) = await _service!.GetQuotaDetailsAsync();
+                if (quotaUsed == -1)
+                {
+                    await ShowUserFeedbackAsync(message: "Error getting Api quota usage.",
+                      messageType: MessageType.Error, null, textColor: Colors.White, durationInSeconds: 5);
+                    return;
+
+                }
+
+                ApiQuotaUsed = quotaUsed;
+                ApiQuotaLeft = quotaLeft;
+                ApiRequestCost = requestCost;
+
+                if (TotalQuota > 0)
+                {
+                    RequestsProgress = ApiQuotaUsed / TotalQuota;
+                }
+                else
+                {
+                    RequestsProgress = 0;
+                }
+
+                // int quotaLeft = await _service!.GetRemainingQuotaAsync();
+                if (quotaLeft <= 0)
+                {
+                    await ShowUserFeedbackAsync("You have no more quota left for today.",
+                        MessageType.Error, durationInSeconds: 5);
+                    return;
+                }
+
                 Titles = await _service!.GetRecipeTitles(RegionToFilter, Recipient!, NumberOfRecipes);
+                if (Titles.results.Count > 0)
+                {
+                    AddRecipesToTitlesCollection();
+                    if (!string.IsNullOrEmpty(RegionToFilter))
+                    {
+                        await AddTitlesToStorage(cacheKey);
+                    }
 
-                AddRecipesToTitlesCollection();
-                await AddTitlesToStorage(cacheKey);
-
-                var userFeedback = GetUserFeedbackMessage();
-                await ShowUserFeedbackAsync(userFeedback.message, userFeedback.type, durationInSeconds: 2);
+                    var userFeedback = GetUserFeedbackMessage();
+                    await ShowUserFeedbackAsync(userFeedback.message, userFeedback.type, durationInSeconds: 2);
+                }
+                else
+                {
+                    await ShowUserFeedbackAsync("No results found...", MessageType.Warning, null, Colors.Black, durationInSeconds: 5);
+                }
             }
         }
         catch
@@ -145,8 +201,8 @@ public partial class SpoonacularViewModel : BaseViewModel
     [RelayCommand]
     private async Task SearchRecipes()
     {
-        if (string.IsNullOrEmpty(Recipient) && string.IsNullOrEmpty(RegionToFilter))
-            return;
+        //if (string.IsNullOrEmpty(Recipient) && string.IsNullOrEmpty(RegionToFilter))
+        //    return;
 
         await GetRecipesTitles();
     }
@@ -167,8 +223,6 @@ public partial class SpoonacularViewModel : BaseViewModel
                 await ShowUserFeedbackAsync("Failed to load recipe information.", MessageType.Error);
                 return;
             }
-
-            await ShowUserFeedbackAsync("Recipe detail loaded successfully.", MessageType.Success);
 
             await Shell.Current.GoToAsync($"//{nameof(ViewRecipePage)}", true, new Dictionary<string, object>
             {
@@ -195,7 +249,9 @@ public partial class SpoonacularViewModel : BaseViewModel
                 IsBusy = true;
                 await Task.Yield();
                 await _storageService!.ClearExpiredDataAsync();
-                await ShowUserFeedbackAsync("All cached searches removed from database.", MessageType.Info, durationInSeconds: 5); await GetRecipesTitles();
+                await ShowUserFeedbackAsync("All cached searches removed from database.", MessageType.Info, durationInSeconds: 5);
+
+                await GetRecipesTitles();
             }
         }
         catch (Exception ex)
@@ -234,6 +290,12 @@ public partial class SpoonacularViewModel : BaseViewModel
         {
             recipeInfo = await _service!.GetRecipeInformation(recipeId);
             await _storageService.SaveDetailToStorageAsync(recipeId, recipeInfo);
+            await ShowUserFeedbackAsync("Recipe detail loaded from the Api.", MessageType.Info, durationInSeconds: 2);
+        }
+        else
+        {
+            await ShowUserFeedbackAsync("Recipe detail loaded from database.", MessageType.Success, durationInSeconds: 2);
+
         }
         return recipeInfo;
     }
@@ -251,20 +313,20 @@ public partial class SpoonacularViewModel : BaseViewModel
     {
         if (string.IsNullOrEmpty(RegionToFilter) && string.IsNullOrEmpty(Recipient))
         {
-            return ("Recipes loaded with no selection", MessageType.Info);  // Return both message and type
+            return ("Random recipes loaded (no selection) from the Api", MessageType.Info);  // Return both message and type
         }
 
         if (string.IsNullOrEmpty(Recipient))
         {
-            return ($"Recipes loaded for ingredient {Recipient}", MessageType.Info);
+            return ($"Recipes loaded for ingredient {Recipient} from the Api", MessageType.Info);
         }
 
         if (string.IsNullOrEmpty(RegionToFilter))
         {
-            return ($"Recipes loaded for region {RegionToFilter}", MessageType.Info);
+            return ($"Recipes loaded for region {RegionToFilter} from the Api", MessageType.Info);
         }
 
-        return ($"Recipes loaded for region '{RegionToFilter}' and ingredient '{Recipient}'", MessageType.Info);
+        return ($"Recipes loaded for region '{RegionToFilter}' and ingredient '{Recipient} from the Api'", MessageType.Info);
     }
     private async void ShowNetworkAlert(string message)
     {
