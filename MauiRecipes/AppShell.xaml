@@ -5,26 +5,17 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:MauiRecipes.MVVM.Views"
     Shell.FlyoutBehavior="Disabled"
-        Shell.TabBarIsVisible="False"
-    Title="MauiRecipes">
-    <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
-        <ShellContent
-            Title="Favorites"
-            ContentTemplate="{DataTemplate local:FavoritesPage}"
-            Route="FavoritesPage" />
-        <ShellContent 
-                Title="Favorite Detail"
-                ContentTemplate="{DataTemplate local:ViewFavoriteRecipeDetailPage}"
-                Route="ViewFavoriteRecipeDetailPage" />
-        <ShellContent
-            Title="Recipes"
-            ContentTemplate="{DataTemplate local:RecipesMainPage}"
-            Route="RecipesMainPage" />
-        <ShellContent 
-                Title="Recipe Detail"
-                ContentTemplate="{DataTemplate local:ViewRecipePage}"
-                Route="ViewRecipePage" />
-
-
-    </FlyoutItem>
+    Shell.TabBarBackgroundColor="Black"
+    Shell.TabBarTitleColor="White"
+    Shell.TabBarUnselectedColor="FloralWhite"
+    Title="Maui Recipes">
+    
+    <TabBar>
+        <Tab Title="Recipes" Icon="recipe_book.png" >
+            <ShellContent ContentTemplate="{DataTemplate local:RecipesMainPage}"/>
+        </Tab>
+        <Tab Title="Favorites" Icon="favorite_outline.png">
+            <ShellContent ContentTemplate="{DataTemplate local:FavoritesPage}"/>
+        </Tab>
+    </TabBar>
 </Shell>

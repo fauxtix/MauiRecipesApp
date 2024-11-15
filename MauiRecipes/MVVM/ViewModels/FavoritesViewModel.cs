@@ -15,6 +15,8 @@ public partial class FavoritesViewModel : ObservableObject
 
     [ObservableProperty]
     bool isBusy;
+    [ObservableProperty]
+    bool isRefreshing;
 
 
     [ObservableProperty]
@@ -61,7 +63,7 @@ public partial class FavoritesViewModel : ObservableObject
 
             await _alertService.ShowInfoOrAlert(
                 message: FavoritesList?.Any() == true ? "Favorite recipes loaded successfully." : "No favorite recipes found.",
-                type: MessageType.Info);
+                type: MessageType.Info, null, null, 1);
         }
         catch (Exception ex)
         {
@@ -85,7 +87,7 @@ public partial class FavoritesViewModel : ObservableObject
         try
         {
             IsBusy = true;
-            await Shell.Current.GoToAsync($"//{nameof(ViewFavoriteRecipeDetailPage)}", true, new Dictionary<string, object>
+            await Shell.Current.GoToAsync($"{nameof(ViewFavoriteRecipeDetailPage)}", true, new Dictionary<string, object>
             {
                 { "FavoritesData", selectedRecipe }
             });

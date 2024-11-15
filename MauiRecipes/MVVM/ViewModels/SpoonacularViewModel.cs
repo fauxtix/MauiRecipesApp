@@ -116,7 +116,7 @@ public partial class SpoonacularViewModel : BaseViewModel
             if (Titles is not null && Titles.results is not null && Titles.results.Any())
             {
                 AddRecipesToTitlesCollection();
-                await ShowUserFeedbackAsync("Recipes loaded from database.", MessageType.Success, durationInSeconds: 2);
+                await ShowUserFeedbackAsync("Recipes loaded from database.", MessageType.Success, durationInSeconds: 1);
             }
             else
             {
@@ -146,12 +146,12 @@ public partial class SpoonacularViewModel : BaseViewModel
                     RequestsProgress = 0;
                 }
 
-                if (quotaLeft <= 0)
-                {
-                    await ShowUserFeedbackAsync("You have no more quota left for today.",
-                        MessageType.Error, durationInSeconds: 5);
-                    return;
-                }
+                //if (quotaLeft <= 0)
+                //{
+                //    await ShowUserFeedbackAsync("You have no more quota left for today.",
+                //        MessageType.Error, durationInSeconds: 10);
+                //    return;
+                //}
 
                 Titles = await _service!.GetRecipeTitles(RegionToFilter, Recipient!, NumberOfRecipes);
                 if (Titles.results.Count > 0)
@@ -163,11 +163,11 @@ public partial class SpoonacularViewModel : BaseViewModel
                     }
 
                     var userFeedback = GetUserFeedbackMessage();
-                    await ShowUserFeedbackAsync(userFeedback.message, userFeedback.type, durationInSeconds: 2);
+                    await ShowUserFeedbackAsync(userFeedback.message, userFeedback.type, durationInSeconds: 1);
                 }
                 else
                 {
-                    await ShowUserFeedbackAsync("No results found...", MessageType.Warning, null, Colors.Black, durationInSeconds: 5);
+                    await ShowUserFeedbackAsync("No results found...", MessageType.Warning, backgroundColor: Colors.Red, textColor: Colors.White, durationInSeconds: 5);
                 }
             }
         }
@@ -233,15 +233,15 @@ public partial class SpoonacularViewModel : BaseViewModel
                     RequestsProgress = 0;
                 }
 
-                if (quotaLeft <= 0)
-                {
-                    await ShowUserFeedbackAsync("You have no more quota left for today.",
-                        MessageType.Error, durationInSeconds: 5);
-                    return;
-                }
+                //if (quotaLeft <= 0)
+                //{
+                //    await ShowUserFeedbackAsync("You have no more quota left for today.",
+                //        MessageType.Error, durationInSeconds: 10);
+                //    return;
+                //}
             }
 
-            await Shell.Current.GoToAsync($"//{nameof(ViewRecipePage)}", true, new Dictionary<string, object>
+            await Shell.Current.GoToAsync($"{nameof(ViewRecipePage)}", true, new Dictionary<string, object>
             {
                 {"RecipeInfo", recipeInfo.Recipe},
                 { "IsFavorite", recipeInfo.IsFavorite }
@@ -320,13 +320,13 @@ public partial class SpoonacularViewModel : BaseViewModel
 
             await _storageService.SaveDetailToStorageAsync(recipeId, recipeInfo);
             isFavorite = false;
-            await ShowUserFeedbackAsync("Recipe detail loaded from the API.", MessageType.Info, durationInSeconds: 2);
+            await ShowUserFeedbackAsync("Recipe detail loaded from the API.", MessageType.Info, durationInSeconds: 1);
         }
         else
         {
             fromDatabase = true;
             recipeInfo = recipeFromStorage;
-            await ShowUserFeedbackAsync("Recipe detail loaded from database.", MessageType.Success, durationInSeconds: 2);
+            await ShowUserFeedbackAsync("Recipe detail loaded from database.", MessageType.Success, durationInSeconds: 1);
         }
 
         return (recipeInfo, isFavorite, fromDatabase);
@@ -338,6 +338,7 @@ public partial class SpoonacularViewModel : BaseViewModel
     private async Task AddTitlesToStorage(string cacheKey)
     {
         await _storageService!.SaveToStorageAsync(cacheKey, Titles);
+        await _storageService!.SaveSearch(RegionToFilter, Recipient ?? "", NumberOfRecipes);
     }
 
     private (string message, MessageType type) GetUserFeedbackMessage()
@@ -364,7 +365,7 @@ public partial class SpoonacularViewModel : BaseViewModel
         await ShowUserFeedbackAsync(message, MessageType.Error, Colors.Red, Colors.White, durationInSeconds: 5);
     }
 
-    private async Task ShowUserFeedbackAsync(string message, MessageType messageType, Color? backgroundColor = null, Color? textColor = null, int durationInSeconds = 5)
+    private async Task ShowUserFeedbackAsync(string message, MessageType messageType, Color? backgroundColor = null, Color? textColor = null, int durationInSeconds = 2)
     {
         await _alertService.ShowInfoOrAlert(message, messageType, backgroundColor, textColor, durationInSeconds);
     }

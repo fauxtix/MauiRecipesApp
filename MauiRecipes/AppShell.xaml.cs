@@ -20,6 +20,12 @@ namespace MauiRecipes
             Routes.Add(nameof(ViewRecipePage), typeof(ViewRecipePage));
             Routes.Add(nameof(FavoritesPage), typeof(FavoritesPage));
             Routes.Add(nameof(ViewFavoriteRecipeDetailPage), typeof(ViewFavoriteRecipeDetailPage));
+
+            foreach (var item in Routes)
+            {
+                Routing.RegisterRoute(item.Key, item.Value);
+            }
+
         }
     }
 }

@@ -10,6 +10,11 @@
              Shell.BackgroundColor="{DynamicResource Primary}"
              Shell.TitleColor="White"
              Title="Favorite recipe Detail">
+
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior IsVisible="False" IsEnabled="False" />
+    </Shell.BackButtonBehavior>
+
     <ContentPage.ToolbarItems>
         <ToolbarItem 
             Command="{Binding GoBackCommand}"
@@ -60,7 +65,7 @@
                         <Image Aspect="AspectFill"
                                HorizontalOptions="Center" 
                                VerticalOptions="Center"  
-                               Source="{Binding RecipeInfo.image}"/>
+                               Source="{Binding RecipeInfo.Image}"/>
                     </Border>
                 </Grid>
 
@@ -68,10 +73,10 @@
                        HasShadow="True" Margin="10,5,10,5" BorderColor="Black"
                        HeightRequest="90">
                     <Label  FontAttributes="Bold"
-                            FontSize="{Binding RecipeInfo.title, Converter={StaticResource FontSizeConverter}}"
+                            FontSize="{Binding RecipeInfo.Title, Converter={StaticResource FontSizeConverter}}"
                             FontFamily="PoppinsSemiBold"
                             TextColor="HotPink"
-                            Text="{Binding RecipeInfo.title}" 
+                            Text="{Binding RecipeInfo.Title}" 
                             VerticalOptions="Center"
                             HorizontalOptions="Center"
                             Margin="0"/>

@@ -92,6 +92,11 @@
 		<MauiImage Update="Resources\Images\icon_clear.png" Resize="True" tintColor="#000000">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</MauiImage>
+		<MauiImage Update="Resources\Images\recipe_book.svg">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		  <Resize>True</Resize>
+		  <BaseSize>300,185</BaseSize>
+		</MauiImage>
 
 		<!-- Custom Fonts -->
 		<MauiFont Include="Resources\Fonts\*" />
@@ -118,6 +123,7 @@
 	  <None Remove="Resources\Images\nocook.png" />
 	  <None Remove="Resources\Images\nodata.png" />
 	  <None Remove="Resources\Images\pin.svg" />
+	  <None Remove="Resources\Images\recipe_book.svg" />
 	  <None Remove="Resources\Splash\splash.svg" />
 	</ItemGroup>
 

@@ -21,12 +21,12 @@ namespace MauiRecipes.MVVM.Models
         public double pricePerServing { get; set; }
         public IList<ExtendedIngredient>? extendedIngredients { get; set; }
         public int id { get; set; }
-        public string? title { get; set; }
+        public string? Title { get; set; }
         public int readyInMinutes { get; set; }
         public int servings { get; set; }
 
         public string sourceUrl { get; set; }
-        public string? image { get; set; }
+        public string? Image { get; set; }
         public string imageType { get; set; }
         public string summary { get; set; }
         public IList<string> cuisines { get; set; }

@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MauiRecipes.MVVM.Models;
+using MauiRecipes.MVVM.Views;
 using System.Collections.ObjectModel;
 
 namespace MauiRecipes.MVVM.ViewModels
@@ -53,7 +54,8 @@ namespace MauiRecipes.MVVM.ViewModels
             var data = query[nameof(FavoritesData)] as FavoritesData;
             RecipeInfo = data;
             Summary = RecipeInfo?.summary;
-            RecipeImage = RecipeInfo?.image;
+            RecipeImage = RecipeInfo?.Image;
+            Title = RecipeInfo?.Title;
 
             Ingredients?.Clear();
             Instructions?.Clear();
@@ -85,7 +87,7 @@ namespace MauiRecipes.MVVM.ViewModels
         public async Task GoBack()
         {
             IsBusy = true;
-            await Shell.Current.GoToAsync("//FavoritesPage");
+            await Shell.Current.GoToAsync($"{nameof(FavoritesPage)}");
             IsBusy = false;
         }
 

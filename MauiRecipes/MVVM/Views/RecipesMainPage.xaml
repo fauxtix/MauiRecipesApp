@@ -10,7 +10,6 @@
              Shell.TitleColor="White"
              Title="Maui Recipes - FL 2024">
 
-
     <ContentPage.Resources>
 
         <ResourceDictionary>
@@ -33,6 +32,9 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior IsVisible="False" IsEnabled="False" />
+    </Shell.BackButtonBehavior>
 
     <Grid>
         <ScrollView BackgroundColor="{AppThemeBinding Light={StaticResource LightBackground}, Dark={StaticResource DarkBackground}}">
@@ -139,13 +141,15 @@
                                 <ProgressBar.Behaviors>
                                     <toolkit:ProgressBarAnimationBehavior 
                                         Progress="{Binding RequestsProgress}"
-                                        Length="2000"/>
+                                        Length="1500"/>
                                 </ProgressBar.Behaviors>
                             </ProgressBar>
+                        </VerticalStackLayout>
+                        <FlexLayout JustifyContent="SpaceAround" AlignItems="Center" Margin="2, -20, 0, 20">
                             <Label Text="{Binding ApiQuotaUsed, StringFormat='{0:F2}'}" TextColor="White" HorizontalOptions="Center" FontAttributes="Bold"/>
                             <Label Text="{Binding RequestsProgress, StringFormat='{0:P2}'}" TextColor="White" HorizontalOptions="Center" FontAttributes="Bold"/>
-                        </VerticalStackLayout>
-                        <BoxView HeightRequest="0.4" BackgroundColor="Gray" Margin="0,7,0,5"/>
+                        </FlexLayout>
+                        <BoxView HeightRequest="1" BackgroundColor="Gray" Margin="0,2,0,2"/>
                     </VerticalStackLayout>
                     
                     <CollectionView Grid.Row="3" 

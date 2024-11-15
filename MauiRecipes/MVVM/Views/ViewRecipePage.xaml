@@ -11,6 +11,10 @@
              Shell.TitleColor="White"
              Title="Recipe Detail">
 
+        <Shell.BackButtonBehavior>
+        <BackButtonBehavior IsVisible="False" IsEnabled="False" />
+    </Shell.BackButtonBehavior>
+
     <ContentPage.ToolbarItems>
         <ToolbarItem 
             Command="{Binding GoBackCommand}"

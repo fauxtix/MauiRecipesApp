@@ -1,4 +1,6 @@
 ﻿
+using MauiRecipes.MVVM.Models;
+
 namespace MauiRecipes.Services.Interfaces;
 
 public interface IRecipeStorageService
@@ -11,4 +13,6 @@ public interface IRecipeStorageService
     Task MarkAsFavoriteAsync(int recipeId, bool isFavorite);
     Task<List<T>> GetAllFavoritesAsync<T>();
     Task<T?> LoadFavoriteRecipeAsync<T>(int recipeId);
+    Task SaveSearch(string region, string ingredient, int numberOfRecipes);
+    Task<List<SavedSearches>> GetSavedSearches();
 }

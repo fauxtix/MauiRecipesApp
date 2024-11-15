@@ -16,6 +16,7 @@ public class RecipeStorageService : IRecipeStorageService
         {
             _connection.CreateTableAsync<LocalRecipeData>().Wait();
             _connection.CreateTableAsync<LocalRecipeDetailsData>().Wait();
+            _connection.CreateTableAsync<SavedSearches>().Wait();
         }
     }
 
@@ -110,8 +111,32 @@ public class RecipeStorageService : IRecipeStorageService
                                               .Where(r => r.IsFavorite && r.RecipeId == recipeId)
                                               .FirstOrDefaultAsync();
 
-        // If the recipe is found, deserialize and return it; otherwise, return null
-        return favoriteRecipe != null ? JsonSerializer.Deserialize<T>(favoriteRecipe.JsonData!) : default;
+        var output = favoriteRecipe != null ? JsonSerializer.Deserialize<T>(favoriteRecipe.JsonData!) : default;
+
+        return output;
+    }
+
+    public async Task SaveSearch(string region, string ingredient, int numberOfRecipes)
+    {
+        SavedSearches searchToStore =
+            new()
+            {
+                Ingredient = ingredient,
+                Region = region,
+                SaveDate = DateTime.Now,
+                NumberOfRecipes = numberOfRecipes
+            };
+        await _connection.InsertAsync(searchToStore);
+    }
+
+    public async Task<List<SavedSearches>> GetSavedSearches()
+    {
+        var savedSearches = await _connection.Table<SavedSearches>()
+            .ToListAsync();
+        //savedSearches = savedSearches.OrderByDescending(f => f.SaveDate)
+        //    .ToList();
+
+        return savedSearches;
     }
 
     public async Task ClearExpiredDataAsync()
