@@ -108,6 +108,8 @@
 	  <None Remove="Resources\Fonts\Poppins-Bold.ttf" />
 	  <None Remove="Resources\Fonts\Poppins-Regular.ttf" />
 	  <None Remove="Resources\Fonts\Poppins-SemiBold.ttf" />
+	  <None Remove="Resources\Images\favorite_filled.png" />
+	  <None Remove="Resources\Images\favorite_outline.png" />
 	  <None Remove="Resources\Images\icon_clear.png" />
 	  <None Remove="Resources\Images\icon_close.svg" />
 	  <None Remove="Resources\Images\icon_search.png" />
@@ -133,7 +135,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="MVVM\Views\FavoritesPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="MVVM\Views\RecipesMainPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="MVVM\Views\ViewFavoriteRecipeDetailPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="MVVM\Views\ViewRecipePage.xaml">

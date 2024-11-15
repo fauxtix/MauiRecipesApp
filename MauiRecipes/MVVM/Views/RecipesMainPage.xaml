@@ -147,6 +147,7 @@
                         </VerticalStackLayout>
                         <BoxView HeightRequest="0.4" BackgroundColor="Gray" Margin="0,7,0,5"/>
                     </VerticalStackLayout>
+                    
                     <CollectionView Grid.Row="3" 
                                     ItemsSource="{Binding RecipesTitles}" 
                                     SelectionMode="Single">

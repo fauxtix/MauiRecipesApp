@@ -10,8 +10,8 @@ public class SpoonacularService : ISpoonacularService
 {
     private static HttpClient? _httpClient;
     private readonly string? _apiKey = "871cc9ddc1ea4733830dd2c30e3d691a"; // get your own key from the site, this one will be removed shortly :)
-    private readonly JsonSerializerOptions _serializerOptions;
     private readonly string baseAddress = "https://api.spoonacular.com/";
+    private readonly JsonSerializerOptions _serializerOptions;
 
     private int _quotaLeft;
     public SpoonacularService()
@@ -38,41 +38,10 @@ public class SpoonacularService : ISpoonacularService
         return _httpClient;
     }
 
-    public async Task<int> GetRemainingQuotaAsync()
+    public async Task<(double QuotaUsed, double QuotaLeft, double RequestCost)> GetQuotaDetailsAsync(string endpoint)
     {
-        // Test the quota by making a lightweight request to an API endpoint
-        string testUrl = $"{baseAddress}recipes/complexSearch?apiKey={_apiKey}&number=1";
-
-        try
-        {
-            var client = GetClient();
-            HttpResponseMessage response = await client.GetAsync(testUrl);
-
-            // Ensure success and then retrieve the quota from response headers
-            response.EnsureSuccessStatusCode();
-
-            var quotaLeftHeader = response.Headers.Contains("X-API-Quota-Left")
-                                  ? response.Headers.GetValues("X-API-Quota-Left").FirstOrDefault()
-                                  : null;
-
-            if (quotaLeftHeader != null && int.TryParse(quotaLeftHeader, out int quotaLeft))
-            {
-                _quotaLeft = quotaLeft;
-            }
-
-            return _quotaLeft;
-        }
-        catch
-        {
-            // If there's an issue (like no quota header), return -1 as an indicator
-            return -1;
-        }
-    }
-
-    public async Task<(double QuotaUsed, double QuotaLeft, double RequestCost)> GetQuotaDetailsAsync()
-    {
-        // Test the quota by making a lightweight request to an API endpoint
-        string testUrl = $"{baseAddress}recipes/complexSearch?apiKey={_apiKey}&number=1";
+        string testUrl = $"{baseAddress}{endpoint}?apiKey={_apiKey}&number=1";
+        string endpointUrl = $"{baseAddress}recipes/complexSearch?apiKey={_apiKey}&number=1";
 
         try
         {
@@ -99,7 +68,7 @@ public class SpoonacularService : ISpoonacularService
                   RequestCost: double.TryParse(requestCostHeader, NumberStyles.Any, CultureInfo.InvariantCulture, out double requestCost) ? requestCost : 0
               );
         }
-        catch
+        catch (Exception ex)
         {
             // If there's an issue (like no quota header), return (-1, -1, -1) as an indicator of failure
             return (-1, -1, -1);
@@ -143,42 +112,10 @@ public class SpoonacularService : ISpoonacularService
         }
     }
 
-    public async Task<List<Recipes.MyArray>> GetRecipeDetails(int id)
-    {
-
-        // https://api.spoonacular.com/recipes/324694/analyzedInstructions?stepBreakdown=true
-
-        string url = $"{baseAddress}recipes/{id}/analyzedInstructions?apiKey={_apiKey}&language=pt";
-
-        try
-        {
-            var client = GetClient();
-
-            HttpResponseMessage response = await client.GetAsync(url);
-            response.EnsureSuccessStatusCode();
-
-            var responseString = await response.Content.ReadAsStringAsync();
-            var output = JsonConvert.DeserializeObject<List<Recipes.MyArray>>(responseString) ?? new List<Recipes.MyArray>();
-
-            return output;
-
-        }
-
-        catch (HttpRequestException e)
-        {
-            return new();
-        }
-
-        catch
-        {
-            return new(); // List<Recipes.MyArray>();
-        }
-    }
-
     public async Task<RecipeInformation.RecipeInfo> GetRecipeInformation(int id)
     {
 
-        string url = $"{baseAddress}recipes/{id}/information?includeNutrition=false&apiKey={_apiKey}&language=pt";
+        string url = $"{baseAddress}recipes/{id}/information?includeNutrition=false&apiKey={_apiKey}";
 
         try
         {

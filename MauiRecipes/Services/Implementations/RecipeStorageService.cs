@@ -31,18 +31,44 @@ public class RecipeStorageService : IRecipeStorageService
         await _connection.InsertAsync(recipeData);
     }
 
-    public async Task SaveDetailToStorageAsync<T>(int recipeId, T data) // Detail
+    public async Task SaveDetailToStorageAsync<T>(int recipeId, T data, bool isFavorite = false)
     {
-        var recipeData = new LocalRecipeDetailsData
-        {
-            RecipeId = recipeId,
-            JsonData = JsonSerializer.Serialize(data),
-            ExpirationDate = DateTime.Now.Date
-        };
+        var recipeData = await _connection.Table<LocalRecipeDetailsData>()
+                                           .FirstOrDefaultAsync(r => r.RecipeId == recipeId);
 
-        await _connection.InsertAsync(recipeData);
+        if (recipeData != null)
+        {
+            // Update existing record
+            recipeData.JsonData = JsonSerializer.Serialize(data);
+            recipeData.ExpirationDate = DateTime.Now.Date;
+            recipeData.IsFavorite = isFavorite;
+            await _connection.UpdateAsync(recipeData);
+        }
+        else
+        {
+            // Insert new record
+            recipeData = new LocalRecipeDetailsData
+            {
+                RecipeId = recipeId,
+                JsonData = JsonSerializer.Serialize(data),
+                ExpirationDate = DateTime.Now.Date,
+                IsFavorite = isFavorite
+            };
+            await _connection.InsertAsync(recipeData);
+        }
     }
 
+    public async Task MarkAsFavoriteAsync(int recipeId, bool isFavorite)
+    {
+        var recipeData = await _connection.Table<LocalRecipeDetailsData>()
+                                           .FirstOrDefaultAsync(r => r.RecipeId == recipeId);
+
+        if (recipeData != null)
+        {
+            recipeData.IsFavorite = isFavorite;
+            await _connection.UpdateAsync(recipeData);
+        }
+    }
 
     public async Task<T?> LoadFromStorageAsync<T>(string recipeKey) // Titles
     {
@@ -51,13 +77,41 @@ public class RecipeStorageService : IRecipeStorageService
         var output = recipeData != null ? JsonSerializer.Deserialize<T>(recipeData.JsonData!) : default;
         return output;
     }
-    public async Task<T?> LoadDetailFromStorageAsync<T>(int recipeId) // Detail
+    public async Task<(T? Recipe, bool IsFavorite)> LoadDetailFromStorageAsync<T>(int recipeId)
     {
         var recipeDetailData = await _connection.Table<LocalRecipeDetailsData>()
-                                          .FirstOrDefaultAsync(r => r.RecipeId == recipeId);
+                                                .FirstOrDefaultAsync(r => r.RecipeId == recipeId);
 
-        var output = recipeDetailData != null ? JsonSerializer.Deserialize<T>(recipeDetailData.JsonData!) : default;
-        return output;
+        var recipe = recipeDetailData != null
+                     ? JsonSerializer.Deserialize<T>(recipeDetailData.JsonData!)
+                     : default;
+
+        bool isFavorite = recipeDetailData?.IsFavorite ?? false;
+
+        return (recipe, isFavorite);
+    }
+
+
+    public async Task<List<T>> GetAllFavoritesAsync<T>()
+    {
+        var favoriteRecipes = await _connection.Table<LocalRecipeDetailsData>()
+                                               .Where(r => r.IsFavorite)
+                                               .ToListAsync();
+
+        return favoriteRecipes
+               .Select(f => JsonSerializer.Deserialize<T>(f.JsonData!)!)
+               .ToList();
+    }
+
+    public async Task<T?> LoadFavoriteRecipeAsync<T>(int recipeId)
+    {
+        // Query the database for a single favorite recipe by ID
+        var favoriteRecipe = await _connection.Table<LocalRecipeDetailsData>()
+                                              .Where(r => r.IsFavorite && r.RecipeId == recipeId)
+                                              .FirstOrDefaultAsync();
+
+        // If the recipe is found, deserialize and return it; otherwise, return null
+        return favoriteRecipe != null ? JsonSerializer.Deserialize<T>(favoriteRecipe.JsonData!) : default;
     }
 
     public async Task ClearExpiredDataAsync()
@@ -81,9 +135,8 @@ public class RecipeStorageService : IRecipeStorageService
             }
 
         }
-        catch (Exception ex)
+        catch
         {
-
             throw;
         }
     }

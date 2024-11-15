@@ -31,18 +31,6 @@ public partial class SpoonacularViewModel : BaseViewModel
     [ObservableProperty]
     private bool isInitialLoadComplete;
 
-    [ObservableProperty]
-    private double apiQuotaUsed;
-    [ObservableProperty]
-    private double apiQuotaLeft;
-    [ObservableProperty]
-    private double apiRequestCost;
-
-    [ObservableProperty]
-    private double _requestsProgress = 0;
-
-    public double TotalQuota => ApiQuotaUsed + ApiQuotaLeft;
-
     public SpoonacularViewModel(ISpoonacularService service,
         IRecipeStorageService storageService, IAlertService alertService)
     {
@@ -55,8 +43,6 @@ public partial class SpoonacularViewModel : BaseViewModel
             ShowNetworkAlert("No internet access");
             return;
         }
-
-        _service = service;
 
         PropertyChanged += SpoonacularViewModel_PropertyChanged!;
 
@@ -121,8 +107,6 @@ public partial class SpoonacularViewModel : BaseViewModel
 
         try
         {
-
-
             string region = !string.IsNullOrEmpty(RegionToFilter) ? RegionToFilter : "defaultRegion";
             string recipient = !string.IsNullOrEmpty(Recipient) ? Recipient : "defaultRecipient";
             string cacheKey = $"{region}_{recipient}_{NumberOfRecipes}";
@@ -136,10 +120,11 @@ public partial class SpoonacularViewModel : BaseViewModel
             }
             else
             {
-                // Caso não haja dados no cache, chama a API; se forem retornados dados, armazena no SQLite
-                // caso haja Região selecionada
+                // In case no data returned from the database, use the Api; if there's a valid response, store the results in the database
+                // (in case a Region was selected)
 
-                var (quotaUsed, quotaLeft, requestCost) = await _service!.GetQuotaDetailsAsync();
+                var (quotaUsed, quotaLeft, requestCost) = await _service!.GetQuotaDetailsAsync("recipes/complexSearch");
+
                 if (quotaUsed == -1)
                 {
                     await ShowUserFeedbackAsync(message: "Error getting Api quota usage.",
@@ -161,7 +146,6 @@ public partial class SpoonacularViewModel : BaseViewModel
                     RequestsProgress = 0;
                 }
 
-                // int quotaLeft = await _service!.GetRemainingQuotaAsync();
                 if (quotaLeft <= 0)
                 {
                     await ShowUserFeedbackAsync("You have no more quota left for today.",
@@ -218,15 +202,49 @@ public partial class SpoonacularViewModel : BaseViewModel
         {
             var recipeInfo = await FetchRecipeInformationFromStorageOrApi(param.Id);
 
-            if (recipeInfo == null)
+            if (recipeInfo.Recipe == null)
             {
                 await ShowUserFeedbackAsync("Failed to load recipe information.", MessageType.Error);
                 return;
             }
 
+            if (!recipeInfo.FromDatabase)
+            {
+                var endpoint = $"recipes/{param.Id}/information";
+                var (quotaUsed, quotaLeft, requestCost) = await _service!.GetQuotaDetailsAsync(endpoint);
+
+                if (quotaUsed == -1)
+                {
+                    await ShowUserFeedbackAsync(message: "Error getting Api quota usage.",
+                      messageType: MessageType.Error, null, textColor: Colors.White, durationInSeconds: 5);
+                    return;
+                }
+
+                ApiQuotaUsed = quotaUsed;
+                ApiQuotaLeft = quotaLeft;
+                ApiRequestCost = requestCost;
+
+                if (TotalQuota > 0)
+                {
+                    RequestsProgress = ApiQuotaUsed / TotalQuota;
+                }
+                else
+                {
+                    RequestsProgress = 0;
+                }
+
+                if (quotaLeft <= 0)
+                {
+                    await ShowUserFeedbackAsync("You have no more quota left for today.",
+                        MessageType.Error, durationInSeconds: 5);
+                    return;
+                }
+            }
+
             await Shell.Current.GoToAsync($"//{nameof(ViewRecipePage)}", true, new Dictionary<string, object>
             {
-                {"RecipeInfo", recipeInfo}
+                {"RecipeInfo", recipeInfo.Recipe},
+                { "IsFavorite", recipeInfo.IsFavorite }
              });
         }
         catch (Exception ex)
@@ -238,6 +256,11 @@ public partial class SpoonacularViewModel : BaseViewModel
             IsBusy = false;
         }
     }
+
+
+
+
+
     [RelayCommand]
     public async Task ClearCacheAsync()
     {
@@ -283,23 +306,31 @@ public partial class SpoonacularViewModel : BaseViewModel
     }
 
 
-    private async Task<RecipeInformation.RecipeInfo> FetchRecipeInformationFromStorageOrApi(int recipeId)
+    private async Task<(RecipeInformation.RecipeInfo Recipe, bool IsFavorite, bool FromDatabase)> FetchRecipeInformationFromStorageOrApi(int recipeId)
     {
-        var recipeInfo = await _storageService!.LoadDetailFromStorageAsync<RecipeInformation.RecipeInfo>(recipeId);
-        if (recipeInfo == null)
+        var (recipeFromStorage, isFavorite) = await _storageService!.LoadDetailFromStorageAsync<RecipeInformation.RecipeInfo>(recipeId);
+        bool fromDatabase;
+        RecipeInformation.RecipeInfo recipeInfo;
+
+        if (recipeFromStorage == null)
         {
+            fromDatabase = false;
+
             recipeInfo = await _service!.GetRecipeInformation(recipeId);
+
             await _storageService.SaveDetailToStorageAsync(recipeId, recipeInfo);
-            await ShowUserFeedbackAsync("Recipe detail loaded from the Api.", MessageType.Info, durationInSeconds: 2);
+            isFavorite = false;
+            await ShowUserFeedbackAsync("Recipe detail loaded from the API.", MessageType.Info, durationInSeconds: 2);
         }
         else
         {
+            fromDatabase = true;
+            recipeInfo = recipeFromStorage;
             await ShowUserFeedbackAsync("Recipe detail loaded from database.", MessageType.Success, durationInSeconds: 2);
-
         }
-        return recipeInfo;
-    }
 
+        return (recipeInfo, isFavorite, fromDatabase);
+    }
     private async Task<CountriesCuisines.Root> LoadTitlesFromCacheAsync(string cacheKey)
     {
         return await _storageService!.LoadFromStorageAsync<CountriesCuisines.Root>(cacheKey) ?? new();
@@ -337,4 +368,9 @@ public partial class SpoonacularViewModel : BaseViewModel
     {
         await _alertService.ShowInfoOrAlert(message, messageType, backgroundColor, textColor, durationInSeconds);
     }
+
+    //~SpoonacularViewModel()
+    //{
+    //    PropertyChanged -= SpoonacularViewModel_PropertyChanged!;
+    //}
 }

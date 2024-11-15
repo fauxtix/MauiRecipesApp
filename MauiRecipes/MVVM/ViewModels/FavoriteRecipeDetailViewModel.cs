@@ -1,33 +1,27 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MauiRecipes.MVVM.Models;
-using MauiRecipes.MVVM.Views;
-using MauiRecipes.Services.Interfaces;
 using System.Collections.ObjectModel;
 
 namespace MauiRecipes.MVVM.ViewModels
 {
+    [QueryProperty(nameof(FavoritesData), "FavoritesData")]
 
-    [QueryProperty(nameof(RecipeInformation.RecipeInfo), "RecipeInfo")]
-    [QueryProperty(nameof(IsFavorite), "IsFavorite")]
-
-    public partial class RecipeDetailViewModel : BaseViewModel, IQueryAttributable
+    public partial class FavoriteRecipeDetailViewModel : BaseViewModel, IQueryAttributable
     {
-
-        [ObservableProperty]
-        bool isBusy;
-
         [ObservableProperty]
         private FavoritesData? favoriteRecord;
+
         [ObservableProperty]
-        private RecipeInformation.RecipeInfo? recipeInfo;
+        private FavoritesData? recipeInfo;
+
         [ObservableProperty]
         private List<RecipeInformation.ExtendedIngredient>? ingredients = new();
         [ObservableProperty]
         private List<RecipeInformation.AnalyzedInstruction>? instructions = new();
-
         [ObservableProperty]
         public ObservableCollection<RecipeInformation.Step>? stepsList = new();
+
 
         [ObservableProperty]
         private string? summary;
@@ -45,29 +39,21 @@ namespace MauiRecipes.MVVM.ViewModels
         private string? ingredientImage;
 
         [ObservableProperty]
-        private bool isFavorite = false;
-
-        [ObservableProperty]
-        private double amount;
-
-        [ObservableProperty]
         private string? instructionName;
         [ObservableProperty]
         private string? instructionStepText;
 
-        private readonly IRecipeStorageService _recipeStorageService;
-        public RecipeDetailViewModel(IRecipeStorageService recipeStorageService)
+
+        public FavoriteRecipeDetailViewModel()
         {
-            _recipeStorageService = recipeStorageService;
         }
 
         public void ApplyQueryAttributes(IDictionary<string, object> query)
         {
-            var data = query[nameof(RecipeInformation.RecipeInfo)] as RecipeInformation.RecipeInfo;
-            IsFavorite = (bool)query[nameof(IsFavorite)];
+            var data = query[nameof(FavoritesData)] as FavoritesData;
             RecipeInfo = data;
             Summary = RecipeInfo?.summary;
-            RecipeImage = RecipeInfo?.Image;
+            RecipeImage = RecipeInfo?.image;
 
             Ingredients?.Clear();
             Instructions?.Clear();
@@ -96,36 +82,11 @@ namespace MauiRecipes.MVVM.ViewModels
         }
 
         [RelayCommand]
-        public async Task ToggleFavorite()
-        {
-            if (RecipeInfo == null) return;
-
-            IsFavorite = !IsFavorite;
-
-            //UpdateToolbarIcon();
-
-            await _recipeStorageService.SaveDetailToStorageAsync(RecipeInfo.id, RecipeInfo, IsFavorite);
-        }
-
-        [RelayCommand]
         public async Task GoBack()
         {
             IsBusy = true;
-            await Shell.Current.GoToAsync("//RecipesMainPage");
+            await Shell.Current.GoToAsync("//FavoritesPage");
             IsBusy = false;
-        }
-
-        private void UpdateToolbarIcon()
-        {
-            var page = Shell.Current.CurrentPage as ViewRecipePage;
-            if (page != null)
-            {
-                var toolbarItem = page.ToolbarItems.FirstOrDefault();
-                if (toolbarItem != null)
-                {
-                    toolbarItem.IconImageSource = IsFavorite ? "favorite_filled.png" : "favorite_outline.png";
-                }
-            }
         }
 
     }

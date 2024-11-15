@@ -31,10 +31,35 @@ public partial class BaseViewModel : ObservableObject
     private bool _is30Enabled = true;
 
     [ObservableProperty]
+    private double apiQuotaUsed;
+    [ObservableProperty]
+    private double apiQuotaLeft;
+    [ObservableProperty]
+    private double apiRequestCost;
+
+
+    //[ObservableProperty]
+    //private double apiQuotaUsedDetails;
+    //[ObservableProperty]
+    //private double apiQuotaLeftDetails;
+    //[ObservableProperty]
+    //private double apiRequestCostDetails;
+
+    [ObservableProperty]
+    private double _requestsProgress = 0;
+    //[ObservableProperty]
+    //private double _requestsProgressDetails = 0;
+
+    public double TotalQuota => ApiQuotaUsed + ApiQuotaLeft;
+    //public double TotalQuotaDetails => ApiQuotaUsedDetails + ApiQuotaLeftDetails;
+
+
+    [ObservableProperty]
     private CuisineRegion? selectedRegion;
 
     [ObservableProperty]
     public List<CuisineRegion> regionsData = new();
 
     public ObservableCollection<CuisineRegion> Regions { get; } = new();
+
 }

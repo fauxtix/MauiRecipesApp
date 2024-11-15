@@ -5,12 +5,11 @@
              xmlns:models="clr-namespace:MauiRecipes.MVVM.Models"
              xmlns:viewmodels="clr-namespace:MauiRecipes.MVVM.ViewModels"
              xmlns:conv="clr-namespace:MauiRecipes.Converters"
-             x:Class="MauiRecipes.MVVM.Views.ViewRecipePage"
-             x:DataType ="viewmodels:RecipeDetailViewModel"
+             x:Class="MauiRecipes.MVVM.Views.ViewFavoriteRecipeDetailPage"
+             x:DataType ="viewmodels:FavoriteRecipeDetailViewModel"
              Shell.BackgroundColor="{DynamicResource Primary}"
              Shell.TitleColor="White"
-             Title="Recipe Detail">
-
+             Title="Favorite recipe Detail">
     <ContentPage.ToolbarItems>
         <ToolbarItem 
             Command="{Binding GoBackCommand}"
@@ -61,31 +60,18 @@
                         <Image Aspect="AspectFill"
                                HorizontalOptions="Center" 
                                VerticalOptions="Center"  
-                               Source="{Binding RecipeInfo.Image}"/>
+                               Source="{Binding RecipeInfo.image}"/>
                     </Border>
-                    <Image Source="{Binding IsFavorite, Converter={StaticResource boolToFavoriteImageConverter}}"
-                           WidthRequest="40"
-                           HeightRequest="40" BackgroundColor="LightSteelBlue"
-                           Margin="10, 15, 30, 0" 
-                           HorizontalOptions="End"
-                           VerticalOptions="Start">
-                        <Image.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding ToggleFavoriteCommand}" />
-                        </Image.GestureRecognizers>
-                        <Image.Behaviors>
-                            <mct:IconTintColorBehavior TintColor="OrangeRed" />
-                        </Image.Behaviors>
-                    </Image>
                 </Grid>
 
                 <Frame Grid.Row="1" CornerRadius="30" 
                        HasShadow="True" Margin="10,5,10,5" BorderColor="Black"
                        HeightRequest="90">
                     <Label  FontAttributes="Bold"
-                            FontSize="{Binding RecipeInfo.Title, Converter={StaticResource FontSizeConverter}}"
+                            FontSize="{Binding RecipeInfo.title, Converter={StaticResource FontSizeConverter}}"
                             FontFamily="PoppinsSemiBold"
                             TextColor="HotPink"
-                            Text="{Binding RecipeInfo.Title}" 
+                            Text="{Binding RecipeInfo.title}" 
                             VerticalOptions="Center"
                             HorizontalOptions="Center"
                             Margin="0"/>

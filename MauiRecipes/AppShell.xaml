@@ -9,12 +9,22 @@
     Title="MauiRecipes">
     <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
         <ShellContent
-            Title="Home"
+            Title="Favorites"
+            ContentTemplate="{DataTemplate local:FavoritesPage}"
+            Route="FavoritesPage" />
+        <ShellContent 
+                Title="Favorite Detail"
+                ContentTemplate="{DataTemplate local:ViewFavoriteRecipeDetailPage}"
+                Route="ViewFavoriteRecipeDetailPage" />
+        <ShellContent
+            Title="Recipes"
             ContentTemplate="{DataTemplate local:RecipesMainPage}"
             Route="RecipesMainPage" />
-            <ShellContent 
-                Title="Detail"
+        <ShellContent 
+                Title="Recipe Detail"
                 ContentTemplate="{DataTemplate local:ViewRecipePage}"
                 Route="ViewRecipePage" />
+
+
     </FlyoutItem>
 </Shell>

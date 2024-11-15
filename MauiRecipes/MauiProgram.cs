@@ -30,9 +30,9 @@ namespace MauiRecipes
 
 
             // Services
-            builder.Services.AddTransient<ISpoonacularService, SpoonacularService>();
-            builder.Services.AddTransient<IRecipeStorageService, RecipeStorageService>();
-            builder.Services.AddTransient<IAlertService, AlertService>();
+            builder.Services.AddScoped<ISpoonacularService, SpoonacularService>();
+            builder.Services.AddScoped<IRecipeStorageService, RecipeStorageService>();
+            builder.Services.AddScoped<IAlertService, AlertService>();
 
 
             var databasePath = Path.Combine(FileSystem.AppDataDirectory, "recipes.db3");
@@ -42,13 +42,17 @@ namespace MauiRecipes
 
             // ViewModels
             builder.Services.AddSingleton<BaseViewModel>();
-            builder.Services.AddTransient<SpoonacularViewModel>();
-            builder.Services.AddTransient<RecipeDetailViewModel>();
+            builder.Services.AddScoped<SpoonacularViewModel>();
+            builder.Services.AddScoped<RecipeDetailViewModel>();
+            builder.Services.AddScoped<FavoritesViewModel>();
+            builder.Services.AddScoped<FavoriteRecipeDetailViewModel>();
 
 
             // Views
-            builder.Services.AddTransient<RecipesMainPage>();
-            builder.Services.AddTransient<ViewRecipePage>();
+            builder.Services.AddScoped<RecipesMainPage>();
+            builder.Services.AddScoped<ViewRecipePage>();
+            builder.Services.AddScoped<FavoritesPage>();
+            builder.Services.AddScoped<ViewFavoriteRecipeDetailPage>();
 
 
 #if DEBUG

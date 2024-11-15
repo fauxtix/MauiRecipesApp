@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:models="clr-namespace:MauiRecipes.MVVM.Models"
+             xmlns:viewmodels="clr-namespace:MauiRecipes.MVVM.ViewModels"
+             x:Class="MauiRecipes.MVVM.Views.FavoritesPage"
+             x:DataType ="viewmodels:FavoritesViewModel"
+             Shell.BackgroundColor="{DynamicResource Primary}"
+             Shell.TitleColor="White"
+             Title="Favorites">
+    <Grid>
+        <ScrollView BackgroundColor="{AppThemeBinding Light={StaticResource LightBackground}, Dark={StaticResource DarkBackground}}">
+
+            <CollectionView ItemsSource="{Binding FavoriteRecipes}"
+                    SelectionMode="Single">
+
+                <CollectionView.EmptyView>
+                    <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                        <Label Text="No favorites yet!" 
+                       FontSize="18"
+                       HorizontalOptions="Center" />
+                        <Image Source="nocook.png"
+                       WidthRequest="120"
+                       HeightRequest="120"
+                       HorizontalOptions="Center" />
+                    </StackLayout>
+                </CollectionView.EmptyView>
+
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical" Span="2" 
+                             HorizontalItemSpacing="10" 
+                             VerticalItemSpacing="10" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <VerticalStackLayout Margin="15, 0, 15, 0"  x:DataType="models:FavoritesData">
+                            <Border Stroke ="SteelBlue" 
+                            StrokeThickness="1" 
+                            HeightRequest="140" 
+                            WidthRequest="160" 
+                            StrokeShape="RoundRectangle 20"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center">
+                                <Border.Shadow>
+                                    <Shadow Brush="LightGray" Offset="-5,5" Radius="10" Opacity="0.4" />
+                                </Border.Shadow>
+                                <Image Source="{Binding image}" 
+                               Aspect="AspectFill" 
+                               HorizontalOptions="Fill" 
+                               VerticalOptions="Fill"
+                               Margin="7, 3" />
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:FavoritesViewModel}}, Path=SelectFavoriteRecipeCommand}"
+                                                  CommandParameter="{Binding .}" />
+                                </Border.GestureRecognizers>
+                            </Border>
+
+                            <Label Text="{Binding title}"
+                           TextColor="Black"
+                           Padding="5"
+                           FontSize="12"
+                           FontFamily="Poppins"
+                           VerticalOptions="Center"
+                           HorizontalTextAlignment="Center" />
+                        </VerticalStackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </ScrollView>
+    </Grid>
+</ContentPage>
