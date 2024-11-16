@@ -25,7 +25,16 @@ namespace MauiRecipes.MVVM.ViewModels
         {
             _storageService = storageService;
             _alertService = alertService;
+
+            GetFirstData();
         }
+
+
+        private async void GetFirstData()
+        {
+            await LoadSavedSearches();
+        }
+
 
         [RelayCommand]
         public async Task LoadSavedSearches()

@@ -17,5 +17,8 @@
         <Tab Title="Favorites" Icon="favorite_outline.png">
             <ShellContent ContentTemplate="{DataTemplate local:FavoritesPage}"/>
         </Tab>
+        <Tab Title="Searches" Icon="icon_search.png">
+            <ShellContent ContentTemplate="{DataTemplate local:SavedSearchesPage}"/>
+        </Tab>
     </TabBar>
 </Shell>

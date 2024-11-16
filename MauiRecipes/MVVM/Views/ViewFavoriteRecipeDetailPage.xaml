@@ -127,7 +127,7 @@
                     Margin="10"
                     HorizontalOptions="FillAndExpand">
                     <mct:Expander Padding="6" Margin="2"
-                                  IsExpanded="false"  >
+                                  IsExpanded="True"  >
                         <mct:Expander.Header>
                             <Frame 
                                     BorderColor="Black"
@@ -159,7 +159,7 @@
                     Margin="10"
                     HorizontalOptions="FillAndExpand">
                     <mct:Expander Padding="6" Margin="2"
-                                  IsExpanded="false"  >
+                                  IsExpanded="True"  >
                         <mct:Expander.Header>
                             <Frame 
                                     BorderColor="Black"
@@ -222,7 +222,7 @@
                     Margin="10"
                     HorizontalOptions="FillAndExpand">
                     <mct:Expander Padding="6" Margin="2"
-                                  IsExpanded="false"  >
+                                  IsExpanded="True"  >
                         <mct:Expander.Header>
                             <Frame 
                                     BorderColor="Black"

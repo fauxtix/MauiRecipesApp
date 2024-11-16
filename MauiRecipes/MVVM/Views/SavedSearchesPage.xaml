@@ -4,23 +4,19 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:models="clr-namespace:MauiRecipes.MVVM.Models"
              xmlns:viewmodels="clr-namespace:MauiRecipes.MVVM.ViewModels"
-             x:Class="MauiRecipes.MVVM.Views.FavoritesPage"
-             x:DataType ="viewmodels:FavoritesViewModel"
+             x:Class="MauiRecipes.MVVM.Views.SavedSearchesPage"
+             x:DataType ="viewmodels:SavedSearchesViewModel"
              xmlns:conv="clr-namespace:MauiRecipes.Converters"
-             Shell.BackgroundColor="#1e9acc"
+             Shell.BackgroundColor="{DynamicResource Primary}"
              Shell.TitleColor="White"
-             Title="Favorites">
+             Title="Saved Searches">
 
     <Shell.BackButtonBehavior>
         <BackButtonBehavior IsVisible="False" IsEnabled="False" />
     </Shell.BackButtonBehavior>
 
     <ContentPage.Resources>
-        <conv:BooleanToStringConverter x:Key="boolToStringConverter" />
-        <conv:FontSizeConverter x:Key="FontSizeConverter" />
-        <conv:IngredientImageToFullUrlConverter x:Key="ingredientImageConverter" />
-        <conv:BoolToFavoriteImageConverter x:Key="boolToFavoriteImageConverter" />
-
+        <conv:DateOnlyConverter x:Key="dateOnlyConverter" />
         <ResourceDictionary>
             <Style x:Key="MediumLabelBold" TargetType="Label">
                 <Setter Property="FontSize" Value="13"/>
@@ -42,20 +38,20 @@
 
     <RefreshView IsRefreshing="{Binding IsBusy}" 
                  RefreshColor="Teal"
-                 Command="{Binding LoadFavoriteRecipesCommand}">
+                 Command="{Binding LoadSavedSearchesCommand}">
 
         <ScrollView BackgroundColor="{AppThemeBinding Light={StaticResource LightBackground}, Dark={StaticResource DarkBackground}}">
             <VerticalStackLayout BackgroundColor="{DynamicResource Primary}">
-                <Grid BackgroundColor="#1e9acc" 
+                <Grid BackgroundColor="{DynamicResource Primary}" 
                       RowDefinitions="10,Auto">
                     <BoxView Grid.Row="0" HeightRequest="1" BackgroundColor="Gray" Margin="0,2,0,2"/>
                     <CollectionView Grid.Row="1" 
-                                    ItemsSource="{Binding FavoriteRecipes}"
+                                    ItemsSource="{Binding SavedSearchesCollection}"
                                     Margin="0, 10, 0, 0"
                                     SelectionMode="Single">
                         <CollectionView.EmptyView>
                             <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
-                                <Label Text="No favorites yet!" 
+                                <Label Text="No saved searches yet!" 
                                        FontSize="18"
                                        HorizontalOptions="Center" />
                                 <Image Source="nocook.png"
@@ -66,40 +62,45 @@
                         </CollectionView.EmptyView>
 
                         <CollectionView.ItemsLayout>
-                            <GridItemsLayout Orientation="Vertical" Span="2" 
+                            <GridItemsLayout Orientation="Vertical"
                              HorizontalItemSpacing="10" 
                              VerticalItemSpacing="10" />
                         </CollectionView.ItemsLayout>
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
-                                <VerticalStackLayout Margin="15, 0, 15, 0"  x:DataType="models:FavoritesData">
-                                    <Border Stroke ="Yellow" 
-                                        StrokeThickness="1" 
-                                        HeightRequest="140" 
-                                        WidthRequest="160" 
-                                        StrokeShape="RoundRectangle 20"
-                                        HorizontalOptions="Center"
-                                        VerticalOptions="Center">
-                                        <Border.Shadow>
-                                            <Shadow Brush="LightGray" Offset="-5,5" Radius="10" Opacity="0.4" />
-                                        </Border.Shadow>
-                                        <Image Source="{Binding Image}" 
-                                               Aspect="AspectFill" 
-                                               HorizontalOptions="Fill" 
-                                               VerticalOptions="Fill"
+                                <VerticalStackLayout x:DataType="models:SavedSearches">
+                                    <Grid ColumnDefinitions="Auto, *, 40" RowDefinitions="Auto, Auto" Margin="5, 0, 10, 0" RowSpacing="1">
+                                        <Label Grid.Column="0" Text="{Binding SaveDate, StringFormat='{0:yyyy-MM-dd}'}"
+                                               HorizontalOptions="Start" 
+                                               VerticalOptions="Center"
+                                               FontSize="14"
+                                               FontFamily="PoppinsSemiBold"
+                                               TextColor="White"
                                                Margin="7, 3" />
-                                        <Border.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:FavoritesViewModel}}, Path=SelectFavoriteRecipeCommand}"
-                                                  CommandParameter="{Binding .}" />
-                                        </Border.GestureRecognizers>
-                                    </Border>
-                                    <Label Text="{Binding Title}"
-                                           TextColor="White"
-                                           Padding="5"
-                                           FontSize="12"
-                                           FontFamily="Poppins"
-                                           VerticalOptions="Center"
-                                           HorizontalTextAlignment="Center" />
+                                        <Label Text="{Binding Region}"
+                                               Grid.Column="1"
+                                               TextColor="GreenYellow"
+                                               FontSize="14"
+                                               FontFamily="PoppinsSemiBold"
+                                               VerticalOptions="Center"
+                                               HorizontalTextAlignment="Start" />
+                                        <Label Text="{Binding Ingredient}" Grid.ColumnSpan="2"
+                                               Grid.Row="1"
+                                               Grid.Column="1"
+                                               Margin="0, -5, 0, 0"
+                                               TextColor="Yellow"
+                                               FontSize="14"
+                                               FontFamily="PoppinsSemiBold"
+                                               VerticalOptions="Center"
+                                               HorizontalTextAlignment="Start" />
+                                        <Label Text="{Binding NumberOfRecipes}"
+                                               Grid.Column="2"
+                                               TextColor="White"
+                                               FontSize="14"
+                                               FontFamily="PoppinsSemiBold"
+                                               VerticalOptions="Center"
+                                               HorizontalTextAlignment="End" />
+                                    </Grid>
                                 </VerticalStackLayout>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
@@ -110,7 +111,6 @@
                                         HorizontalOptions="Center"/>
                 </Grid>
             </VerticalStackLayout>
-
         </ScrollView>
     </RefreshView>
 </ContentPage>
