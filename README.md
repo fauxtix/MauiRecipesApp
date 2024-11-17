@@ -1,6 +1,7 @@
 # **Cooking Recipes - Mobile Application**
 
 This application allows users to search, view, and store cooking recipes locally, using the Spoonacular API. Recipes can be filtered by region and ingredient, with features for local caching and data expiration.
+They can also view the recipes marked as favorites, and the previously searched recipes by Region and Ingredient (see the screenshots).
 
 ## **Features**
 
@@ -24,6 +25,7 @@ This application allows users to search, view, and store cooking recipes locally
   
 - **Recipe Details View**:
   - By selecting a recipe, users can view detailed information, including ingredients, preparation instructions, and additional information about the recipe.
+    They also can mark the recipe as Favorite. 
 
 - **Notifications and Alerts**:
   - The app shows notifications and alerts to inform the user about the status of loaded recipes (e.g., "Recipes loaded successfully", "Recipes loaded from database", "Error loading recipes", etc.).
