@@ -7,7 +7,7 @@
              x:Class="MauiRecipes.MVVM.Views.SavedSearchesPage"
              x:DataType ="viewmodels:SavedSearchesViewModel"
              xmlns:conv="clr-namespace:MauiRecipes.Converters"
-             Shell.BackgroundColor="{DynamicResource Primary}"
+             Shell.BackgroundColor="#1e9acc"
              Shell.TitleColor="White"
              Title="Saved Searches">
 
@@ -41,8 +41,8 @@
                  Command="{Binding LoadSavedSearchesCommand}">
 
         <ScrollView BackgroundColor="{AppThemeBinding Light={StaticResource LightBackground}, Dark={StaticResource DarkBackground}}">
-            <VerticalStackLayout BackgroundColor="{DynamicResource Primary}">
-                <Grid BackgroundColor="{DynamicResource Primary}" 
+            <VerticalStackLayout BackgroundColor="#1e9acc">
+                <Grid BackgroundColor="#1e9acc" 
                       RowDefinitions="10,Auto">
                     <BoxView Grid.Row="0" HeightRequest="1" BackgroundColor="Gray" Margin="0,2,0,2"/>
                     <CollectionView Grid.Row="1" 

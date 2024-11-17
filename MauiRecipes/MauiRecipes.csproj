@@ -115,9 +115,20 @@
 	  <None Remove="Resources\Fonts\Poppins-SemiBold.ttf" />
 	  <None Remove="Resources\Images\favorite_filled.png" />
 	  <None Remove="Resources\Images\favorite_outline.png" />
+	  <None Remove="Resources\Images\icon_cheap.png" />
 	  <None Remove="Resources\Images\icon_clear.png" />
 	  <None Remove="Resources\Images\icon_close.svg" />
+	  <None Remove="Resources\Images\icon_gluten_free.png" />
+	  <None Remove="Resources\Images\icon_healthy_food.png" />
+	  <None Remove="Resources\Images\icon_likes.png" />
+	  <None Remove="Resources\Images\icon_likes_2.png" />
+	  <None Remove="Resources\Images\icon_money.png" />
+	  <None Remove="Resources\Images\icon_people.png" />
+	  <None Remove="Resources\Images\icon_ready_clock.png" />
 	  <None Remove="Resources\Images\icon_search.png" />
+	  <None Remove="Resources\Images\icon_servings.png" />
+	  <None Remove="Resources\Images\icon_vegan.png" />
+	  <None Remove="Resources\Images\icon_vegetarian.png" />
 	  <None Remove="Resources\Images\ingredients.png" />
 	  <None Remove="Resources\Images\instructions.png" />
 	  <None Remove="Resources\Images\nocook.png" />
@@ -141,6 +152,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="Controls\ImageWithText.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="MVVM\Views\FavoritesPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

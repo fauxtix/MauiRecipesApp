@@ -4,10 +4,11 @@
              xmlns:mct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:models="clr-namespace:MauiRecipes.MVVM.Models"
              xmlns:viewmodels="clr-namespace:MauiRecipes.MVVM.ViewModels"
+             xmlns:controls="clr-namespace:MauiRecipes.Controls"
              xmlns:conv="clr-namespace:MauiRecipes.Converters"
              x:Class="MauiRecipes.MVVM.Views.ViewRecipePage"
              x:DataType ="viewmodels:RecipeDetailViewModel"
-             Shell.BackgroundColor="{DynamicResource Primary}"
+             Shell.BackgroundColor="#1e9acc"
              Shell.TitleColor="White"
              Title="Recipe Detail">
 
@@ -17,7 +18,7 @@
 
     <ContentPage.ToolbarItems>
         <ToolbarItem 
-            Command="{Binding GoBackCommand}"
+            Command="{Binding GoBackCommand}" 
             IconImageSource="icon_close.svg" />
     </ContentPage.ToolbarItems>
 
@@ -49,9 +50,9 @@
     <Grid>
         <ScrollView BackgroundColor="{AppThemeBinding Light={StaticResource LightBackground}, Dark={StaticResource DarkBackground}}">
             <Grid RowDefinitions="Auto,Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, *"
-                  BackgroundColor="{DynamicResource Primary}">
+                  BackgroundColor="#1e9acc">
                 <BoxView
-                    BackgroundColor="{StaticResource Primary}"
+                    BackgroundColor="#1e9acc"
                     Grid.RowSpan="2"
                     HorizontalOptions="Fill"
                     VerticalOptions="Fill"/>
@@ -94,43 +95,33 @@
                             HorizontalOptions="Center"
                             Margin="0"/>
                 </Frame>
-                <Border Grid.Row="2" 
-                    Stroke="{DynamicResource Primary}"
-                    StrokeThickness="1"
-                    StrokeShape="RoundRectangle 22"
-                    Background="SteelBlue"
-                        Padding="5"
-                    Margin="5,2"
-                    HorizontalOptions="FillAndExpand">
 
+                <Border Grid.Row="2" 
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 22"
+                        Padding="2"
+                        Margin="5,2"
+                        HorizontalOptions="Center">
                     <Frame Grid.Row="2" CornerRadius="40" HasShadow="False" Margin="0" 
                            BorderColor="Transparent">
-                        <Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto" 
-                          RowSpacing="5"
-                          HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="130" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <Label Grid.Row="0" Grid.Column="0" Style="{StaticResource MediumLabel}" >Credits</Label>
-                            <Label Grid.Row="0" Grid.Column="1" Style="{StaticResource MediumLabelBold}"  Text="{Binding RecipeInfo.creditsText}" />
-                            <Label Grid.Row="1" Grid.Column="0" Style="{StaticResource MediumLabel}" >Servings</Label>
-                            <Label Grid.Row="1" Grid.Column="1" Style="{StaticResource MediumLabelBold}" Text="{Binding RecipeInfo.servings}" />
-                            <Label Grid.Row="2" Grid.Column="0" Style="{StaticResource MediumLabel}" >Ready in minutes</Label>
-                            <Label Grid.Row="2" Grid.Column="1" Style="{StaticResource MediumLabelBold}" Text="{Binding RecipeInfo.readyInMinutes}" />
-                            <Label Grid.Row="3" Grid.Column="0" Style="{StaticResource MediumLabel}"  >Health score</Label>
-                            <Label Grid.Row="3" Grid.Column="1"  Style="{StaticResource MediumLabelBold}" Text="{Binding RecipeInfo.spoonacularScore, StringFormat='{0:F2}'}" />
-                            <Label Grid.Row="4" Grid.Column="0" Style="{StaticResource MediumLabel}"  >Gluten free</Label>
-                            <Label Grid.Row="4" Grid.Column="1" Style="{StaticResource MediumLabelBold}" Text="{Binding RecipeInfo.glutenFree,Converter={StaticResource boolToStringConverter}}" />
-                            <Label Grid.Row="5" Grid.Column="0" Style="{StaticResource MediumLabel}"  >Vegan</Label>
-                            <Label Grid.Row="5" Grid.Column="1" Style="{StaticResource MediumLabelBold}" Text="{Binding RecipeInfo.vegan,Converter={StaticResource boolToStringConverter}}" />
-                            <Label Grid.Row="6" Grid.Column="0" Style="{StaticResource MediumLabel}" >Vegetarian</Label>
-                            <Label Grid.Row="6" Grid.Column="1" Style="{StaticResource MediumLabelBold}" Text="{Binding RecipeInfo.vegetarian,Converter={StaticResource boolToStringConverter}}" />
-
-                            <Label Grid.Row="7" Grid.Column="0" Style="{StaticResource MediumLabel}" >Cheap</Label>
-                            <Label Grid.Row="7" Grid.Column="1" Style="{StaticResource MediumLabelBold}" Text="{Binding RecipeInfo.cheap,Converter={StaticResource boolToStringConverter}}" />
-                        </Grid>
+                        <FlexLayout Direction="Row" 
+                            Wrap="Wrap"
+                            JustifyContent="SpaceBetween"
+                            AlignItems="Center"
+                            Padding="5">
+                            
+                            <controls:ImageWithText Source="icon_people.png" Text="{Binding RecipeInfo.creditsText}"/>
+                            <controls:ImageWithText Source="icon_servings.png" Text="{Binding RecipeInfo.servings}"/>
+                            <controls:ImageWithText Source="icon_ready_clock.png" Text="{Binding RecipeInfo.readyInMinutes}"/>
+                            <controls:ImageWithText Source="icon_gluten_free.png" Text="{Binding RecipeInfo.glutenFree, Converter={StaticResource boolToStringConverter}}"/>
+                            <controls:ImageWithText Source="icon_vegan.png" Text="{Binding RecipeInfo.vegan, Converter={StaticResource boolToStringConverter}}"/>
+                            <controls:ImageWithText Source="icon_vegetarian.png" Text="{Binding RecipeInfo.vegetarian, Converter={StaticResource boolToStringConverter}}"/>
+                            <controls:ImageWithText Source="icon_cheap.png" Text="{Binding RecipeInfo.cheap, Converter={StaticResource boolToStringConverter}}"/>
+                            <controls:ImageWithText Source="icon_healthy_food.png" Text="{Binding RecipeInfo.veryHealthy, Converter={StaticResource boolToStringConverter}}"/>
+                            <controls:ImageWithText Source="icon_likes_2.png" Text="{Binding RecipeInfo.aggregateLikes}"/>
+                        </FlexLayout>
                     </Frame>
+
                 </Border>
                 <Border Grid.Row="8" Stroke="#2B0B98"                       
                     StrokeThickness="1"
