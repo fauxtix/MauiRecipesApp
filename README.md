@@ -73,15 +73,15 @@ In the MauiRecipesApp, the Spoonacular Api was used to get recipe data from vari
 This project is currently a work in progress. While it provides basic functionality for recipe search and access to the Spoonacular Api, it is expected to evolve over time.
 
 # Screenshots
-
-![RecipesMainPage](https://github.com/user-attachments/assets/1a940802-d8c7-4fb9-8130-0d1a3338a559)
-![RecipesMainPageWithIngredientSearch](https://github.com/user-attachments/assets/6d47f495-4fe7-4677-82b6-7cc56057ce11)
+![RecipesMainPage](https://github.com/user-attachments/assets/1a72310a-f2a2-4fdd-8d4e-c25a833857b8)
+![RecipesMainPageWithIngredientSearch](https://github.com/user-attachments/assets/942675e7-d576-4c79-b5d5-bfca5a42f43d)
 ![RecipesMainPageDeleteSavedSearches](https://github.com/user-attachments/assets/107a0781-1b6e-4953-981a-3814d9eaac8f)
-![ViewRecipe](https://github.com/user-attachments/assets/13334ef1-cd10-48b9-85e2-9810f424ffcd)
+![ViewRecipe](https://github.com/user-attachments/assets/c4b810e8-529d-4393-a7ef-2cf7224afdf0)
 ![ViewRecipe_Summary](https://github.com/user-attachments/assets/b4d1751c-9dae-49c1-a22e-97a9279e2cb0)
 ![ViewRecipe_Instructions](https://github.com/user-attachments/assets/e58a59c4-d234-4a45-a330-2fd647538aef)
 ![ViewRecipe_Ingredients](https://github.com/user-attachments/assets/d05162b3-9ddc-48e8-964c-43b0763634c9)
-
+![Favorites](https://github.com/user-attachments/assets/3932ba20-228a-4fad-982a-473136f9a200)
+![ViewFavorite](https://github.com/user-attachments/assets/d189f2e2-8bd8-4198-aa60-a0e6175ad9f5)
 
 ### Contributions
 
