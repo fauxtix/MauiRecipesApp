@@ -106,13 +106,15 @@
                                 <Border.StrokeShape>
                                     <RoundRectangle CornerRadius="18" />
                                 </Border.StrokeShape>
-                                <Image Source="icon_search.png">
+                                <Image Source="icon_search.png"
+                                       SemanticProperties.Description="Search recipes">
                                     <Image.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding SearchRecipesCommand}"/>
                                     </Image.GestureRecognizers>
                                     <Image.Behaviors>
                                         <toolkit:IconTintColorBehavior TintColor="White" />
                                     </Image.Behaviors>
+                                    
                                 </Image>
                             </Border>
                             <Border  HeightRequest="40"
@@ -123,7 +125,8 @@
                                 <Border.StrokeShape>
                                     <RoundRectangle CornerRadius="18" />
                                 </Border.StrokeShape>
-                                <Image Source="icon_clear.png">
+                                <Image Source="icon_clear.png"
+                                       SemanticProperties.Description="Delete all recipes from the database">
                                     <Image.Behaviors>
                                         <toolkit:IconTintColorBehavior TintColor="White" />
                                     </Image.Behaviors>

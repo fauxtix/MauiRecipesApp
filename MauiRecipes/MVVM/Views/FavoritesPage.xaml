@@ -40,10 +40,9 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <RefreshView IsRefreshing="{Binding IsBusy}" 
+    <RefreshView IsRefreshing="{Binding IsBusy}"  
                  RefreshColor="Teal"
                  Command="{Binding LoadFavoriteRecipesCommand}">
-
         <ScrollView BackgroundColor="{AppThemeBinding Light={StaticResource LightBackground}, Dark={StaticResource DarkBackground}}">
             <VerticalStackLayout BackgroundColor="#1e9acc">
                 <Grid BackgroundColor="#1e9acc" 
@@ -104,10 +103,6 @@
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
                     </CollectionView>
-                    <ActivityIndicator  IsRunning="{Binding IsBusy}" 
-                                        Grid.RowSpan="2"
-                                        VerticalOptions="Center" 
-                                        HorizontalOptions="Center"/>
                 </Grid>
             </VerticalStackLayout>
 

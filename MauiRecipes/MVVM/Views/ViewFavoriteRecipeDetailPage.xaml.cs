@@ -11,6 +11,5 @@ public partial class ViewFavoriteRecipeDetailPage : ContentPage
         InitializeComponent();
         _favoriteRecipeDetailViewModel = favoriteRecipeDetailViewModel;
         BindingContext = _favoriteRecipeDetailViewModel;
-
     }
 }

@@ -58,7 +58,7 @@ namespace MauiRecipes.MVVM.ViewModels
 
                 await _alertService.ShowInfoOrAlert(
                     message: SavedSearchesList?.Any() == true ? "Saved searches loaded successfully." : "No searches found.",
-                    type: MessageType.Info, null, null, 1);
+                    type: MessageType.Success, null, null, 1);
             }
             catch (Exception ex)
             {

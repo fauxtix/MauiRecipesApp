@@ -49,8 +49,10 @@ namespace MauiRecipes.MVVM.ViewModels
         {
         }
 
-        public void ApplyQueryAttributes(IDictionary<string, object> query)
+        public async void ApplyQueryAttributes(IDictionary<string, object> query)
         {
+            IsBusy = true;
+            await Task.Yield();
             var data = query[nameof(FavoritesData)] as FavoritesData;
             RecipeInfo = data;
             Summary = RecipeInfo?.summary;
@@ -81,12 +83,15 @@ namespace MauiRecipes.MVVM.ViewModels
                     }
                 }
             }
+
+            IsBusy = false;
         }
 
         [RelayCommand]
         public async Task GoBack()
         {
             IsBusy = true;
+            await Task.Yield();
             await Shell.Current.GoToAsync($"{nameof(FavoritesPage)}");
             IsBusy = false;
         }

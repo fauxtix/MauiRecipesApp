@@ -49,6 +49,7 @@ public partial class FavoritesViewModel : ObservableObject
         try
         {
             IsBusy = true;
+            await Task.Yield();
 
             FavoritesList = await _storageService.GetAllFavoritesAsync<FavoritesData?>();
 
@@ -61,9 +62,16 @@ public partial class FavoritesViewModel : ObservableObject
                 }
             }
 
-            await _alertService.ShowInfoOrAlert(
-                message: FavoritesList?.Any() == true ? "Favorite recipes loaded successfully." : "No favorite recipes found.",
-                type: MessageType.Info, null, null, 1);
+            if (FavoritesList?.Any() == false)
+            {
+                await _alertService.ShowInfoOrAlert(
+                    message: "No favorite recipes found.",
+                    type: MessageType.Warning, null, null, 1);
+            }
+
+            //await _alertService.ShowInfoOrAlert(
+            //    message: FavoritesList?.Any() == true ? "Favorite recipes loaded successfully." : "No favorite recipes found.",
+            //    type: FavoritesList?.Any() == true ? MessageType.Success : MessageType.Warning, null, null, 1);
         }
         catch (Exception ex)
         {
@@ -80,7 +88,7 @@ public partial class FavoritesViewModel : ObservableObject
     {
         if (selectedRecipe == null)
         {
-            await ShowUserFeedbackAsync("No recipe selected.", MessageType.Error);
+            await ShowUserFeedbackAsync("No recipe selected.", MessageType.Warning);
             return;
         }
 
