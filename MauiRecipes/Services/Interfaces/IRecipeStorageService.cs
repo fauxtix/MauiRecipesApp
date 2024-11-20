@@ -15,4 +15,5 @@ public interface IRecipeStorageService
     Task<T?> LoadFavoriteRecipeAsync<T>(int recipeId);
     Task SaveSearch(string region, string ingredient, int numberOfRecipes);
     Task<List<SavedSearches>> GetSavedSearches();
+    Task<SavedSearches> GetSavedSearchById(int id);
 }

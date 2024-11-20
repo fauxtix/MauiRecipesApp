@@ -106,7 +106,7 @@
                            BorderColor="Transparent">
                         <FlexLayout Direction="Row" 
                             Wrap="Wrap"
-                            JustifyContent="SpaceBetween"
+                            JustifyContent="SpaceAround"
                             AlignItems="Center"
                             Padding="5">
                             

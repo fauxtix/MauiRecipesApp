@@ -133,11 +133,19 @@ public class RecipeStorageService : IRecipeStorageService
     {
         var savedSearches = await _connection.Table<SavedSearches>()
             .ToListAsync();
-        //savedSearches = savedSearches.OrderByDescending(f => f.SaveDate)
-        //    .ToList();
 
         return savedSearches;
     }
+
+    public async Task<SavedSearches> GetSavedSearchById(int id)
+    {
+        var savedSearch = await _connection.Table<SavedSearches>()
+            .Where(r => r.Id == id)
+            .FirstOrDefaultAsync();
+
+        return savedSearch;
+    }
+
 
     public async Task ClearExpiredDataAsync()
     {
