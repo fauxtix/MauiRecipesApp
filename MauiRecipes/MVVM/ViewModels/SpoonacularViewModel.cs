@@ -31,6 +31,23 @@ public partial class SpoonacularViewModel : BaseViewModel
     [ObservableProperty]
     private bool isInitialLoadComplete;
 
+    // popular searches
+    [ObservableProperty]
+    private bool _showPopular = true;
+    [ObservableProperty]
+    private bool _showLastRecipesViewed = true;
+
+    [ObservableProperty]
+    private List<SavedSearches> savedSearchesList = new();
+
+    public ObservableCollection<SavedSearches> SavedSearchesCollection { get; } = new();
+
+
+    [ObservableProperty]
+    private List<RecipeInformation.RecipeInfo> recipesDetailsList = new();
+
+    public ObservableCollection<RecipeInformation.RecipeInfo> RecipesDetailsCollection { get; } = new();
+
     public SpoonacularViewModel(ISpoonacularService service,
         IRecipeStorageService storageService, IAlertService alertService)
     {
@@ -48,11 +65,24 @@ public partial class SpoonacularViewModel : BaseViewModel
 
         InitializeRegions();
 
-        GetFirstData();
+        LoadPopularSearches();
+        LoadRecipesDetails();
+
+        //GetFirstData();
+    }
+
+    private async void LoadPopularSearches()
+    {
+        await LoadSavedSearches();
+    }
+
+    private async void LoadRecipesDetails()
+    {
+        await LoadRecipesDetailsAsync();
     }
 
 
-    private async void GetFirstData()
+    private async void GetFirstTitlesData()
     {
         await GetRecipesTitles();
     }
@@ -286,6 +316,64 @@ public partial class SpoonacularViewModel : BaseViewModel
     }
 
 
+    // popular searches
+
+    [RelayCommand]
+    public async Task LoadSavedSearches()
+    {
+        try
+        {
+            IsBusy = true;
+            await Task.Yield();
+            SavedSearchesList = await _storageService.GetSavedSearches();
+            SavedSearchesCollection.Clear();
+            if (SavedSearchesList != null)
+            {
+                foreach (var search in SavedSearchesList)
+                {
+                    SavedSearchesCollection.Add(search!);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            await _alertService.ShowInfoOrAlert($"Failed to load popular searches: {ex.Message}", MessageType.Error);
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+    }
+
+    [RelayCommand]
+    public async Task LoadRecipesDetailsAsync()
+    {
+        try
+        {
+            IsBusy = true;
+            await Task.Yield();
+
+            RecipesDetailsList = (await _storageService.GetRecipesDetailsStored<RecipeInformation.RecipeInfo>()).ToList();
+            RecipesDetailsCollection.Clear();
+            if (RecipesDetailsList != null)
+            {
+                foreach (var recipeDetail in RecipesDetailsList)
+                {
+                    RecipesDetailsCollection.Add(recipeDetail!);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            await _alertService.ShowInfoOrAlert($"Failed to load recipes details: {ex.Message}", MessageType.Error);
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+    }
+
+
     private void SpoonacularViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
         if (e.PropertyName == nameof(SelectedRegion) && SelectedRegion != null)
@@ -303,7 +391,22 @@ public partial class SpoonacularViewModel : BaseViewModel
         }
     }
 
+    [RelayCommand]
+    public async Task ShowSavedRecipeDettail(RecipeInformation.RecipeInfo recipe)
+    {
 
+        var recipeInfo = await FetchRecipeInformationFromStorageOrApi(recipe.id);
+
+        if (recipeInfo.Recipe is null) return;
+
+        await Shell.Current.GoToAsync($"{nameof(ViewRecipePage)}", true, new Dictionary<string, object>
+            {
+                {"RecipeInfo", recipeInfo.Recipe},
+                { "IsFavorite", recipeInfo.IsFavorite }
+             });
+
+
+    }
     private async Task<(RecipeInformation.RecipeInfo Recipe, bool IsFavorite, bool FromDatabase)> FetchRecipeInformationFromStorageOrApi(int recipeId)
     {
         var (recipeFromStorage, isFavorite) = await _storageService!.LoadDetailFromStorageAsync<RecipeInformation.RecipeInfo>(recipeId);

@@ -16,4 +16,5 @@ public interface IRecipeStorageService
     Task SaveSearch(string region, string ingredient, int numberOfRecipes);
     Task<List<SavedSearches>> GetSavedSearches();
     Task<SavedSearches> GetSavedSearchById(int id);
+    Task<List<T>> GetRecipesDetailsStored<T>();
 }

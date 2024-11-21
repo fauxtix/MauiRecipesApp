@@ -4,6 +4,7 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:models="clr-namespace:MauiRecipes.MVVM.Models"
              xmlns:viewmodels="clr-namespace:MauiRecipes.MVVM.ViewModels"
+             xmlns:controls="clr-namespace:MauiRecipes.Controls"
              x:Class="MauiRecipes.MVVM.Views.RecipesMainPage"
              x:DataType ="viewmodels:SpoonacularViewModel"
              Shell.BackgroundColor="{DynamicResource Primary}"
@@ -36,14 +37,15 @@
         <BackButtonBehavior IsVisible="False" IsEnabled="False" />
     </Shell.BackButtonBehavior>
 
+
     <Grid>
         <ScrollView BackgroundColor="{AppThemeBinding Light={StaticResource LightBackground}, Dark={StaticResource DarkBackground}}">
             <VerticalStackLayout>
-                <Grid RowDefinitions="90, 60, 80, *" 
+                <Grid RowDefinitions="90, 70, 60, *, Auto, Auto, *" 
                       BackgroundColor="{DynamicResource Primary}">
                     <Border 
                             StrokeShape="RoundRectangle 0,0,50,50" 
-                            StrokeThickness="0" HeightRequest="160">
+                            StrokeThickness="0" HeightRequest="120">
                         <Border.Shadow>
                             <Shadow Brush="DarkGray" Offset="-10,20" Radius="10" Opacity="0.4" />
                         </Border.Shadow>
@@ -114,7 +116,7 @@
                                     <Image.Behaviors>
                                         <toolkit:IconTintColorBehavior TintColor="White" />
                                     </Image.Behaviors>
-                                    
+
                                 </Image>
                             </Border>
                             <Border  HeightRequest="40"
@@ -130,7 +132,7 @@
                                     <Image.Behaviors>
                                         <toolkit:IconTintColorBehavior TintColor="White" />
                                     </Image.Behaviors>
-                                    <Image.GestureRecognizers>                                        
+                                    <Image.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding ClearCacheCommand}"/>
                                     </Image.GestureRecognizers>
                                 </Image>
@@ -154,65 +156,232 @@
                         </FlexLayout>
                         <BoxView HeightRequest="1" BackgroundColor="Gray" Margin="0,2,0,2"/>
                     </VerticalStackLayout>
-                    
-                    <CollectionView Grid.Row="3" 
+
+                    <!--Popular searches-->
+                    <VerticalStackLayout Grid.Row="3" Margin="0, -10, 0, 0">
+
+                        <ScrollView BackgroundColor="#1e9acc">
+                            <VerticalStackLayout BackgroundColor="#1e9acc" IsVisible="{Binding ShowPopular}">
+                                <FlexLayout JustifyContent="SpaceBetween" AlignItems="Center">
+                                    <Label Text="Popular Searches" FontSize="18" FontAttributes="Bold" Padding="10,0" TextColor="Yellow"/>
+                                    <ImageButton WidthRequest="30" HeightRequest="50"
+                                                 Padding="0, 0, 10,0"
+                                                Command="{Binding LoadSavedSearchesCommand}"
+                                                HorizontalOptions="Center"
+                                                Source="icon_refresh.png">
+                                        <ImageButton.Behaviors>
+                                            <toolkit:IconTintColorBehavior TintColor="White" />
+                                        </ImageButton.Behaviors>
+                                    </ImageButton>
+                                </FlexLayout>
+                                <Grid BackgroundColor="#1e9acc" 
+                                      RowDefinitions="10, *">
+                                    <BoxView Grid.Row="0" HeightRequest="1" BackgroundColor="Gray" Margin="0,2,0,2"/>
+                                    <CollectionView Grid.Row="1" 
+                                        ItemsSource="{Binding SavedSearchesCollection}"
+                                        Margin="0, 10, 0, 0"
+                                        SelectionMode="Single">
+                                        <CollectionView.EmptyView>
+                                            <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                                                <Label Text="No saved searches yet!" 
+                                                       FontSize="18"
+                                                       HorizontalOptions="Center" />
+                                                <Image Source="nocook.png"
+                                                       WidthRequest="120"
+                                                       HeightRequest="120"
+                                                       HorizontalOptions="Center" />
+                                            </StackLayout>
+                                        </CollectionView.EmptyView>
+
+                                        <CollectionView.ItemsLayout>
+                                            <GridItemsLayout Orientation="Vertical" Span="2"
+                                                 HorizontalItemSpacing="10" 
+                                                 VerticalItemSpacing="10" />
+                                        </CollectionView.ItemsLayout>
+                                        <CollectionView.ItemTemplate>
+                                            <DataTemplate>
+                                                <VerticalStackLayout x:DataType="models:SavedSearches" >
+                                                    <Border Stroke="#2B0B98"
+                                                        StrokeThickness="1"
+                                                        StrokeShape="RoundRectangle 15,15,15,15"
+                                                            HeightRequest="40"
+                                                        Background="#fff"
+                                                        Padding="6,8"
+                                                        Margin="4"
+                                                        HorizontalOptions="FillAndExpand">
+                                                        <FlexLayout JustifyContent="SpaceBetween" 
+                                                                    AlignItems="Center" 
+                                                                    Direction="Row">
+                                                            <Label Text="{Binding Region}"
+                                                                   LineBreakMode="TailTruncation"
+                                                                   TextColor="DarkViolet" 
+                                                                   Padding="2, 0, 2, 0"
+                                                                   FontSize="11"
+                                                                   FontFamily="PoppinsSemiBold"/>
+                                                            <Label Text="{Binding Ingredient}" 
+                                                                   TextColor="DarkBlue"
+                                                                   FontSize="11"
+                                                                   LineBreakMode="TailTruncation"
+                                                                   FontFamily="PoppinsSemiBold"/>
+                                                        </FlexLayout>
+                                                    </Border>
+                                                </VerticalStackLayout>
+                                            </DataTemplate>
+                                        </CollectionView.ItemTemplate>
+                                    </CollectionView>
+                                </Grid>
+                                <BoxView HeightRequest="1" BackgroundColor="Gray" Margin="0,10,0,10"/>
+
+                            </VerticalStackLayout>
+                        </ScrollView>
+                        <!--</RefreshView>-->
+                    </VerticalStackLayout>
+
+                    <!--Last recipes viewed-->
+                    <VerticalStackLayout Grid.Row="5" Margin="0, 10, 0, 10" BackgroundColor="#1e9acc">
+                        <FlexLayout JustifyContent="SpaceBetween" AlignItems="Center">
+                            <Label Text="Recent recipes viewed" 
+                                   FontSize="18" 
+                                   VerticalOptions="Center"
+                                   FontAttributes="Bold" 
+                                   Padding="10,0,0,0" 
+                                   TextColor="Yellow" />
+                            <ImageButton WidthRequest="30" HeightRequest="50"
+                                                 Padding="0, 0, 10,0"
+                                                Command="{Binding LoadRecipesDetailsCommand}"
+                                                HorizontalOptions="Center"
+                                         VerticalOptions="Center"
+                                                Source="icon_refresh.png">
+                                <ImageButton.Behaviors>
+                                    <toolkit:IconTintColorBehavior TintColor="White" />
+                                </ImageButton.Behaviors>
+                            </ImageButton>
+                        </FlexLayout>
+                        <BoxView HeightRequest="1" BackgroundColor="Gray" Margin="0,10,0,2"/>
+
+
+                        <CollectionView ItemsSource="{Binding RecipesDetailsCollection}" 
+                            SelectionMode="Single"
+                            Margin="0,10,0,0">
+                            <CollectionView.EmptyView>
+                                <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                                    <Label Text="No saved recipes yet!" 
+                                           FontSize="18" 
+                                           HorizontalOptions="Center" />
+                                    <Image Source="nocook.png" 
+                                           WidthRequest="120" 
+                                           HeightRequest="120" 
+                                           HorizontalOptions="Center" />
+                                </StackLayout>
+                            </CollectionView.EmptyView>
+
+                            <CollectionView.ItemsLayout>
+                                <GridItemsLayout Orientation="Horizontal"
+                             HorizontalItemSpacing="10" 
+                             VerticalItemSpacing="10" />
+                            </CollectionView.ItemsLayout>
+
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Stroke="#2B0B98"
+                                    StrokeThickness="1"
+                                    StrokeShape="RoundRectangle 15,15,15,15"
+                                    Background="SteelBlue" 
+                                    Padding="4,4" 
+                                    WidthRequest="120" 
+                                    HeightRequest="150"
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="Center">
+                                        <Grid RowDefinitions="Auto, Auto" RowSpacing="4">
+                                            <Image Grid.Row="0" Source="{Binding Image}" 
+                                                   Aspect="AspectFill"
+                                                   WidthRequest="100" 
+                                                   HeightRequest="100" />
+                                            <Label Text="{Binding Title}"  
+                                                   WidthRequest="120" 
+                                                   Grid.Row="1" 
+                                                   LineBreakMode="WordWrap"
+                                                   FontSize="11" 
+                                                   FontAttributes="Bold" 
+                                                   FontFamily="PoppinsSemiBold"
+                                                   VerticalTextAlignment="Center"
+                                                   Padding="15,5" 
+                                                   HorizontalOptions="Center" 
+                                                   TextColor="White" />
+                                        </Grid>
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer 
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SpoonacularViewModel}}, Path=ShowSavedRecipeDettailCommand}"
+                                                CommandParameter="{Binding .}"/>
+                                        </Border.GestureRecognizers>
+
+                                    </Border>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </VerticalStackLayout>
+
+                    <!--Titles-->
+                    <VerticalStackLayout Grid.Row="6" BackgroundColor="#1e9acc">
+                        <CollectionView
                                     ItemsSource="{Binding RecipesTitles}" 
                                     SelectionMode="Single">
-                        <CollectionView.EmptyView >
-                            <StackLayout Grid.ColumnSpan="2"  IsVisible="{Binding IsInitialLoadComplete}">
-                                <Image HorizontalOptions="Center"
+                            <CollectionView.EmptyView >
+                                <StackLayout Grid.ColumnSpan="2"  IsVisible="{Binding IsInitialLoadComplete}">
+                                    <Image HorizontalOptions="Center"
                                        HeightRequest="120"
                                        WidthRequest="120" 
                                        Source="nocook.png"
                                        VerticalOptions="Center" />
-                            </StackLayout>
-                        </CollectionView.EmptyView>
+                                </StackLayout>
+                            </CollectionView.EmptyView>
 
-                        <CollectionView.ItemsLayout>
-                            <GridItemsLayout Orientation="Vertical" Span="2"
+                            <CollectionView.ItemsLayout>
+                                <GridItemsLayout Orientation="Vertical" Span="2"
                                              HorizontalItemSpacing="10"
                                              VerticalItemSpacing="10" />
-                        </CollectionView.ItemsLayout>
+                            </CollectionView.ItemsLayout>
 
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate>
-                                <VerticalStackLayout Margin="15, 0, 15, 0" x:DataType="viewmodels:SpoonacularViewModel">
-                                    <Border Stroke="Yellow" 
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <VerticalStackLayout Margin="15, 0, 15, 0" x:DataType="viewmodels:SpoonacularViewModel">
+                                        <Border Stroke="Yellow" 
                                             StrokeThickness="1" 
                                             HeightRequest="140" 
                                             WidthRequest="160" 
                                             StrokeShape="RoundRectangle 20" 
                                             HorizontalOptions="Center"
                                             VerticalOptions="Center">
-                                        <Border.Shadow>
-                                            <Shadow Brush="LightGray" Offset="-5,5" Radius="10" Opacity="0.4" />
-                                        </Border.Shadow>
-                                        <Image Source="{Binding Image}"
+                                            <Border.Shadow>
+                                                <Shadow Brush="LightGray" Offset="-5,5" Radius="10" Opacity="0.4" />
+                                            </Border.Shadow>
+                                            <Image Source="{Binding Image}"
                                                Aspect="AspectFill" 
                                                HorizontalOptions="Fill"
                                                VerticalOptions="Fill"                                              
                                                Margin="7, 3" />
-                                        <Border.GestureRecognizers>
-                                            <TapGestureRecognizer 
+                                            <Border.GestureRecognizers>
+                                                <TapGestureRecognizer 
                                                 Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SpoonacularViewModel}}, Path=GetRecipeInformationCommand}"
                                                 CommandParameter="{Binding .}"/>
-                                        </Border.GestureRecognizers>
-                                    </Border>
+                                            </Border.GestureRecognizers>
+                                        </Border>
 
-                                    <Label Text="{Binding Title}"
+                                        <Label Text="{Binding Title}"
                                            TextColor="White"
                                            Padding="5"
                                            FontSize="12"
                                            FontFamily="Poppins"
                                            VerticalOptions="Center"
                                            HorizontalTextAlignment="Center" />
-                                </VerticalStackLayout>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
-                    <ActivityIndicator  IsRunning="{Binding IsBusy}" Grid.RowSpan="3"
-                                        VerticalOptions="Start" HorizontalOptions="Center"/>
+                                    </VerticalStackLayout>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </VerticalStackLayout>
 
+                    <ActivityIndicator  IsRunning="{Binding IsBusy}" Grid.RowSpan="7"
+                                        VerticalOptions="Start" HorizontalOptions="Center"/>
                 </Grid>
             </VerticalStackLayout>
         </ScrollView>

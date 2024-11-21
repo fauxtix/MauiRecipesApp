@@ -98,10 +98,10 @@ public class RecipeStorageService : IRecipeStorageService
         var favoriteRecipes = await _connection.Table<LocalRecipeDetailsData>()
                                                .Where(r => r.IsFavorite)
                                                .ToListAsync();
-
-        return favoriteRecipes
+        var output = favoriteRecipes
                .Select(f => JsonSerializer.Deserialize<T>(f.JsonData!)!)
                .ToList();
+        return output;
     }
 
     public async Task<T?> LoadFavoriteRecipeAsync<T>(int recipeId)
@@ -133,6 +133,7 @@ public class RecipeStorageService : IRecipeStorageService
     {
         var savedSearches = await _connection.Table<SavedSearches>()
             .ToListAsync();
+        savedSearches = savedSearches.OrderByDescending(s => s.SaveDate).Take(6).ToList();
 
         return savedSearches;
     }
@@ -145,6 +146,20 @@ public class RecipeStorageService : IRecipeStorageService
 
         return savedSearch;
     }
+
+    public async Task<List<T>> GetRecipesDetailsStored<T>()
+    {
+        var storedRecipesDetails = await _connection.Table<LocalRecipeDetailsData>()
+            .ToListAsync();
+
+        storedRecipesDetails = storedRecipesDetails.OrderByDescending(s => s.RecipeId).Take(10).ToList();
+
+        var output = storedRecipesDetails
+               .Select(f => JsonSerializer.Deserialize<T>(f.JsonData!)!)
+               .ToList();
+        return output;
+    }
+
 
 
     public async Task ClearExpiredDataAsync()
