@@ -111,7 +111,7 @@ namespace MauiRecipes.MVVM.ViewModels
         public async Task GoBack()
         {
             IsBusy = true;
-            await Shell.Current.GoToAsync($"{nameof(RecipesMainPage)}");
+            await Shell.Current.GoToAsync("..");
             IsBusy = false;
         }
 

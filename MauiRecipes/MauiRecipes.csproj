@@ -118,6 +118,7 @@
 	  <None Remove="Resources\Images\icon_cheap.png" />
 	  <None Remove="Resources\Images\icon_clear.png" />
 	  <None Remove="Resources\Images\icon_close.svg" />
+	  <None Remove="Resources\Images\icon_delete.svg" />
 	  <None Remove="Resources\Images\icon_gluten_free.png" />
 	  <None Remove="Resources\Images\icon_healthy_food.png" />
 	  <None Remove="Resources\Images\icon_likes.png" />
@@ -157,6 +158,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="MVVM\Views\FavoritesPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="MVVM\Views\RecipesListPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="MVVM\Views\RecipesMainPage.xaml">

@@ -133,7 +133,7 @@ public class RecipeStorageService : IRecipeStorageService
     {
         var savedSearches = await _connection.Table<SavedSearches>()
             .ToListAsync();
-        savedSearches = savedSearches.OrderByDescending(s => s.SaveDate).Take(6).ToList();
+        savedSearches = savedSearches.OrderByDescending(s => s.SaveDate).Take(10).ToList();
 
         return savedSearches;
     }
@@ -166,26 +166,40 @@ public class RecipeStorageService : IRecipeStorageService
     {
         try
         {
+
+            await _connection.DeleteAllAsync<LocalRecipeData>();
+
             var allRecipes = await _connection.Table<LocalRecipeData>()
                 .ToListAsync();
 
-            foreach (var recipe in allRecipes)
-            {
-                await _connection.DeleteAsync(recipe);
-            }
+            await _connection.DeleteAllAsync<LocalRecipeDetailsData>();
 
             var allRecipesDetails = await _connection.Table<LocalRecipeDetailsData>()
                                                     .ToListAsync();
 
-            foreach (var detail in allRecipesDetails)
-            {
-                await _connection.DeleteAsync(detail);
-            }
-
+            await _connection.DeleteAllAsync<SavedSearches>();
+            var allSearches = await _connection.Table<SavedSearches>()
+                                        .ToListAsync();
         }
         catch
         {
             throw;
         }
     }
+
+    public async Task DeleteSearchAsync(int id)
+    {
+        try
+        {
+            var search = await _connection.Table<SavedSearches>()
+                .FirstOrDefaultAsync(s => s.Id == id);
+
+            await _connection.DeleteAsync(search);
+        }
+        catch
+        {
+            throw;
+        }
+    }
+
 }

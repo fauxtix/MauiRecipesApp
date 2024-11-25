@@ -17,4 +17,5 @@ public interface IRecipeStorageService
     Task<List<SavedSearches>> GetSavedSearches();
     Task<SavedSearches> GetSavedSearchById(int id);
     Task<List<T>> GetRecipesDetailsStored<T>();
+    Task DeleteSearchAsync(int id);
 }

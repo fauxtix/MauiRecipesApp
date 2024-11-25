@@ -47,8 +47,7 @@ namespace MauiRecipes
             builder.Services.AddScoped<FavoritesViewModel>();
             builder.Services.AddScoped<FavoriteRecipeDetailViewModel>();
             builder.Services.AddScoped<SavedSearchesViewModel>();
-
-
+            builder.Services.AddScoped<RecipeListViewModel>();
 
             // Views
             builder.Services.AddScoped<RecipesMainPage>();
@@ -56,6 +55,7 @@ namespace MauiRecipes
             builder.Services.AddScoped<FavoritesPage>();
             builder.Services.AddScoped<ViewFavoriteRecipeDetailPage>();
             builder.Services.AddScoped<SavedSearchesPage>();
+            builder.Services.AddScoped<RecipesListPage>();
 
 #if DEBUG
             builder.Logging.AddDebug();

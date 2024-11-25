@@ -142,6 +142,8 @@ public partial class SpoonacularViewModel : BaseViewModel
             string recipient = !string.IsNullOrEmpty(Recipient) ? Recipient : "defaultRecipient";
             string cacheKey = $"{region}_{recipient}_{NumberOfRecipes}";
 
+
+
             Titles = await LoadTitlesFromCacheAsync(cacheKey);
 
             if (Titles is not null && Titles.results is not null && Titles.results.Any())
@@ -217,10 +219,23 @@ public partial class SpoonacularViewModel : BaseViewModel
     [RelayCommand]
     private async Task SearchRecipes()
     {
+        SavedSearches savedSearches = new()
+        {
+            Region = RegionToFilter,
+            Ingredient = Recipient,
+            NumberOfRecipes = NumberOfRecipes
+        };
+
+        await Shell.Current.GoToAsync($"{nameof(RecipesListPage)}", true, new Dictionary<string, object>
+            {
+                {"SavedSearches", savedSearches},
+             });
+
+
         //if (string.IsNullOrEmpty(Recipient) && string.IsNullOrEmpty(RegionToFilter))
         //    return;
 
-        await GetRecipesTitles();
+        //await GetRecipesTitles();
     }
 
 
@@ -290,6 +305,36 @@ public partial class SpoonacularViewModel : BaseViewModel
     }
 
     [RelayCommand]
+    public async Task DeleteSearch(SavedSearches savedSearch)
+    {
+        try
+        {
+            int searchId = savedSearch.Id;
+            bool okToDelete = await Shell.Current.DisplayAlert("Please confirm", $"Delete search?", "Yes", "No");
+            if (okToDelete)
+            {
+                IsBusy = true;
+                await Task.Yield();
+
+                await _storageService!.DeleteSearchAsync(searchId);
+
+                await LoadSavedSearches();
+
+                await ShowUserFeedbackAsync("Search removed fromthe  database.", MessageType.Warning, durationInSeconds: 2);
+            }
+        }
+        catch (Exception ex)
+        {
+            await ShowUserFeedbackAsync($"Error removing recipes from cache {ex.Message}.", MessageType.Error, durationInSeconds: 5);
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+    }
+
+
+    [RelayCommand]
     public async Task ClearCacheAsync()
     {
         try
@@ -302,7 +347,8 @@ public partial class SpoonacularViewModel : BaseViewModel
                 await _storageService!.ClearExpiredDataAsync();
                 await ShowUserFeedbackAsync("All cached searches removed from database.", MessageType.Warning, durationInSeconds: 5);
 
-                await GetRecipesTitles();
+                await LoadSavedSearches();
+                await LoadRecipesDetailsAsync();
             }
         }
         catch (Exception ex)
@@ -372,7 +418,82 @@ public partial class SpoonacularViewModel : BaseViewModel
             IsBusy = false;
         }
     }
+    [RelayCommand]
+    public async Task ShowSavedRecipeDettail(RecipeInformation.RecipeInfo recipe)
+    {
 
+        var recipeInfo = await FetchRecipeInformationFromStorageOrApi(recipe.id);
+
+        if (recipeInfo.Recipe is null) return;
+
+        await Shell.Current.GoToAsync($"{nameof(ViewRecipePage)}", true, new Dictionary<string, object>
+            {
+                {"RecipeInfo", recipeInfo.Recipe},
+                { "IsFavorite", recipeInfo.IsFavorite }
+             });
+    }
+
+    [RelayCommand]
+    public void SetParameters(SavedSearches savedSearch)
+    {
+        if (savedSearch!.Ingredient!.ToLower().Equals("no ingredient"))
+        {
+            Recipient = "";
+        }
+        else
+        {
+            Recipient = savedSearch.Ingredient;
+        }
+
+        if (savedSearch!.Region!.ToLower().Equals("no region"))
+        {
+            RegionToFilter = "";
+        }
+        else
+        {
+            if (!string.IsNullOrEmpty(RegionToFilter))
+            {
+                var selRegion = Regions.FirstOrDefault(r => r.ID == savedSearch.Region);
+
+                if (selRegion != null)
+                {
+                    SelectedRegion = selRegion;
+                }
+                else
+                {
+                    SelectedRegion = null;
+                }
+            }
+
+        }
+
+        NumberOfRecipes = savedSearch.NumberOfRecipes;
+        EnableDisableNumberOfRecipesButtons(NumberOfRecipes);
+
+    }
+
+    private void EnableDisableNumberOfRecipesButtons(int numberOfRecipesButtons)
+    {
+        if (numberOfRecipesButtons == 10)
+        {
+            Is10Enabled = false;
+            Is20Enabled = true;
+            Is30Enabled = true;
+        }
+        else if (numberOfRecipesButtons == 20)
+        {
+            Is10Enabled = true;
+            Is20Enabled = false;
+            Is30Enabled = true;
+        }
+        else if (numberOfRecipesButtons == 30)
+        {
+            Is10Enabled = true;
+            Is20Enabled = true;
+            Is30Enabled = false;
+        }
+
+    }
 
     private void SpoonacularViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
@@ -391,22 +512,6 @@ public partial class SpoonacularViewModel : BaseViewModel
         }
     }
 
-    [RelayCommand]
-    public async Task ShowSavedRecipeDettail(RecipeInformation.RecipeInfo recipe)
-    {
-
-        var recipeInfo = await FetchRecipeInformationFromStorageOrApi(recipe.id);
-
-        if (recipeInfo.Recipe is null) return;
-
-        await Shell.Current.GoToAsync($"{nameof(ViewRecipePage)}", true, new Dictionary<string, object>
-            {
-                {"RecipeInfo", recipeInfo.Recipe},
-                { "IsFavorite", recipeInfo.IsFavorite }
-             });
-
-
-    }
     private async Task<(RecipeInformation.RecipeInfo Recipe, bool IsFavorite, bool FromDatabase)> FetchRecipeInformationFromStorageOrApi(int recipeId)
     {
         var (recipeFromStorage, isFavorite) = await _storageService!.LoadDetailFromStorageAsync<RecipeInformation.RecipeInfo>(recipeId);
@@ -439,7 +544,10 @@ public partial class SpoonacularViewModel : BaseViewModel
     private async Task AddTitlesToStorage(string cacheKey)
     {
         await _storageService!.SaveToStorageAsync(cacheKey, Titles);
-        await _storageService!.SaveSearch(RegionToFilter, Recipient ?? "", NumberOfRecipes);
+        if (RegionToFilter.ToLower() != "no region" && Recipient?.ToLower() != "no ingredient")
+        {
+            await _storageService!.SaveSearch(RegionToFilter, Recipient ?? "", NumberOfRecipes);
+        }
     }
 
     private (string message, MessageType type) GetUserFeedbackMessage()
