@@ -37,22 +37,10 @@ public partial class BaseViewModel : ObservableObject
     [ObservableProperty]
     private double apiRequestCost;
 
-
-    //[ObservableProperty]
-    //private double apiQuotaUsedDetails;
-    //[ObservableProperty]
-    //private double apiQuotaLeftDetails;
-    //[ObservableProperty]
-    //private double apiRequestCostDetails;
-
     [ObservableProperty]
     private double _requestsProgress = 0;
-    //[ObservableProperty]
-    //private double _requestsProgressDetails = 0;
 
     public double TotalQuota => ApiQuotaUsed + ApiQuotaLeft;
-    //public double TotalQuotaDetails => ApiQuotaUsedDetails + ApiQuotaLeftDetails;
-
 
     [ObservableProperty]
     private CuisineRegion? selectedRegion;

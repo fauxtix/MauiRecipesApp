@@ -30,6 +30,7 @@ namespace MauiRecipes
 
 
             // Services
+
             builder.Services.AddScoped<ISpoonacularService, SpoonacularService>();
             builder.Services.AddScoped<IRecipeStorageService, RecipeStorageService>();
             builder.Services.AddScoped<IAlertService, AlertService>();

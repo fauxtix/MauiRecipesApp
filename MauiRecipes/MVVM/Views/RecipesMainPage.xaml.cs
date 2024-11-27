@@ -12,6 +12,14 @@ public partial class RecipesMainPage : ContentPage
         BindingContext = _spoonacularViewModel;
     }
 
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+
+        _spoonacularViewModel.LoadRecentSearchesOnAppearingCommand.Execute(this);
+        _spoonacularViewModel.LoadRecipesDetailsCommand.Execute(this);
+    }
+
     private void Button10_Clicked(object sender, EventArgs e)
     {
         if (_spoonacularViewModel.NumberOfRecipes != 10)

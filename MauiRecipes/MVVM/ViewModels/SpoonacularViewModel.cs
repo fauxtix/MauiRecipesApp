@@ -1,5 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
+using MauiRecipes.Messaging;
 using MauiRecipes.MVVM.Models;
 using MauiRecipes.MVVM.Views;
 using MauiRecipes.Services.Interfaces;
@@ -8,7 +10,7 @@ using System.ComponentModel;
 using static MauiRecipes.MVVM.Models.Enums.UserMessages;
 
 namespace MauiRecipes.MVVM.ViewModels;
-public partial class SpoonacularViewModel : BaseViewModel
+public partial class SpoonacularViewModel : BaseViewModel, IDisposable
 {
     private readonly ISpoonacularService? _service;
     private readonly IRecipeStorageService? _storageService;
@@ -23,13 +25,13 @@ public partial class SpoonacularViewModel : BaseViewModel
     private RecipeInformation.RecipeInfo? recipeInfo;
 
     [ObservableProperty]
-    private string? recipient;
+    private string? ingredientFilter;
 
     public ObservableCollection<CountriesCuisines.Result?> RecipesTitles { get; } = new();
     public ObservableCollection<Recipes.MyArray?> RecipeDetails { get; } = new();
 
     [ObservableProperty]
-    private bool isInitialLoadComplete;
+    private bool isInitialLoadComplete = false;
 
     // popular searches
     [ObservableProperty]
@@ -61,30 +63,23 @@ public partial class SpoonacularViewModel : BaseViewModel
             return;
         }
 
+
         PropertyChanged += SpoonacularViewModel_PropertyChanged!;
 
         InitializeRegions();
+        LoadInitialSearches();
 
-        LoadPopularSearches();
         LoadRecipesDetails();
-
-        //GetFirstData();
     }
 
-    private async void LoadPopularSearches()
+    private async void LoadInitialSearches()
     {
-        await LoadSavedSearches();
+        await LoadRecentSearchesOnAppearing();
     }
 
     private async void LoadRecipesDetails()
     {
         await LoadRecipesDetailsAsync();
-    }
-
-
-    private async void GetFirstTitlesData()
-    {
-        await GetRecipesTitles();
     }
 
     private void InitializeRegions()
@@ -129,100 +124,22 @@ public partial class SpoonacularViewModel : BaseViewModel
 
     }
 
-    [RelayCommand]
-    public async Task GetRecipesTitles()
-    {
-
-        IsBusy = true;
-        await Task.Yield();
-
-        try
-        {
-            string region = !string.IsNullOrEmpty(RegionToFilter) ? RegionToFilter : "defaultRegion";
-            string recipient = !string.IsNullOrEmpty(Recipient) ? Recipient : "defaultRecipient";
-            string cacheKey = $"{region}_{recipient}_{NumberOfRecipes}";
-
-
-
-            Titles = await LoadTitlesFromCacheAsync(cacheKey);
-
-            if (Titles is not null && Titles.results is not null && Titles.results.Any())
-            {
-                AddRecipesToTitlesCollection();
-                await ShowUserFeedbackAsync("Recipes loaded from database.", MessageType.Success, durationInSeconds: 2);
-            }
-            else
-            {
-                // In case no data returned from the database, use the Api; if there's a valid response, store the results in the database
-                // (in case a Region was selected)
-
-                var (quotaUsed, quotaLeft, requestCost) = await _service!.GetQuotaDetailsAsync("recipes/complexSearch");
-
-                if (quotaUsed == -1)
-                {
-                    await ShowUserFeedbackAsync(message: "Error getting Api quota usage.",
-                      messageType: MessageType.Error, null, textColor: Colors.White, durationInSeconds: 5);
-                    return;
-
-                }
-
-                ApiQuotaUsed = quotaUsed;
-                ApiQuotaLeft = quotaLeft;
-                ApiRequestCost = requestCost;
-
-                if (TotalQuota > 0)
-                {
-                    RequestsProgress = ApiQuotaUsed / TotalQuota;
-                }
-                else
-                {
-                    RequestsProgress = 0;
-                }
-
-                //if (quotaLeft <= 0)
-                //{
-                //    await ShowUserFeedbackAsync("You have no more quota left for today.",
-                //        MessageType.Error, durationInSeconds: 10);
-                //    return;
-                //}
-
-                Titles = await _service!.GetRecipeTitles(RegionToFilter, Recipient!, NumberOfRecipes);
-                if (Titles.results.Count > 0)
-                {
-                    AddRecipesToTitlesCollection();
-                    if (!string.IsNullOrEmpty(RegionToFilter))
-                    {
-                        await AddTitlesToStorage(cacheKey);
-                    }
-
-                    var userFeedback = GetUserFeedbackMessage();
-                    await ShowUserFeedbackAsync(userFeedback.message, userFeedback.type, durationInSeconds: 1);
-                }
-                else
-                {
-                    await ShowUserFeedbackAsync("No results found...", MessageType.Warning, backgroundColor: Colors.Orange,
-                        textColor: Colors.Black, durationInSeconds: 5);
-                }
-            }
-        }
-        catch
-        {
-            await ShowUserFeedbackAsync($"Recipes failed to load for Region '{RegionToFilter}'", MessageType.Error, durationInSeconds: 5);
-        }
-        finally
-        {
-            IsBusy = false;
-            IsInitialLoadComplete = true;
-        }
-    }
 
     [RelayCommand]
     private async Task SearchRecipes()
     {
+        var recipesList = await _service!.GetRecipeTitles(RegionToFilter, IngredientFilter!, NumberOfRecipes);
+        if (recipesList.results.Count == 0)
+        {
+            await ShowUserFeedbackAsync("No results found...", MessageType.Warning, backgroundColor: Colors.Orange,
+                textColor: Colors.Black, durationInSeconds: 5);
+            return;
+        }
+
         SavedSearches savedSearches = new()
         {
             Region = RegionToFilter,
-            Ingredient = Recipient,
+            Ingredient = IngredientFilter,
             NumberOfRecipes = NumberOfRecipes
         };
 
@@ -230,79 +147,8 @@ public partial class SpoonacularViewModel : BaseViewModel
             {
                 {"SavedSearches", savedSearches},
              });
-
-
-        //if (string.IsNullOrEmpty(Recipient) && string.IsNullOrEmpty(RegionToFilter))
-        //    return;
-
-        //await GetRecipesTitles();
     }
 
-
-    [RelayCommand]
-    private async Task GetRecipeInformation(CountriesCuisines.Result param)
-    {
-        IsBusy = true;
-        await Task.Yield();
-
-        try
-        {
-            var recipeInfo = await FetchRecipeInformationFromStorageOrApi(param.Id);
-
-            if (recipeInfo.Recipe == null)
-            {
-                await ShowUserFeedbackAsync("Failed to load recipe information.", MessageType.Error);
-                return;
-            }
-
-            if (!recipeInfo.FromDatabase)
-            {
-                var endpoint = $"recipes/{param.Id}/information";
-                var (quotaUsed, quotaLeft, requestCost) = await _service!.GetQuotaDetailsAsync(endpoint);
-
-                if (quotaUsed == -1)
-                {
-                    await ShowUserFeedbackAsync(message: "Error getting Api quota usage.",
-                      messageType: MessageType.Error, null, textColor: Colors.White, durationInSeconds: 5);
-                    return;
-                }
-
-                ApiQuotaUsed = quotaUsed;
-                ApiQuotaLeft = quotaLeft;
-                ApiRequestCost = requestCost;
-
-                if (TotalQuota > 0)
-                {
-                    RequestsProgress = ApiQuotaUsed / TotalQuota;
-                }
-                else
-                {
-                    RequestsProgress = 0;
-                }
-
-                //if (quotaLeft <= 0)
-                //{
-                //    await ShowUserFeedbackAsync("You have no more quota left for today.",
-                //        MessageType.Error, durationInSeconds: 10);
-                //    return;
-                //}
-            }
-
-            await Shell.Current.GoToAsync($"{nameof(ViewRecipePage)}", true, new Dictionary<string, object>
-            {
-                {"RecipeInfo", recipeInfo.Recipe},
-                { "IsFavorite", recipeInfo.IsFavorite }
-             });
-        }
-        catch (Exception ex)
-        {
-            await ShowUserFeedbackAsync($"Error: {ex.Message}", MessageType.Error);
-        }
-        finally
-        {
-            IsBusy = false;
-        }
-    }
 
     [RelayCommand]
     public async Task DeleteSearch(SavedSearches savedSearch)
@@ -318,7 +164,7 @@ public partial class SpoonacularViewModel : BaseViewModel
 
                 await _storageService!.DeleteSearchAsync(searchId);
 
-                await LoadSavedSearches();
+                await LoadRecentSearchesOnAppearing();
 
                 await ShowUserFeedbackAsync("Search removed fromthe  database.", MessageType.Warning, durationInSeconds: 2);
             }
@@ -345,9 +191,13 @@ public partial class SpoonacularViewModel : BaseViewModel
                 IsBusy = true;
                 await Task.Yield();
                 await _storageService!.ClearExpiredDataAsync();
+
+                IngredientFilter = "";
+                SelectedRegion = new();
+
                 await ShowUserFeedbackAsync("All cached searches removed from database.", MessageType.Warning, durationInSeconds: 5);
 
-                await LoadSavedSearches();
+                await LoadRecentSearchesOnAppearing();
                 await LoadRecipesDetailsAsync();
             }
         }
@@ -361,16 +211,13 @@ public partial class SpoonacularViewModel : BaseViewModel
         }
     }
 
-
-    // popular searches
-
     [RelayCommand]
-    public async Task LoadSavedSearches()
+    public async Task LoadRecentSearchesOnAppearing()
     {
+        IsBusy = true;
+        await Task.Yield();
         try
         {
-            IsBusy = true;
-            await Task.Yield();
             SavedSearchesList = await _storageService.GetSavedSearches();
             SavedSearchesCollection.Clear();
             if (SavedSearchesList != null)
@@ -380,10 +227,43 @@ public partial class SpoonacularViewModel : BaseViewModel
                     SavedSearchesCollection.Add(search!);
                 }
             }
+
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+    }
+
+    // Recent searches
+
+    [RelayCommand]
+    public async Task LoadSavedSearches()
+    {
+        try
+        {
+            IsBusy = true;
+            await Task.Yield();
+
+            WeakReferenceMessenger.Default.Unregister<SavedSearchesUpdatedMessage>(this);
+
+            SavedSearchesList = await _storageService.GetSavedSearches();
+            WeakReferenceMessenger.Default.Register<SavedSearchesUpdatedMessage>(this, (r, m) =>
+            {
+                SavedSearchesCollection.Clear();
+                if (SavedSearchesList != null)
+                {
+                    foreach (var search in SavedSearchesList)
+                    {
+                        SavedSearchesCollection.Add(search!);
+                    }
+                }
+            });
+
         }
         catch (Exception ex)
         {
-            await _alertService.ShowInfoOrAlert($"Failed to load popular searches: {ex.Message}", MessageType.Error);
+            await _alertService.ShowInfoOrAlert($"Failed to load recent searches: {ex.Message}", MessageType.Error);
         }
         finally
         {
@@ -399,7 +279,7 @@ public partial class SpoonacularViewModel : BaseViewModel
             IsBusy = true;
             await Task.Yield();
 
-            RecipesDetailsList = (await _storageService.GetRecipesDetailsStored<RecipeInformation.RecipeInfo>()).ToList();
+            RecipesDetailsList = (await _storageService!.GetRecipesDetailsStored<RecipeInformation.RecipeInfo>()).ToList();
             RecipesDetailsCollection.Clear();
             if (RecipesDetailsList != null)
             {
@@ -418,31 +298,17 @@ public partial class SpoonacularViewModel : BaseViewModel
             IsBusy = false;
         }
     }
-    [RelayCommand]
-    public async Task ShowSavedRecipeDettail(RecipeInformation.RecipeInfo recipe)
-    {
-
-        var recipeInfo = await FetchRecipeInformationFromStorageOrApi(recipe.id);
-
-        if (recipeInfo.Recipe is null) return;
-
-        await Shell.Current.GoToAsync($"{nameof(ViewRecipePage)}", true, new Dictionary<string, object>
-            {
-                {"RecipeInfo", recipeInfo.Recipe},
-                { "IsFavorite", recipeInfo.IsFavorite }
-             });
-    }
 
     [RelayCommand]
     public void SetParameters(SavedSearches savedSearch)
     {
         if (savedSearch!.Ingredient!.ToLower().Equals("no ingredient"))
         {
-            Recipient = "";
+            IngredientFilter = "";
         }
         else
         {
-            Recipient = savedSearch.Ingredient;
+            IngredientFilter = savedSearch.Ingredient;
         }
 
         if (savedSearch!.Region!.ToLower().Equals("no region"))
@@ -451,7 +317,7 @@ public partial class SpoonacularViewModel : BaseViewModel
         }
         else
         {
-            if (!string.IsNullOrEmpty(RegionToFilter))
+            if (!string.IsNullOrEmpty(savedSearch.Region))
             {
                 var selRegion = Regions.FirstOrDefault(r => r.ID == savedSearch.Region);
 
@@ -503,63 +369,16 @@ public partial class SpoonacularViewModel : BaseViewModel
         }
     }
 
-    private void AddRecipesToTitlesCollection()
-    {
-        RecipesTitles.Clear();
-        foreach (var recipe in Titles!.results)
-        {
-            RecipesTitles.Add(recipe);
-        }
-    }
-
-    private async Task<(RecipeInformation.RecipeInfo Recipe, bool IsFavorite, bool FromDatabase)> FetchRecipeInformationFromStorageOrApi(int recipeId)
-    {
-        var (recipeFromStorage, isFavorite) = await _storageService!.LoadDetailFromStorageAsync<RecipeInformation.RecipeInfo>(recipeId);
-        bool fromDatabase;
-        RecipeInformation.RecipeInfo recipeInfo;
-
-        if (recipeFromStorage == null)
-        {
-            fromDatabase = false;
-
-            recipeInfo = await _service!.GetRecipeInformation(recipeId);
-
-            await _storageService.SaveDetailToStorageAsync(recipeId, recipeInfo);
-            isFavorite = false;
-            await ShowUserFeedbackAsync("Recipe detail loaded from the API.", MessageType.Info);
-        }
-        else
-        {
-            fromDatabase = true;
-            recipeInfo = recipeFromStorage;
-            await ShowUserFeedbackAsync("Recipe detail loaded from database.", MessageType.Success);
-        }
-
-        return (recipeInfo, isFavorite, fromDatabase);
-    }
-    private async Task<CountriesCuisines.Root> LoadTitlesFromCacheAsync(string cacheKey)
-    {
-        return await _storageService!.LoadFromStorageAsync<CountriesCuisines.Root>(cacheKey) ?? new();
-    }
-    private async Task AddTitlesToStorage(string cacheKey)
-    {
-        await _storageService!.SaveToStorageAsync(cacheKey, Titles);
-        if (RegionToFilter.ToLower() != "no region" && Recipient?.ToLower() != "no ingredient")
-        {
-            await _storageService!.SaveSearch(RegionToFilter, Recipient ?? "", NumberOfRecipes);
-        }
-    }
-
     private (string message, MessageType type) GetUserFeedbackMessage()
     {
-        if (string.IsNullOrEmpty(RegionToFilter) && string.IsNullOrEmpty(Recipient))
+        if (string.IsNullOrEmpty(RegionToFilter) && string.IsNullOrEmpty(IngredientFilter))
         {
             return ("Random recipes loaded (no selection) from the Api", MessageType.Info);  // Return both message and type
         }
 
-        if (string.IsNullOrEmpty(Recipient))
+        if (string.IsNullOrEmpty(IngredientFilter))
         {
-            return ($"Recipes loaded for ingredient {Recipient} from the Api", MessageType.Info);
+            return ($"Recipes loaded for ingredient {IngredientFilter} from the Api", MessageType.Info);
         }
 
         if (string.IsNullOrEmpty(RegionToFilter))
@@ -567,7 +386,7 @@ public partial class SpoonacularViewModel : BaseViewModel
             return ($"Recipes loaded for region {RegionToFilter} from the Api", MessageType.Info);
         }
 
-        return ($"Recipes loaded for region '{RegionToFilter}' and ingredient '{Recipient} from the Api'", MessageType.Info);
+        return ($"Recipes loaded for region '{RegionToFilter}' and ingredient '{IngredientFilter} from the Api'", MessageType.Info);
     }
     private async void ShowNetworkAlert(string message)
     {
@@ -579,8 +398,13 @@ public partial class SpoonacularViewModel : BaseViewModel
         await _alertService.ShowInfoOrAlert(message, messageType, backgroundColor, textColor, durationInSeconds);
     }
 
-    ~SpoonacularViewModel()
+    public void Dispose()
     {
         PropertyChanged -= SpoonacularViewModel_PropertyChanged!;
+        WeakReferenceMessenger.Default.Unregister<SavedSearchesUpdatedMessage>(this);
+    }
+    ~SpoonacularViewModel()
+    {
+        Dispose();
     }
 }

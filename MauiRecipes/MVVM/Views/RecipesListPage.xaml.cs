@@ -13,9 +13,9 @@ public partial class RecipesListPage : ContentPage
         BindingContext = _viewModel;
     }
 
-    protected override void OnAppearing()
-    {
-        base.OnAppearing();
-        _viewModel.GetRecipesTitlesCommand.Execute(null);
-    }
+    //protected override void OnAppearing()
+    //{
+    //    base.OnAppearing();
+    //    _viewModel.GetRecipesTitlesCommand.Execute(null);
+    //}
 }

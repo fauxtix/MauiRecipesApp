@@ -1,5 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
+using MauiRecipes.Messaging;
 using MauiRecipes.MVVM.Models;
 using MauiRecipes.MVVM.Views;
 using MauiRecipes.Services.Interfaces;
@@ -21,7 +23,12 @@ namespace MauiRecipes.MVVM.ViewModels
         public ObservableCollection<CountriesCuisines.Result?> RecipesTitles { get; } = new();
 
         [ObservableProperty]
-        private string? recipient;
+        private string? ingredientFilter;
+
+        [ObservableProperty]
+        private string? regionCaption;
+        [ObservableProperty]
+        private string? ingredientCaption;
 
         [ObservableProperty]
         public bool areThereParameters;
@@ -32,14 +39,17 @@ namespace MauiRecipes.MVVM.ViewModels
             _storageService = storageService;
             _alertService = alertService;
 
-            GetRecipes();
         }
         public void ApplyQueryAttributes(IDictionary<string, object> query)
         {
             var data = query[nameof(SavedSearches)] as SavedSearches;
-            Recipient = !string.IsNullOrEmpty(data?.Ingredient) ? data.Ingredient : "No ingredient";
-            RegionToFilter = !string.IsNullOrEmpty(data?.Region) ? data.Region : "No region";
+            IngredientFilter = data?.Ingredient;
+            RegionToFilter = data?.Region ?? "";
+            IngredientCaption = !string.IsNullOrEmpty(data?.Ingredient) ? data.Ingredient : "No ingredient";
+            RegionCaption = !string.IsNullOrEmpty(data?.Region) ? data.Region : "No region";
             NumberOfRecipes = data?.NumberOfRecipes ?? 10;
+
+            GetRecipes();
         }
 
         private async void GetRecipes()
@@ -56,13 +66,13 @@ namespace MauiRecipes.MVVM.ViewModels
 
             try
             {
-                if (Recipient!.ToLower().Equals("no ingredient"))
-                {
-                    Recipient = "";
-                }
+                //if (Recipient!.ToLower().Equals("no ingredient"))
+                //{
+                //    Recipient = "";
+                //}
 
                 string region = !string.IsNullOrEmpty(RegionToFilter) ? RegionToFilter : "defaultRegion";
-                string recipient = !string.IsNullOrEmpty(Recipient) ? Recipient : "defaultRecipient";
+                string recipient = !string.IsNullOrEmpty(IngredientFilter) ? IngredientFilter : "defaultIngredient";
                 string cacheKey = $"{region}_{recipient}_{NumberOfRecipes}";
 
                 Titles = await LoadTitlesFromCacheAsync(cacheKey);
@@ -107,7 +117,7 @@ namespace MauiRecipes.MVVM.ViewModels
                     //    return;
                     //}
 
-                    Titles = await _service!.GetRecipeTitles(RegionToFilter, Recipient!, NumberOfRecipes);
+                    Titles = await _service!.GetRecipeTitles(RegionToFilter, IngredientFilter!, NumberOfRecipes);
                     if (Titles.results.Count > 0)
                     {
                         AddRecipesToTitlesCollection();
@@ -252,7 +262,12 @@ namespace MauiRecipes.MVVM.ViewModels
         private async Task AddTitlesToStorage(string cacheKey)
         {
             await _storageService!.SaveToStorageAsync(cacheKey, Titles);
-            await _storageService!.SaveSearch(RegionToFilter, Recipient ?? "", NumberOfRecipes);
+            await _storageService!.SaveSearch(RegionToFilter, IngredientFilter ?? "", NumberOfRecipes);
+
+            // Crie a mensagem que será enviada (contempla a lista atualizada de pesquisas)
+            var updatedSearches = await _storageService.GetSavedSearches();
+
+            WeakReferenceMessenger.Default.Send(new SavedSearchesUpdatedMessage(updatedSearches));
         }
 
 
@@ -263,14 +278,14 @@ namespace MauiRecipes.MVVM.ViewModels
 
         private (string message, MessageType type) GetUserFeedbackMessage()
         {
-            if (string.IsNullOrEmpty(RegionToFilter) && string.IsNullOrEmpty(Recipient))
+            if (string.IsNullOrEmpty(RegionToFilter) && string.IsNullOrEmpty(IngredientFilter))
             {
                 return ("Random recipes loaded (no selection) from the Api", MessageType.Info);  // Return both message and type
             }
 
-            if (string.IsNullOrEmpty(Recipient))
+            if (string.IsNullOrEmpty(IngredientFilter))
             {
-                return ($"Recipes loaded for ingredient {Recipient} from the Api", MessageType.Info);
+                return ($"Recipes loaded for ingredient {IngredientFilter} from the Api", MessageType.Info);
             }
 
             if (string.IsNullOrEmpty(RegionToFilter))
@@ -278,7 +293,7 @@ namespace MauiRecipes.MVVM.ViewModels
                 return ($"Recipes loaded for region {RegionToFilter} from the Api", MessageType.Info);
             }
 
-            return ($"Recipes loaded for region '{RegionToFilter}' and ingredient '{Recipient} from the Api'", MessageType.Info);
+            return ($"Recipes loaded for region '{RegionToFilter}' and ingredient '{IngredientFilter} from the Api'", MessageType.Info);
         }
         private async void ShowNetworkAlert(string message)
         {

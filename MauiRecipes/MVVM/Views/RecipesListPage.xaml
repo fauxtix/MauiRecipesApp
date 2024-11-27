@@ -48,7 +48,7 @@
 
     <Grid>
         <ScrollView BackgroundColor="{AppThemeBinding Light={StaticResource LightBackground}, Dark={StaticResource DarkBackground}}">
-            <VerticalStackLayout Grid.Row="6" BackgroundColor="#1e9acc">
+            <VerticalStackLayout BackgroundColor="#1e9acc">
                 <Grid BackgroundColor="#1e9acc" 
                       RowDefinitions="10, 50, 10, 50, *">
                     <BoxView Grid.Row="0" 
@@ -67,13 +67,13 @@
                         <FlexLayout JustifyContent="SpaceBetween" 
                                     Margin="5, 0, 5, 0"
                                     AlignItems="Center">
-                            <Label Text="{Binding RegionToFilter}"
+                            <Label Text="{Binding RegionCaption}"
                                    LineBreakMode="TailTruncation"
                                    FontSize="16"
                                    FontFamily="Poppins"
                                    FontAttributes="Bold"
                                    TextColor="Violet"/>
-                            <Label Text="{Binding Recipient}"
+                            <Label Text="{Binding IngredientCaption}"
                                    LineBreakMode="TailTruncation"
                                    FontSize="16"
                                    FontFamily="Poppins"
@@ -92,25 +92,25 @@
                              BackgroundColor="Black"
                              Margin="5, 0, 5, 0"/>
 
-                    <VerticalStackLayout Grid.Row="3">
-                        <ProgressBar
+                    <VerticalStackLayout Grid.Row="3" Margin=" 5, 0">
+                        <ProgressBar 
                                          ProgressColor="LightBlue" 
                                          HeightRequest="50"
-                                         Margin="10">
+                                         Margin="5">
                             <ProgressBar.Behaviors>
                                 <toolkit:ProgressBarAnimationBehavior 
                                         Progress="{Binding RequestsProgress}"
                                         Length="1500"/>
                             </ProgressBar.Behaviors>
                         </ProgressBar>
+                        <FlexLayout JustifyContent="SpaceAround" AlignItems="Center" Margin="2, -20, 0, 20">
+                            <Label Text="{Binding ApiQuotaUsed, StringFormat='{0:F0}'}" TextColor="White" HorizontalOptions="Center" FontAttributes="Bold"/>
+                            <Label Text="{Binding RequestsProgress, StringFormat='{0:P2}'}" TextColor="White" HorizontalOptions="Center" FontAttributes="Bold"/>
+                        </FlexLayout>
                     </VerticalStackLayout>
-                    <FlexLayout JustifyContent="SpaceAround" AlignItems="Center" Margin="2, -20, 0, 20">
-                        <Label Text="{Binding ApiQuotaUsed, StringFormat='{0:F2}'}" TextColor="White" HorizontalOptions="Center" FontAttributes="Bold"/>
-                        <Label Text="{Binding RequestsProgress, StringFormat='{0:P2}'}" TextColor="White" HorizontalOptions="Center" FontAttributes="Bold"/>
-                    </FlexLayout>
 
 
-                    <CollectionView Grid.Row="4" Margin="0, 10"
+                    <CollectionView Grid.Row="4" Margin="0, 30"
                                     ItemsSource="{Binding RecipesTitles}" 
                                     SelectionMode="Single">
                         <CollectionView.EmptyView >
