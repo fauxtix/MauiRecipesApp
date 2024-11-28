@@ -13,9 +13,8 @@ The users may also view the recipes marked as favorites, and the previously sear
   - Recipes already researched, are stored locally using an SQLite database.
     This feature is used to provide faster, optimized responses to the user.
 
-- **Data Expiration and Cleanup**:
-  - Recipes stored locally have an **`ExpirationDate`** field that defines their validity period.
-  - There's an option to manually clean expired recipes via the app's interface.
+- **Cleanup**:
+  - There's an option to manually clean all recipes stored locally, via the app's interface.
 
 - **Choose Number of Recipes**:
   - Users can select the number of recipes to load, with options for 10, 20, or 30 recipes.
@@ -32,6 +31,7 @@ The users may also view the recipes marked as favorites, and the previously sear
 
 ## **Technologies Used**
 
+- **C#**
 - **.NET MAUI** - Framework for building cross-platform mobile applications for Android, iOS, MacOS, and Windows.
 - **SQLite** - Local database for storing recipes.
 - **Spoonacular API** - External API for fetching information on cooking recipes.
