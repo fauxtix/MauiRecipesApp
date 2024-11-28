@@ -198,7 +198,8 @@ namespace MauiRecipes.MVVM.ViewModels
                 await Shell.Current.GoToAsync($"{nameof(ViewRecipePage)}", true, new Dictionary<string, object>
             {
                 {"RecipeInfo", recipeInfo.Recipe},
-                { "IsFavorite", recipeInfo.IsFavorite }
+                { "IsFavorite", recipeInfo.IsFavorite },
+                { "ShowFavoriteIcon", true }
              });
             }
             catch (Exception ex)

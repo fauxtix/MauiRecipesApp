@@ -18,6 +18,7 @@ public partial class RecipesMainPage : ContentPage
 
         _spoonacularViewModel.LoadRecentSearchesOnAppearingCommand.Execute(this);
         _spoonacularViewModel.LoadRecipesDetailsCommand.Execute(this);
+        _spoonacularViewModel.LoadPopularRecipesCommand.Execute(this);
     }
 
     private void Button10_Clicked(object sender, EventArgs e)

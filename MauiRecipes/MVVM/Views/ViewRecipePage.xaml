@@ -70,6 +70,7 @@
                     </Border>
                     <Image Source="{Binding IsFavorite, Converter={StaticResource boolToFavoriteImageConverter}}"
                            WidthRequest="40"
+                           IsVisible="{Binding ShowFavoriteIcon}"
                            HeightRequest="40" BackgroundColor="LightSteelBlue"
                            Margin="10, 15, 30, 0" 
                            HorizontalOptions="End"

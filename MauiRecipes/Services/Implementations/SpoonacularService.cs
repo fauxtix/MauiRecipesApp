@@ -112,6 +112,31 @@ public class SpoonacularService : ISpoonacularService
         }
     }
 
+    public async Task<ApiResponse> GetPopularRecipesAsync(string region = "", string ingredient = "", int numberOfRecipes = 10)
+    {
+        var apiQuery = $"{baseAddress}recipes/complexSearch?apiKey={_apiKey}&query={ingredient}&cuisine={region}&number={numberOfRecipes}&sort=rating&number={numberOfRecipes}&addRecipeInformation=true";
+        Uri uri = new Uri(apiQuery);
+
+        try
+        {
+            var client = GetClient();
+            HttpResponseMessage response = await client.GetAsync(uri);
+
+            response.EnsureSuccessStatusCode();
+
+            var responseString = await response.Content.ReadAsStringAsync();
+
+            var data = JsonConvert.DeserializeObject<ApiResponse>(responseString);
+
+            return data ?? new();
+
+        }
+        catch (Exception ex)
+        {
+            var errorMsg = ex.Message;
+            return new();
+        }
+    }
     public async Task<RecipeInformation.RecipeInfo> GetRecipeInformation(int id)
     {
 
@@ -138,4 +163,6 @@ public class SpoonacularService : ISpoonacularService
             return new();
         }
     }
+
+
 }

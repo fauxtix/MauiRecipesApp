@@ -8,6 +8,7 @@ using MauiRecipes.Services.Interfaces;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using static MauiRecipes.MVVM.Models.Enums.UserMessages;
+using static MauiRecipes.MVVM.Models.RecipeInformation;
 
 namespace MauiRecipes.MVVM.ViewModels;
 public partial class SpoonacularViewModel : BaseViewModel, IDisposable
@@ -22,13 +23,15 @@ public partial class SpoonacularViewModel : BaseViewModel, IDisposable
     private List<Recipes.MyArray>? recipeDetail;
 
     [ObservableProperty]
-    private RecipeInformation.RecipeInfo? recipeInfo;
+    private RecipeInfo? recipeInfo;
 
     [ObservableProperty]
     private string? ingredientFilter;
 
     public ObservableCollection<CountriesCuisines.Result?> RecipesTitles { get; } = new();
     public ObservableCollection<Recipes.MyArray?> RecipeDetails { get; } = new();
+
+    public ObservableCollection<RecipeInfo> PopularRecipes { get; set; } = new();
 
     [ObservableProperty]
     private bool isInitialLoadComplete = false;
@@ -67,9 +70,10 @@ public partial class SpoonacularViewModel : BaseViewModel, IDisposable
         PropertyChanged += SpoonacularViewModel_PropertyChanged!;
 
         InitializeRegions();
-        LoadInitialSearches();
 
+        LoadInitialSearches();
         LoadRecipesDetails();
+        LoadInitialPopularRecipes();
     }
 
     private async void LoadInitialSearches()
@@ -80,6 +84,10 @@ public partial class SpoonacularViewModel : BaseViewModel, IDisposable
     private async void LoadRecipesDetails()
     {
         await LoadRecipesDetailsAsync();
+    }
+    private async void LoadInitialPopularRecipes()
+    {
+        await LoadPopularRecipes();
     }
 
     private void InitializeRegions()
@@ -337,6 +345,70 @@ public partial class SpoonacularViewModel : BaseViewModel, IDisposable
         EnableDisableNumberOfRecipesButtons(NumberOfRecipes);
 
     }
+
+    [RelayCommand]
+    public async Task LoadPopularRecipes()
+    {
+        var recipes = await _service.GetPopularRecipesAsync(RegionToFilter, IngredientFilter, NumberOfRecipes);
+        PopularRecipes.Clear();
+        foreach (var recipe in recipes.Results)
+        {
+            PopularRecipes.Add(recipe);
+        }
+    }
+
+    [RelayCommand]
+    private async Task ViewPopularRecipeDetail(RecipeInfo recipeInfo)
+    {
+        IsBusy = true;
+        await Task.Yield();
+
+        try
+        {
+            var response = await _service!.GetRecipeInformation(recipeInfo.id);
+            await Shell.Current.GoToAsync($"{nameof(ViewRecipePage)}", true, new Dictionary<string, object>
+            {
+                {"RecipeInfo", response},
+                { "IsFavorite", false },
+                { "ShowFavoriteIcon", false }
+             });
+        }
+        catch (Exception ex)
+        {
+            await ShowUserFeedbackAsync($"Error: {ex.Message}", MessageType.Error);
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+    }
+
+    [RelayCommand]
+    private async Task ViewSavedRecipeDetail(RecipeInfo recipeInfo)
+    {
+        IsBusy = true;
+        await Task.Yield();
+
+        try
+        {
+            var response = await _storageService!.LoadDetailFromStorageAsync<RecipeInfo>(recipeInfo.id);
+            await Shell.Current.GoToAsync($"{nameof(ViewRecipePage)}", true, new Dictionary<string, object>
+            {
+                {"RecipeInfo", response.Recipe!},
+                { "IsFavorite", response.IsFavorite },
+                { "ShowFavoriteIcon", true }
+             });
+        }
+        catch (Exception ex)
+        {
+            await ShowUserFeedbackAsync($"Error: {ex.Message}", MessageType.Error);
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+    }
+
 
     private void EnableDisableNumberOfRecipesButtons(int numberOfRecipesButtons)
     {

@@ -10,12 +10,17 @@ namespace MauiRecipes.MVVM.ViewModels
 
     [QueryProperty(nameof(RecipeInformation.RecipeInfo), "RecipeInfo")]
     [QueryProperty(nameof(IsFavorite), "IsFavorite")]
+    [QueryProperty(nameof(ShowFavoriteIcon), "ShowFavoriteIcon")]
 
     public partial class RecipeDetailViewModel : BaseViewModel, IQueryAttributable
     {
 
         [ObservableProperty]
         bool isBusy;
+        [ObservableProperty]
+        bool showFavoriteIcon;
+
+
 
         [ObservableProperty]
         private FavoritesData? favoriteRecord;
@@ -65,6 +70,7 @@ namespace MauiRecipes.MVVM.ViewModels
         {
             var data = query[nameof(RecipeInformation.RecipeInfo)] as RecipeInformation.RecipeInfo;
             IsFavorite = (bool)query[nameof(IsFavorite)];
+            ShowFavoriteIcon = (bool)query[nameof(ShowFavoriteIcon)];
             RecipeInfo = data;
             Summary = RecipeInfo?.summary;
             RecipeImage = RecipeInfo?.Image;
