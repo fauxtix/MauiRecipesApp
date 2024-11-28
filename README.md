@@ -13,7 +13,7 @@ When viewing a recipe, there is the possibility to mark it as a Favorite; the ap
 - **Other options** on the main page:
   - List of the last 10 searches saved in the database;
   - List of the last recipes viewed, with option for individual viewing;
-  - List of the best rated recipes, according to the search selected by the usesr. They can also view the details of a selected recipe
+  - List of the best rated recipes, according to the search selected by the usesr. They can also view the details of a selected recipe.
 
 - **Local Storage**:
   - Recipes already researched, are stored locally using an SQLite database.
