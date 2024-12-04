@@ -366,7 +366,9 @@ public partial class SpoonacularViewModel : BaseViewModel, IDisposable
     [RelayCommand]
     public async Task LoadPopularRecipes()
     {
-        var recipes = await _service!.GetPopularRecipesAsync(RegionToFilter, IngredientFilter!, NumberOfRecipes);
+        int numberOfRecipesStored = Preferences.Get("NumberOfRecipes", 10);
+
+        var recipes = await _service!.GetPopularRecipesAsync(RegionToFilter, IngredientFilter!, numberOfRecipesStored);
         PopularRecipes.Clear();
         foreach (var recipe in recipes.Results)
         {
