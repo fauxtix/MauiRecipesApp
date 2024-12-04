@@ -52,4 +52,11 @@ public partial class RecipesMainPage : ContentPage
             _spoonacularViewModel.Is30Enabled = false;
         }
     }
+
+    private async void OpenBottomSlider_Clicked(object sender, EventArgs e)
+    {
+        await _spoonacularViewModel.ShowOptionsFromBottomSheet(Window);
+        //var nr = Preferences.Get("NumberOfRecipes", _spoonacularViewModel.NumberOfRecipes);
+        //_spoonacularViewModel.NumberOfRecipes = nr;
+    }
 }

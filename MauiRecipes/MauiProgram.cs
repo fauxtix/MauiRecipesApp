@@ -4,6 +4,7 @@ using MauiRecipes.MVVM.Views;
 using MauiRecipes.Services.Implementations;
 using MauiRecipes.Services.Interfaces;
 using Microsoft.Extensions.Logging;
+using The49.Maui.BottomSheet;
 
 
 namespace MauiRecipes
@@ -17,6 +18,7 @@ namespace MauiRecipes
             builder
                 .UseMauiApp<App>()
                 .UseMauiCommunityToolkit()
+                .UseBottomSheet()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");

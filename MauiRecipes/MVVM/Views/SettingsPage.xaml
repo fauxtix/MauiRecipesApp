@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<the49:BottomSheet xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                   xmlns:the49="https://schemas.the49.com/dotnet/2023/maui"
+                   xmlns:viewmodels="clr-namespace:MauiRecipes.MVVM.ViewModels"
+                   x:Class="MauiRecipes.MVVM.Views.SettingsPage"
+                   x:Name="this"
+                   Padding="16, 32">
+
+    <the49:BottomSheet.Resources>
+        <Style TargetType="Button">
+            <Setter Property="BackgroundColor" Value="Transparent" />
+            <Setter Property="TextColor" Value="Black" />
+            <Setter Property="HorizontalOptions" Value="StartAndExpand" />
+        </Style>
+    </the49:BottomSheet.Resources>
+    <VerticalStackLayout Spacing="16">
+        <HorizontalStackLayout Spacing="16" Padding="16, 0">
+            <Border StrokeShape="RoundRectangle 8" StrokeThickness="0">
+                <Image Source="icon_settings.png" HeightRequest="40" WidthRequest="40">
+                    <Image.Clip>
+                        <RoundRectangleGeometry Rect="0, 0, 80, 80" CornerRadius="14"/>
+                    </Image.Clip>
+                </Image>
+            </Border>
+            <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="FillAndExpand">
+                <Label Text="Maui Recipes" FontSize="18" />
+                <Label Text="Settings" FontSize="14" />
+            </VerticalStackLayout>
+        </HorizontalStackLayout>
+        <BoxView Style="{StaticResource Divider}" x:Name="divider" />
+        <Grid BackgroundColor="WhiteSmoke">
+            <Border 
+                StrokeShape="RoundRectangle 0,0,10,10" 
+                BackgroundColor="#fdfdfd"
+                Margin="5, 0, 5, 0"
+                StrokeThickness="0" HeightRequest="100">
+                <Border.Shadow>
+                    <Shadow Brush="DarkGray" Offset="-10,20" Radius="10" Opacity="0.4" />
+                </Border.Shadow>
+            </Border>
+            <Grid RowDefinitions="Auto, *" RowSpacing="5" Margin="10, 0, 0, 10">
+                <FlexLayout Grid.Row="0" Margin="0,10,0,0" JustifyContent="SpaceEvenly" AlignItems="Center">
+                    <Label  Text="Number of recipes" FontSize="14" FontFamily="Poppins"/>
+                    <Button x:Name="Rec_10" Text="10"
+                                BackgroundColor="LightCyan" BorderColor="SteelBlue"
+                                FontSize="14"
+                                TextColor="Black" Padding="2" 
+                                WidthRequest="30" HeightRequest="30" 
+                                Clicked="Button10_Clicked" />
+                    <Button x:Name="Rec_20" Text="20" 
+                                BackgroundColor="LightCyan" BorderColor="SteelBlue"
+                                FontSize="14"
+                                TextColor="Black" Padding="2" 
+                                WidthRequest="30" 
+                                HeightRequest="30" 
+                                Clicked="Button20_Clicked"/>
+                    <Button x:Name="Rec_30" Text="30" 
+                                BackgroundColor="LightCyan" BorderColor="SteelBlue"
+                                TextColor="Black" Padding="2" 
+                                FontSize="14"
+                                WidthRequest="30" 
+                                HeightRequest="30" Clicked="Button30_Clicked"/>
+                </FlexLayout>
+                <Grid Grid.Row="1">
+                    <Label Text="Random Search" 
+                           FontSize="14"
+                           FontFamily="Poppins"
+                           VerticalOptions="Center" Margin="28, 0, 0, 0">
+                        <Label.Triggers>
+                            <DataTrigger TargetType="Label"
+                                     Binding="{Binding Source={x:Reference styleSwitch}, Path=IsToggled}"
+                                     Value="true">
+                                <Setter Property="FontAttributes"
+                                    Value="Italic, Bold" />
+                                <Setter Property="FontSize"
+                                    Value="18" />
+                            </DataTrigger>
+                        </Label.Triggers>
+                    </Label>
+                    <Switch x:Name="styleSwitch" 
+                            Margin="50, 0, 0, 0"                           
+                            VerticalOptions="Center" HorizontalOptions="CenterAndExpand" />
+                </Grid>
+            </Grid>
+        </Grid>
+        <BoxView Style="{StaticResource Divider}"/>
+
+
+
+        <ContentView x:Name="extra" />
+        <VerticalStackLayout BindableLayout.ItemsSource="{Binding Actions, Source={x:Reference this}}">
+            <BindableLayout.ItemTemplate>
+                <DataTemplate>
+                    <Button Text="{Binding Title}" Padding="16, 8" Command="{Binding Command}" />
+                </DataTemplate>
+            </BindableLayout.ItemTemplate>
+        </VerticalStackLayout>
+    </VerticalStackLayout>
+</the49:BottomSheet>
+
+

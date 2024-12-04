@@ -9,7 +9,7 @@
              xmlns:conv="clr-namespace:MauiRecipes.Converters"
              Shell.BackgroundColor="#1e9acc"
              Shell.TitleColor="White"
-             Title="List of recipes">
+             Title="Recipes">
 
     <Shell.BackButtonBehavior>
         <BackButtonBehavior IsVisible="False" IsEnabled="False" />
@@ -50,49 +50,49 @@
         <ScrollView BackgroundColor="{AppThemeBinding Light={StaticResource LightBackground}, Dark={StaticResource DarkBackground}}">
             <VerticalStackLayout BackgroundColor="#1e9acc">
                 <Grid BackgroundColor="#1e9acc" 
-                      RowDefinitions="10, 50, 10, 50, *">
+                      RowDefinitions="10, Auto, Auto, Auto,  50, *">
                     <BoxView Grid.Row="0" 
                              HeightRequest="1" 
                              Margin="5, 0, 5, 0"
-                             BackgroundColor="Black" />
+                             BackgroundColor="LightGrey" />
 
                     <Border Grid.Row="1"
-                               Margin="10"
-                               Padding="6"
-                            HeightRequest="40"
-                               BackgroundColor="White">
+                            Margin="10"
+                            Padding="6"
+                            HeightRequest="100"
+                             BackgroundColor="#1e9acc">
                         <Border.StrokeShape>
                             <RoundRectangle CornerRadius="18" />
                         </Border.StrokeShape>
-                        <FlexLayout JustifyContent="SpaceBetween" 
-                                    Margin="5, 0, 5, 0"
-                                    AlignItems="Center">
-                            <Label Text="{Binding RegionCaption}"
+
+                        <Grid Grid.Row="2" 
+                              RowDefinitions="30, 30, 30" 
+                              Margin="4, 0, 0, 4"
+                              ColumnDefinitions=".3*, .7*">
+                            <Label FontFamily="Poppins" Grid.Row="0" Grid.Column="0" TextColor="White" Text="Region"/>
+                            <Label Grid.Row="0" Grid.Column="1" Text="{Binding RegionCaption}"
+                                   TextColor="Yellow" 
                                    LineBreakMode="TailTruncation"
-                                   FontSize="16"
-                                   FontFamily="Poppins"
-                                   FontAttributes="Bold"
-                                   TextColor="Violet"/>
-                            <Label Text="{Binding IngredientCaption}"
+                                   FontSize="14"
+                                   FontFamily="PoppinsSemiBold"/>
+                            <Label FontFamily="Poppins" Grid.Row="1" Grid.Column="0" Text="Ingredient" TextColor="White" />
+                            <Label Grid.Row="1" Grid.Column="1" Text="{Binding IngredientCaption}" TextColor="Yellow" 
                                    LineBreakMode="TailTruncation"
-                                   FontSize="16"
-                                   FontFamily="Poppins"
-                                   FontAttributes="Bold"
-                                   TextColor="Violet"/>
-                            <Label Text="{Binding NumberOfRecipes}"
-                                   FontSize="16"
-                                   FontFamily="Poppins"
-                                   FontAttributes="Bold"
-                                   TextColor="Violet"/>
-                        </FlexLayout>
+                                   FontSize="14"
+                                   FontFamily="PoppinsSemiBold"/>
+                            <Label FontFamily="Poppins" Grid.Row="2" Grid.Column="0" Text="Recipes" TextColor="White" />
+                            <Label Grid.Row="2" Grid.Column="1" Text="{Binding NumberOfRecipes}" TextColor="Yellow" 
+                                   FontSize="14"
+                                   FontFamily="PoppinsSemiBold"/>
+                        </Grid>
                     </Border>
 
-                    <BoxView Grid.Row="2" 
+                    <BoxView Grid.Row="3" 
                              HeightRequest="1" 
-                             BackgroundColor="Black"
+                             BackgroundColor="LightGrey"
                              Margin="5, 0, 5, 0"/>
 
-                    <VerticalStackLayout Grid.Row="3" Margin=" 5, 0">
+                    <VerticalStackLayout Grid.Row="4" Margin=" 5, 0">
                         <ProgressBar 
                                          ProgressColor="LightBlue" 
                                          HeightRequest="50"
@@ -110,7 +110,7 @@
                     </VerticalStackLayout>
 
 
-                    <CollectionView Grid.Row="4" Margin="0, 30"
+                    <CollectionView Grid.Row="5" Margin="0, 30"
                                     ItemsSource="{Binding RecipesTitles}" 
                                     SelectionMode="Single">
                         <CollectionView.EmptyView >

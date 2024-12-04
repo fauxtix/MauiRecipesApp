@@ -133,7 +133,12 @@ public class RecipeStorageService : IRecipeStorageService
     {
         var savedSearches = await _connection.Table<SavedSearches>()
             .ToListAsync();
-        savedSearches = savedSearches.OrderByDescending(s => s.SaveDate).Take(10).ToList();
+
+        int numberOfRecipesStored = Preferences.Get("NumberOfRecipes", 10);
+
+        savedSearches = savedSearches
+            .OrderByDescending(s => s.SaveDate).Take(numberOfRecipesStored)
+            .ToList();
 
         return savedSearches;
     }
@@ -152,7 +157,10 @@ public class RecipeStorageService : IRecipeStorageService
         var storedRecipesDetails = await _connection.Table<LocalRecipeDetailsData>()
             .ToListAsync();
 
-        storedRecipesDetails = storedRecipesDetails.OrderByDescending(s => s.RecipeId).Take(10).ToList();
+        int numberOfRecipesStored = Preferences.Get("NumberOfRecipes", 10);
+        storedRecipesDetails = storedRecipesDetails
+            .OrderByDescending(s => s.RecipeId).Take(numberOfRecipesStored)
+            .ToList();
 
         var output = storedRecipesDetails
                .Select(f => JsonSerializer.Deserialize<T>(f.JsonData!)!)
