@@ -2,29 +2,35 @@
 
 This application allows users to search, view, and store cooking recipes locally, using the Spoonacular API. Recipes can be filtered by region and ingredient, with features for local caching and date expiration.
 The users may also view the recipes marked as favorites, and the previously searched recipes by Region and/or Ingredient (see the screenshots).
+When viewing a recipe, there is the possibility to mark it as a Favorite; the app has an option to list and consult them.
 
 ## **Features**
 
 - **Recipe Search**:
-  - Allows searching for recipes by region and ingredient. Users can choose from different regions of the world (e.g., Italian, American, Japanese, etc.).
-  - Search results can be filtered by the number of recipes (10, 20, or 30 recipes).
+  - Allows searching for recipes by region and ingredient. Users can choose from different regions of the world (e.g., Italian, American, Japanese, etc.);
+  - Search results can be filtered by the number of recipes (10, 20, or 30 recipes);
+ 
+- **Other options** on the main page:
+  - List of the last 10 searches saved (cached) in the database;
+  - List of the last recipes viewed (cached);
+  - List of the best rated recipes, according to the search criteria.
 
 - **Local Storage**:
   - Recipes already researched, are stored locally using an SQLite database.
-    This feature is used to provide faster, optimized responses to the user.
-
-- **Cleanup**:
-  - There's an option to manually clean all recipes stored locally, via the app's interface.
+    This feature is used to provide faster, optimized responses to the user (offline, with no internet access required).
 
 - **Choose Number of Recipes**:
   - Users can select the number of recipes to load, with options for 10, 20, or 30 recipes.
 
 - **Search Interface**:
-  - The text search field and the dropdown, allows users to search by region and/or ingredient, by clicking a **search** button.
+  - The text search field and the dropdown provided, allows users to search by region and/or ingredient, by clicking a **search** button.
   
 - **Recipe Details View**:
   - By selecting a recipe, users can view detailed information, including ingredients, preparation instructions, and additional information about the recipe.
-    They also can mark the recipe as Favorite. 
+    They also can mark the recipe as Favorite.
+
+- **Favorites**
+  - The app allows the user to mark a recipe as a favorite; there is a dedicated option (tab) to list and view recipe details
 
 - **Notifications and Alerts**:
   - The app shows notifications and alerts to inform the user about the status of loaded recipes (e.g., "Recipes loaded successfully", "Recipes loaded from database", "Error loading recipes", etc.).
