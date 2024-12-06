@@ -2,7 +2,7 @@
 
 This application allows users to search, view, and store cooking recipes locally, using the Spoonacular API. Recipes can be filtered by region and ingredient, with features for local caching and date expiration.
 The users may also view the recipes marked as favorites, and the previously searched recipes by Region and/or Ingredient (see the screenshots).
-When viewing a recipe, there is the possibility to mark it as a Favorite; the app has an option to list and consult them.
+When viewing a recipe, there is the possibility to mark it as a Favorite; the app has a separated option (tab bar) to list and consult them individually.
 
 ## **Features**
 
