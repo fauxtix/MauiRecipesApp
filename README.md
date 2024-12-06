@@ -92,7 +92,6 @@ This project is currently a work in progress. While it provides basic functional
 ![ViewRecipe_Instructions](https://github.com/user-attachments/assets/e58a59c4-d234-4a45-a330-2fd647538aef)
 ![ViewRecipe_Ingredients](https://github.com/user-attachments/assets/d05162b3-9ddc-48e8-964c-43b0763634c9)
 ![Favorites](https://github.com/user-attachments/assets/3932ba20-228a-4fad-982a-473136f9a200)
-![ViewFavorite](https://github.com/user-attachments/assets/d189f2e2-8bd8-4198-aa60-a0e6175ad9f5)
 
 ### Contributions
 
