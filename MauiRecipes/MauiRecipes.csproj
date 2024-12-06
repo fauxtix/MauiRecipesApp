@@ -130,6 +130,7 @@
 	  <None Remove="Resources\Images\icon_people.png" />
 	  <None Remove="Resources\Images\icon_ready_clock.png" />
 	  <None Remove="Resources\Images\icon_refresh.png" />
+	  <None Remove="Resources\Images\icon_refresh_black.png" />
 	  <None Remove="Resources\Images\icon_search.png" />
 	  <None Remove="Resources\Images\icon_servings.png" />
 	  <None Remove="Resources\Images\icon_settings.png" />

@@ -10,12 +10,10 @@ public class ListAction
     public ICommand? Command { get; set; }
 }
 
-
-
-
 public partial class SettingsPage : BottomSheet
 {
     public int NumberOfRecipes { get; set; }
+
 
     public SettingsPage()
     {

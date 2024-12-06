@@ -110,6 +110,15 @@ public partial class FavoritesViewModel : ObservableObject
         }
     }
 
+    [RelayCommand]
+    public async Task GoBack()
+    {
+        IsBusy = true;
+        await Shell.Current.GoToAsync("..");
+        IsBusy = false;
+    }
+
+
     private async Task ShowUserFeedbackAsync(string message, MessageType messageType, Color? backgroundColor = null, Color? textColor = null, int durationInSeconds = 5)
     {
         await _alertService.ShowInfoOrAlert(message, messageType, backgroundColor, textColor, durationInSeconds);

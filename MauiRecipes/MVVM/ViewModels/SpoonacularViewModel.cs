@@ -62,31 +62,29 @@ public partial class SpoonacularViewModel : BaseViewModel, IDisposable
 
         PropertyChanged += SpoonacularViewModel_PropertyChanged!;
 
-        InitializeRegions();
-
-        LoadInitialSearches();
-        LoadRecipesDetails();
-        LoadInitialPopularRecipes();
-    }
-
-    private async void LoadInitialSearches()
-    {
-        await LoadRecentSearchesOnAppearing();
-    }
-
-    private async void LoadRecipesDetails()
-    {
-        await LoadRecipesDetailsAsync();
-    }
-    private async void LoadInitialPopularRecipes()
-    {
         if (Connectivity.Current.NetworkAccess == NetworkAccess.None)
         {
             ShowNetworkAlert("No internet access");
             return;
         }
 
-        await LoadPopularRecipes();
+        InitializeRegions();
+        LoadInitialData();
+    }
+
+
+    public async void LoadInitialData()
+    {
+        await LoadData();
+    }
+
+    [RelayCommand]
+    public async Task LoadData()
+    {
+        var task1 = LoadRecentSearchesOnAppearing();
+        var task2 = LoadRecipesDetailsAsync();
+        var task3 = LoadPopularRecipes();
+        await Task.WhenAll(task1, task2, task3);
     }
 
     private void InitializeRegions()
@@ -136,14 +134,7 @@ public partial class SpoonacularViewModel : BaseViewModel, IDisposable
     private async Task SearchRecipes()
     {
         int numberOfRecipes;
-        if (!ViewRecipesFromSavedSearches)
-        {
-            numberOfRecipes = Preferences.Get("NumberOfRecipes", NumberOfRecipes);
-        }
-        else
-        {
-            numberOfRecipes = NumberOfRecipes;
-        }
+        numberOfRecipes = GetNumbersOfRecipes();
 
         var recipesList = await _service!.GetRecipeTitles(RegionToFilter, IngredientFilter!, numberOfRecipes);
         if (recipesList.results.Count == 0)
@@ -166,6 +157,21 @@ public partial class SpoonacularViewModel : BaseViewModel, IDisposable
             {
                 {"SavedSearches", savedSearches},
              });
+    }
+
+    private int GetNumbersOfRecipes()
+    {
+        int numberOfRecipes;
+        if (!ViewRecipesFromSavedSearches)
+        {
+            numberOfRecipes = Preferences.Get("NumberOfRecipes", NumberOfRecipes);
+        }
+        else
+        {
+            numberOfRecipes = NumberOfRecipes;
+        }
+
+        return numberOfRecipes;
     }
 
     [RelayCommand]
@@ -366,7 +372,7 @@ public partial class SpoonacularViewModel : BaseViewModel, IDisposable
     [RelayCommand]
     public async Task LoadPopularRecipes()
     {
-        int numberOfRecipesStored = Preferences.Get("NumberOfRecipes", 10);
+        int numberOfRecipesStored = GetNumbersOfRecipes();
 
         var recipes = await _service!.GetPopularRecipesAsync(RegionToFilter, IngredientFilter!, numberOfRecipesStored);
         PopularRecipes.Clear();
@@ -427,37 +433,6 @@ public partial class SpoonacularViewModel : BaseViewModel, IDisposable
             IsBusy = false;
         }
     }
-
-    [RelayCommand]
-    public async Task ShowOptionsFromBottomSheet(Window window)
-    {
-        var page = new SettingsPage();
-        await page.ShowAsync(window, true);
-    }
-
-
-    //public void EnableDisableNumberOfRecipesButtons(int numberOfRecipesButtons)
-    //{
-    //    if (numberOfRecipesButtons == 10)
-    //    {
-    //        Is10Enabled = false;
-    //        Is20Enabled = true;
-    //        Is30Enabled = true;
-    //    }
-    //    else if (numberOfRecipesButtons == 20)
-    //    {
-    //        Is10Enabled = true;
-    //        Is20Enabled = false;
-    //        Is30Enabled = true;
-    //    }
-    //    else if (numberOfRecipesButtons == 30)
-    //    {
-    //        Is10Enabled = true;
-    //        Is20Enabled = true;
-    //        Is30Enabled = false;
-    //    }
-
-    //}
 
     private void SpoonacularViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {

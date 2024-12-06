@@ -88,21 +88,22 @@
                         Padding="2"
                         Margin="5,2"
                         HorizontalOptions="Center">
-                    <Frame Grid.Row="2" CornerRadius="40" HasShadow="False" Margin="0" 
+                    <Frame Grid.Row="2" CornerRadius="40" HasShadow="False" Margin="5"  
+                           HeightRequest="110"
                            BorderColor="Transparent">
                         <FlexLayout Direction="Row"
                             Wrap="Wrap"
                             JustifyContent="SpaceBetween"
                             AlignItems="Center"
                             Padding="5">
-                            <controls:ImageWithText Source="icon_people.png" Text="{Binding RecipeInfo.creditsText}"/>
+                            <!--<controls:ImageWithText Source="icon_people.png" Text="{Binding RecipeInfo.creditsText}"/>-->
                             <controls:ImageWithText Source="icon_servings.png" Text="{Binding RecipeInfo.servings}"/>
                             <controls:ImageWithText Source="icon_ready_clock.png" Text="{Binding RecipeInfo.readyInMinutes}"/>
                             <controls:ImageWithText Source="icon_gluten_free.png" Text="{Binding RecipeInfo.glutenFree, Converter={StaticResource boolToStringConverter}}"/>
                             <controls:ImageWithText Source="icon_vegan.png" Text="{Binding RecipeInfo.vegan, Converter={StaticResource boolToStringConverter}}"/>
-                            <controls:ImageWithText Source="icon_vegetarian.png" Text="{Binding RecipeInfo.vegetarian, Converter={StaticResource boolToStringConverter}}"/>
+                            <!--<controls:ImageWithText Source="icon_vegetarian.png" Text="{Binding RecipeInfo.vegetarian, Converter={StaticResource boolToStringConverter}}"/>-->
                             <controls:ImageWithText Source="icon_cheap.png" Text="{Binding RecipeInfo.cheap, Converter={StaticResource boolToStringConverter}}"/>
-                            <controls:ImageWithText Source="icon_healthy_food.png" Text="{Binding RecipeInfo.veryHealthy, Converter={StaticResource boolToStringConverter}}"/>
+                            <!--<controls:ImageWithText Source="icon_healthy_food.png" Text="{Binding RecipeInfo.veryHealthy, Converter={StaticResource boolToStringConverter}}"/>-->
                             <controls:ImageWithText Source="icon_likes_2.png" Text="{Binding RecipeInfo.aggregateLikes}"/>
                         </FlexLayout>
                     </Frame>

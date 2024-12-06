@@ -92,7 +92,7 @@
                              BackgroundColor="LightGrey"
                              Margin="5, 0, 5, 0"/>
 
-                    <VerticalStackLayout Grid.Row="4" Margin=" 5, 0">
+                    <VerticalStackLayout Grid.Row="4" Margin=" 5, 0" IsVisible="{Binding ShowQuotaUsage}">
                         <ProgressBar 
                                          ProgressColor="LightBlue" 
                                          HeightRequest="50"
@@ -110,7 +110,7 @@
                     </VerticalStackLayout>
 
 
-                    <CollectionView Grid.Row="5" Margin="0, 30"
+                    <CollectionView Grid.Row="5" Margin="0, 20"
                                     ItemsSource="{Binding RecipesTitles}" 
                                     SelectionMode="Single">
                         <CollectionView.EmptyView >

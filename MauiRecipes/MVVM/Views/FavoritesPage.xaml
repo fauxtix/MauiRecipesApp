@@ -38,7 +38,13 @@
             <Color x:Key="DarkBackground">Black</Color>
             <Color x:Key="Primary">#1e9acc</Color>
         </ResourceDictionary>
-    </ContentPage.Resources>
+    </ContentPage.Resources><!--<ContentPage.ToolbarItems>
+        <ToolbarItem 
+            Command="{Binding GoBackCommand}" 
+            IconImageSource="icon_close.svg" />
+    </ContentPage.ToolbarItems>-->
+
+    
 
     <RefreshView IsRefreshing="{Binding IsBusy}"  
                  RefreshColor="Teal"

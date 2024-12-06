@@ -31,7 +31,7 @@ namespace MauiRecipes.MVVM.ViewModels
         private string? ingredientCaption;
 
         [ObservableProperty]
-        public bool areThereParameters;
+        public bool showQuotaUsage = false;
         public RecipeListViewModel(ISpoonacularService service,
         IRecipeStorageService storageService, IAlertService alertService)
         {
@@ -66,11 +66,6 @@ namespace MauiRecipes.MVVM.ViewModels
 
             try
             {
-                //if (Recipient!.ToLower().Equals("no ingredient"))
-                //{
-                //    Recipient = "";
-                //}
-
                 string region = !string.IsNullOrEmpty(RegionToFilter) ? RegionToFilter : "defaultRegion";
                 string recipient = !string.IsNullOrEmpty(IngredientFilter) ? IngredientFilter : "defaultIngredient";
                 string cacheKey = $"{region}_{recipient}_{NumberOfRecipes}";
@@ -79,6 +74,7 @@ namespace MauiRecipes.MVVM.ViewModels
 
                 if (Titles is not null && Titles.results is not null && Titles.results.Any())
                 {
+                    ShowQuotaUsage = false;
                     AddRecipesToTitlesCollection();
                     await ShowUserFeedbackAsync("Recipes loaded from database.", MessageType.Success, durationInSeconds: 2);
                 }
@@ -87,28 +83,9 @@ namespace MauiRecipes.MVVM.ViewModels
                     // In case no data returned from the database, use the Api; if there's a valid response, store the results in the database
                     // (in case a Region was selected)
 
-                    var (quotaUsed, quotaLeft, requestCost) = await _service!.GetQuotaDetailsAsync("recipes/complexSearch");
+                    ShowQuotaUsage = true;
 
-                    if (quotaUsed == -1)
-                    {
-                        await ShowUserFeedbackAsync(message: "Error getting Api quota usage.",
-                          messageType: MessageType.Error, null, textColor: Colors.White, durationInSeconds: 5);
-                        return;
-
-                    }
-
-                    ApiQuotaUsed = quotaUsed;
-                    ApiQuotaLeft = quotaLeft;
-                    ApiRequestCost = requestCost;
-
-                    if (TotalQuota > 0)
-                    {
-                        RequestsProgress = ApiQuotaUsed / TotalQuota;
-                    }
-                    else
-                    {
-                        RequestsProgress = 0;
-                    }
+                    await GetQuotaUsage();
 
                     //if (quotaLeft <= 0)
                     //{
@@ -225,6 +202,31 @@ namespace MauiRecipes.MVVM.ViewModels
             IsBusy = false;
         }
 
+        [RelayCommand]
+        public async Task GetQuotaUsage()
+        {
+            var (quotaUsed, quotaLeft, requestCost) = await _service!.GetQuotaDetailsAsync("recipes/complexSearch");
+
+            if (quotaUsed == -1)
+            {
+                await ShowUserFeedbackAsync(message: "Error getting Api quota usage.",
+                  messageType: MessageType.Error, null, textColor: Colors.White, durationInSeconds: 5);
+                return;
+            }
+
+            ApiQuotaUsed = quotaUsed;
+            ApiQuotaLeft = quotaLeft;
+            ApiRequestCost = requestCost;
+
+            if (TotalQuota > 0)
+            {
+                RequestsProgress = ApiQuotaUsed / TotalQuota;
+            }
+            else
+            {
+                RequestsProgress = 0;
+            }
+        }
         private async Task<(RecipeInformation.RecipeInfo Recipe, bool IsFavorite, bool FromDatabase)> FetchRecipeInformationFromStorageOrApi(int recipeId)
         {
             var (recipeFromStorage, isFavorite) = await _storageService!.LoadDetailFromStorageAsync<RecipeInformation.RecipeInfo>(recipeId);
