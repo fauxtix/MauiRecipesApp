@@ -81,7 +81,10 @@ In the MauiRecipesApp, the Spoonacular Api was used to get recipe data from vari
 This project is currently a work in progress. While it provides basic functionality for recipe search and access to the Spoonacular Api, it is expected to evolve over time.
 
 # Screenshots
-![RecipesMainPage](https://github.com/user-attachments/assets/1a72310a-f2a2-4fdd-8d4e-c25a833857b8)
+
+![RecipesMainPage3](https://github.com/user-attachments/assets/57f01f46-d42a-4517-8a97-01afc9577e3d)
+![RecipesMainPage2](https://github.com/user-attachments/assets/7c246101-73e4-45cc-8ba7-e22f1595c1bf)
+![RecipesMainPage](https://github.com/user-attachments/assets/df7902cd-5188-456c-9456-7fc21d33bfc7)
 ![RecipesMainPageWithIngredientSearch](https://github.com/user-attachments/assets/942675e7-d576-4c79-b5d5-bfca5a42f43d)
 ![ViewRecipe](https://github.com/user-attachments/assets/c4b810e8-529d-4393-a7ef-2cf7224afdf0)
 ![RecipesMainPageDeleteSavedSearches](https://github.com/user-attachments/assets/107a0781-1b6e-4953-981a-3814d9eaac8f)
