@@ -92,7 +92,7 @@
                              BackgroundColor="LightGrey"
                              Margin="5, 0, 5, 0"/>
 
-                    <VerticalStackLayout Grid.Row="4" Margin=" 5, 0" IsVisible="{Binding ShowQuotaUsage}">
+                    <VerticalStackLayout Grid.Row="4" Margin=" 5, 0" >
                         <ProgressBar 
                                          ProgressColor="LightBlue" 
                                          HeightRequest="50"
@@ -153,7 +153,6 @@
                                                 CommandParameter="{Binding .}"/>
                                         </Border.GestureRecognizers>
                                     </Border>
-
                                     <Label Text="{Binding Title}"
                                            TextColor="White"
                                            Padding="5"

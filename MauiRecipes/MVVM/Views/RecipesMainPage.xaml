@@ -187,46 +187,44 @@
                                                                 <SwipeView.RightItems>
                                                                     <SwipeItems SwipeBehaviorOnInvoked="Close">
                                                                         <SwipeItem Text="Delete"
-                                                               IconImageSource="icon_delete.svg"
-                                                               BackgroundColor="LightPink"
-                                                               Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SpoonacularViewModel}}, Path=DeleteSearchCommand}"
-                                                               CommandParameter="{Binding .}"/>
-                                                                    </SwipeItems>
-                                                                </SwipeView.RightItems>
-
-
+                                                                                   IconImageSource="icon_delete.svg"
+                                                                                   BackgroundColor="LightPink"
+                                                                                   Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SpoonacularViewModel}}, Path=DeleteSearchCommand}"
+                                                                                   CommandParameter="{Binding .}"/>
+                                                                        </SwipeItems>
+                                                                    </SwipeView.RightItems>
                                                                 <VerticalStackLayout x:DataType="models:SavedSearches" >
                                                                     <Border Stroke="#2B0B98"
-                                                        StrokeThickness="1"
-                                                        StrokeShape="RoundRectangle 15,15,15,15"
-                                                            HeightRequest="40"
-                                                        Background="#fff"
-                                                        Padding="6,8"
-                                                        Margin="4"
-                                                        HorizontalOptions="FillAndExpand">
+                                                                            StrokeThickness="1"
+                                                                            StrokeShape="RoundRectangle 15,15,15,15"
+                                                                            HeightRequest="40"
+                                                                            Background="#fff"
+                                                                            Padding="6,8"
+                                                                            Margin="4"
+                                                                            HorizontalOptions="FillAndExpand">
                                                                         <FlexLayout JustifyContent="SpaceBetween" 
-                                                                    AlignItems="Center" 
-                                                                    Direction="Row">
+                                                                                    AlignItems="Center" 
+                                                                                    Direction="Row">
                                                                             <FlexLayout.GestureRecognizers>
                                                                                 <TapGestureRecognizer 
-                                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SpoonacularViewModel}}, Path=SetParametersCommand}"
-                                                                    CommandParameter="{Binding .}"/>
+                                                                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SpoonacularViewModel}}, Path=SetParametersCommand}"
+                                                                                        CommandParameter="{Binding .}"/>
                                                                             </FlexLayout.GestureRecognizers>
-                                                                            <Label Text="{Binding Region}"
-                                                                   LineBreakMode="TailTruncation"
-                                                                   TextColor="DarkViolet" 
-                                                                   Padding="2, 0, 2, 0"
-                                                                   FontSize="11"
-                                                                   FontFamily="PoppinsSemiBold"/>
-                                                                            <Label Text="{Binding Ingredient}" 
-                                                                   TextColor="DarkBlue"
-                                                                   FontSize="11"
-                                                                   LineBreakMode="TailTruncation"
-                                                                   FontFamily="PoppinsSemiBold"/>
-                                                                            <Label Text="{Binding NumberOfRecipes}" 
-                                                                   TextColor="DarkBlue"
-                                                                   FontSize="11"
-                                                                   FontFamily="Poppins"/>
+                                                                            <Label x:Name="lblRegion" Text="{Binding Region}"
+                                                                                   LineBreakMode="TailTruncation"
+                                                                                   TextColor="DarkViolet" 
+                                                                                   Padding="2, 0, 2, 0"
+                                                                                   FontSize="11"
+                                                                                   FontFamily="PoppinsSemiBold"/>
+                                                                            <Label x:Name="lblIngredient" Text="{Binding Ingredient}" 
+                                                                                   TextColor="DarkBlue"
+                                                                                   FontSize="11"
+                                                                                   LineBreakMode="TailTruncation"
+                                                                                   FontFamily="PoppinsSemiBold"/>
+                                                                            <Label x:Name="lblNumberOfRecipes" Text="{Binding NumberOfRecipes}" 
+                                                                                   TextColor="DarkBlue"
+                                                                                   FontSize="11"
+                                                                                   FontFamily="Poppins"/>
                                                                         </FlexLayout>
                                                                     </Border>
                                                                 </VerticalStackLayout>
@@ -365,7 +363,7 @@
 
 
 
-                    <ActivityIndicator  IsRunning="{Binding IsBusy}" Grid.RowSpan="4"
+                    <ActivityIndicator  IsRunning="{Binding IsBusy}" Grid.RowSpan="5"
                                         VerticalOptions="Start" HorizontalOptions="Center"/>
                 </Grid>
             </VerticalStackLayout>

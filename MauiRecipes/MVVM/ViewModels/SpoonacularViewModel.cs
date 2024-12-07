@@ -133,30 +133,45 @@ public partial class SpoonacularViewModel : BaseViewModel, IDisposable
     [RelayCommand]
     private async Task SearchRecipes()
     {
+
         int numberOfRecipes;
-        numberOfRecipes = GetNumbersOfRecipes();
-
-        var recipesList = await _service!.GetRecipeTitles(RegionToFilter, IngredientFilter!, numberOfRecipes);
-        if (recipesList.results.Count == 0)
+        IsBusy = true;
+        await Task.Yield();
+        try
         {
-            await ShowUserFeedbackAsync("No results found...", MessageType.Warning, backgroundColor: Colors.Orange,
-                textColor: Colors.Black, durationInSeconds: 5);
-            return;
-        }
+            numberOfRecipes = GetNumbersOfRecipes();
 
-        ViewRecipesFromSavedSearches = false;
+            var recipesList = await _service!.GetRecipeTitles(RegionToFilter, IngredientFilter!, numberOfRecipes);
+            if (recipesList.results.Count == 0)
+            {
+                await ShowUserFeedbackAsync("No results found...", MessageType.Warning, backgroundColor: Colors.Orange,
+                    textColor: Colors.Black, durationInSeconds: 5);
+                return;
+            }
 
-        SavedSearches savedSearches = new()
-        {
-            Region = RegionToFilter,
-            Ingredient = IngredientFilter,
-            NumberOfRecipes = numberOfRecipes
-        };
+            ViewRecipesFromSavedSearches = false;
 
-        await Shell.Current.GoToAsync($"{nameof(RecipesListPage)}", true, new Dictionary<string, object>
+            SavedSearches savedSearches = new()
+            {
+                Region = RegionToFilter,
+                Ingredient = IngredientFilter,
+                NumberOfRecipes = numberOfRecipes
+            };
+
+            await Shell.Current.GoToAsync($"{nameof(RecipesListPage)}", true, new Dictionary<string, object>
             {
                 {"SavedSearches", savedSearches},
              });
+
+        }
+        catch (Exception ex)
+        {
+            await ShowUserFeedbackAsync($"Error getting recipes... {ex.Message}", MessageType.Error, durationInSeconds: 5);
+        }
+        finally
+        {
+            IsBusy = false;
+        }
     }
 
     private int GetNumbersOfRecipes()
