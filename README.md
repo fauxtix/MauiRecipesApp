@@ -2,7 +2,7 @@
 
 This application allows users to search, view, and store cooking recipes locally, using the Spoonacular API. Recipes can be filtered by region and ingredient, with features for local caching and date expiration.
 The users may also view the recipes marked as favorites, and the previously searched recipes by Region and/or Ingredient (see the screenshots).
-When viewing a recipe, there is the possibility to mark it as a Favorite; the app has an option to list and consult them.
+When viewing a recipe, there is the possibility to mark it as a Favorite; the app has a separated option (tab bar) to list and consult them individually.
 
 ## **Features**
 
@@ -11,9 +11,9 @@ When viewing a recipe, there is the possibility to mark it as a Favorite; the ap
   - Search results can be filtered by the number of recipes (10, 20, or 30 recipes);
  
 - **Other options** on the main page:
-  - List of the last 10 searches saved (cached) in the database;
+  - List of the last searches saved (cached) in the database;
   - List of the last recipes viewed (cached);
-  - List of the best rated recipes, according to the search criteria.
+  - List of the best rated (popular) recipes, according to the search criteria.
 
 - **Local Storage**:
   - Recipes already researched, are stored locally using an SQLite database.
@@ -81,16 +81,19 @@ In the MauiRecipesApp, the Spoonacular Api was used to get recipe data from vari
 This project is currently a work in progress. While it provides basic functionality for recipe search and access to the Spoonacular Api, it is expected to evolve over time.
 
 # Screenshots
-![RecipesMainPage](https://github.com/user-attachments/assets/1a72310a-f2a2-4fdd-8d4e-c25a833857b8)
-![RecipesMainPageWithIngredientSearch](https://github.com/user-attachments/assets/942675e7-d576-4c79-b5d5-bfca5a42f43d)
+
+![RecipesMainPage](https://github.com/user-attachments/assets/df7902cd-5188-456c-9456-7fc21d33bfc7)
+![RecipesMainPage3](https://github.com/user-attachments/assets/57f01f46-d42a-4517-8a97-01afc9577e3d)
+![RecipesMainPage2](https://github.com/user-attachments/assets/7c246101-73e4-45cc-8ba7-e22f1595c1bf)
+![RecipesMainPage4](https://github.com/user-attachments/assets/383186db-6378-45c4-bb79-70902895ee87)
+![BottomSheet](https://github.com/user-attachments/assets/39470b04-c34c-4086-80c0-e823e557e3f3)
+![RecipeRegionsPicker](https://github.com/user-attachments/assets/d935c6c8-b9d5-4aa0-ba2b-11749c93b666)
 ![ViewRecipe](https://github.com/user-attachments/assets/c4b810e8-529d-4393-a7ef-2cf7224afdf0)
-![RecipesMainPageDeleteSavedSearches](https://github.com/user-attachments/assets/107a0781-1b6e-4953-981a-3814d9eaac8f)
+![RecipesMainPageWithIngredientSearch](https://github.com/user-attachments/assets/942675e7-d576-4c79-b5d5-bfca5a42f43d)
 ![ViewRecipe_Summary](https://github.com/user-attachments/assets/23b7fdfe-656b-47b0-b1fa-acc66d732841)
 ![ViewRecipe_Instructions](https://github.com/user-attachments/assets/e58a59c4-d234-4a45-a330-2fd647538aef)
 ![ViewRecipe_Ingredients](https://github.com/user-attachments/assets/d05162b3-9ddc-48e8-964c-43b0763634c9)
 ![Favorites](https://github.com/user-attachments/assets/3932ba20-228a-4fad-982a-473136f9a200)
-![ViewFavorite](https://github.com/user-attachments/assets/d189f2e2-8bd8-4198-aa60-a0e6175ad9f5)
-![SavedSearches](https://github.com/user-attachments/assets/dd04b016-08d2-4ccd-b1f4-9ae313c0b5ff)
 
 ### Contributions
 
