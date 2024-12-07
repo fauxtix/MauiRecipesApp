@@ -45,36 +45,17 @@ When viewing a recipe, there is the possibility to mark it as a Favorite; the ap
 
 ## **How to Run Locally**
 
-Clone the Repo git clone https://github.com/fauxtix/MauiRecipesApp
-
-Restore the packages (Rebuild the solution)
-
-Get a free API key: https://spoonacular.com/food-api/console
-
-Go to TmdbService.cs class file in Services/TmdbService.cs
-
-Uncomment the Line No. 13
-
-private const string ApiKey = "738b6d8d99b51339705b1037c981a488"; // generate it from tmdb website
-
-Change the ApiKey to the Api Key you grabbed from Tmdb Website
-
-Build the solution/project
-
-Run the solution
-
-Congratulations, NetflixClone app is running
-1. Clone the repository:
-
-    ```bash
-    git clone https://github.com/fauxtix/MauiRecipesApp
-    ```
-
+1. Clone the Repo => git clone https://github.com/fauxtix/MauiRecipesApp
 2. Open the project in Visual Studio or Visual Studio Code.
+4. Get a free API key from https://spoonacular.com/food-api/console
+5. Go to SpoonacularService.cs class file in Services/Implementations
+6. Change this line : 
+  - private readonly string? _apiKey = "871cc9ddc1ea4733830dd2c30e3d691a";
+  - Change the _apiKey you grabbed from Spoonacular Website
+7. Restore the packages (Rebuild the solution)
+8. Run the app on an emulator or real device.
 
-3. Run the app on an emulator or real device.
-
-4. The SQLite database will be automatically created in the app's data directory.
+The SQLite database will be automatically created in the app's data directory.
 
 ## **Future Features**
 
