@@ -50,8 +50,8 @@ When viewing a recipe, there is the possibility to mark it as a Favorite; the ap
 4. Get a free API key from https://spoonacular.com/food-api/console
 5. Go to SpoonacularService.cs class file in Services/Implementations
 6. Change this line : 
-  - private readonly string? _apiKey = "871cc9ddc1ea4733830dd2c30e3d691a";
-  - Change the _apiKey you grabbed from Spoonacular Website
+  6.1 - private readonly string? _apiKey = "871cc9ddc1ea4733830dd2c30e3d691a";
+  6.2 - Change the _apiKey you grabbed from Spoonacular Website
 7. Restore the packages (Rebuild the solution)
 8. Run the app on an emulator or real device.
 
