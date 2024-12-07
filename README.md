@@ -43,8 +43,27 @@ When viewing a recipe, there is the possibility to mark it as a Favorite; the ap
 - **Spoonacular API** - External API for fetching information on cooking recipes.
 - **CommunityToolkit.Maui/MVVM** - Libraries to simplify mobile app development with MAUI.
 
-## **How to Run**
+## **How to Run Locally**
 
+Clone the Repo git clone https://github.com/fauxtix/MauiRecipesApp
+
+Restore the packages (Rebuild the solution)
+
+Get a free API key: https://spoonacular.com/food-api/console
+
+Go to TmdbService.cs class file in Services/TmdbService.cs
+
+Uncomment the Line No. 13
+
+private const string ApiKey = "738b6d8d99b51339705b1037c981a488"; // generate it from tmdb website
+
+Change the ApiKey to the Api Key you grabbed from Tmdb Website
+
+Build the solution/project
+
+Run the solution
+
+Congratulations, NetflixClone app is running
 1. Clone the repository:
 
     ```bash
