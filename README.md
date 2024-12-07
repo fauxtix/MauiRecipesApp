@@ -46,16 +46,16 @@ When viewing a recipe, there is the possibility to mark it as a Favorite; the ap
 ## **How to Run Locally**
 
 1. Clone the Repo => git clone https://github.com/fauxtix/MauiRecipesApp
-2. Open the project in Visual Studio or Visual Studio Code.
-4. Get a free API key from https://spoonacular.com/food-api/console
-5. Go to SpoonacularService.cs class file in Services/Implementations
-6. Change this line :
+2. Get a free API key from https://spoonacular.com/food-api/console
+3. Open the project in Visual Studio or Visual Studio Code.
+4. Go to SpoonacularService.cs class file in Services/Implementations
+5. Change this line:
    
    private readonly string? _apiKey = "871cc9ddc1ea4733830dd2c30e3d691a";
 
    Change the _apiKey you grabbed from Spoonacular Website
-8. Restore the packages (Rebuild the solution)
-9. Run the app on an emulator or real device.
+6. Restore the packages (Rebuild the solution)
+7. Run the app on an emulator or real device.
 
 The SQLite database will be automatically created in the app's data directory.
 
