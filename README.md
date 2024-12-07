@@ -90,6 +90,7 @@ This project is currently a work in progress. While it provides basic functional
 ![RecipesMainPage4](https://github.com/user-attachments/assets/383186db-6378-45c4-bb79-70902895ee87)
 ![BottomSheet](https://github.com/user-attachments/assets/39470b04-c34c-4086-80c0-e823e557e3f3)
 ![RecipeRegionsPicker](https://github.com/user-attachments/assets/d935c6c8-b9d5-4aa0-ba2b-11749c93b666)
+![RecipesList](https://github.com/user-attachments/assets/b61327a6-6397-45ad-b1ec-113c6235e53f)
 ![ViewRecipe](https://github.com/user-attachments/assets/c4b810e8-529d-4393-a7ef-2cf7224afdf0)
 ![RecipesMainPageWithIngredientSearch](https://github.com/user-attachments/assets/942675e7-d576-4c79-b5d5-bfca5a42f43d)
 ![ViewRecipe_Summary](https://github.com/user-attachments/assets/23b7fdfe-656b-47b0-b1fa-acc66d732841)
