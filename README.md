@@ -97,12 +97,32 @@ This project is currently a work in progress. While it provides basic functional
 ![ViewRecipe_Ingredients](https://github.com/user-attachments/assets/d05162b3-9ddc-48e8-964c-43b0763634c9)
 ![Favorites](https://github.com/user-attachments/assets/3932ba20-228a-4fad-982a-473136f9a200)
 
-### Contributions
+### 🌟 Contributing
 
 Contributions are welcome! If you have suggestions for new features or improvements, feel free to submit a pull request or open an issue on GitHub.
+
+1. Fork the project (https://github.com/fauxtix/MauiRecipesApp/fork)
+2. Create a branch for your modification (git checkout -b fauxtix/MauiRecipesApp)
+3. Commit (git commit -am 'Add some fooBar')
+4. Push (git push origin fauxtix/MauiRecipesApp)
+5. Create a new Pull Request
+
+When contributing code, please follow the existing code style and submit a pull request with your changes.
 
 ### Disclaimer
 
 This project is a work in progress and may undergo changes and updates without prior notice. It is being developed for educational purposes and may include experimental features and components.
 It does not serve any commercial or production purposes.
 
+ ## ⚖ License
+
+The DaisyPets project is licensed under the MIT License.
+
+## 📞 Contact
+
+If you have any questions or need further assistance, you can reach out to the project maintainer:
+
+- 👨‍💻 Maintainer: Fausto Luís
+- ✉ Email: fauxtix.luix@hotmail.com
+
+Feel free to contact me with any feedback or inquiries.
