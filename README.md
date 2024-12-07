@@ -52,6 +52,7 @@ When viewing a recipe, there is the possibility to mark it as a Favorite; the ap
 6. Change this line :
    
    private readonly string? _apiKey = "871cc9ddc1ea4733830dd2c30e3d691a";
+
    Change the _apiKey you grabbed from Spoonacular Website
 8. Restore the packages (Rebuild the solution)
 9. Run the app on an emulator or real device.
