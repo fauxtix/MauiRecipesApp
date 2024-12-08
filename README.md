@@ -10,13 +10,13 @@ When viewing a recipe, there is the possibility to mark it as a Favorite; the ap
   - Allows searching for recipes by region and ingredient. Users can choose from different regions of the world (e.g., Italian, American, Japanese, etc.);
   - Search results can be filtered by the number of recipes (10, 20, or 30 recipes);
  
-- **Other options** on the main page:
+- **Other options**
   
-  -- List of the last searches saved (cached) in the database;
+  - List of the last searches saved (cached) in the database;
   
-  -- List of the last recipes viewed (cached);
+  - List of the last recipes viewed (cached);
   
-  -- List of the best rated (popular) recipes, according to the search criteria.
+  - List of the best rated (popular) recipes, according to the search criteria.
 
 - **Local Storage**:
   - Recipes already researched, are stored locally using an SQLite database.
