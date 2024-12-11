@@ -121,7 +121,7 @@ Não tem fins comerciais nem é destinado à produção.
 
 ## ⚖ **Licença**
 
-O projeto MauiRecipes está licenciado sob a Licença MIT.
+O projeto MauiRecipes está licenciado sob a [Licença MIT](./LICENSE.md).
 
 ## 📞 **Contactos**
 
