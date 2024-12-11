@@ -1,5 +1,7 @@
 # **Cooking Recipes - Mobile Application**
 
+- [Portuguese](./Portuguese.MD)
+
 This application allows users to search, view, and store cooking recipes locally, using the Spoonacular API. Recipes can be filtered by region and ingredient, with features for local caching and date expiration.
 The users may also view the recipes marked as favorites, and the previously searched recipes by Region and/or Ingredient (see the screenshots).
 When viewing a recipe, there is the possibility to mark it as a Favorite; the app has a separated option (tab bar) to list and consult them individually.
@@ -10,9 +12,12 @@ When viewing a recipe, there is the possibility to mark it as a Favorite; the ap
   - Allows searching for recipes by region and ingredient. Users can choose from different regions of the world (e.g., Italian, American, Japanese, etc.);
   - Search results can be filtered by the number of recipes (10, 20, or 30 recipes);
  
-- **Other options** on the main page:
+- **Other options**
+  
   - List of the last searches saved (cached) in the database;
+  
   - List of the last recipes viewed (cached);
+  
   - List of the best rated (popular) recipes, according to the search criteria.
 
 - **Local Storage**:
@@ -43,19 +48,21 @@ When viewing a recipe, there is the possibility to mark it as a Favorite; the ap
 - **Spoonacular API** - External API for fetching information on cooking recipes.
 - **CommunityToolkit.Maui/MVVM** - Libraries to simplify mobile app development with MAUI.
 
-## **How to Run**
+## **How to Run Locally**
 
-1. Clone the repository:
+1. Clone the Repo => git clone https://github.com/fauxtix/MauiRecipesApp
+2. Get a free API key from https://spoonacular.com/food-api/console
+3. Open the project in Visual Studio or Visual Studio Code.
+4. Go to SpoonacularService.cs class file in Services/Implementations
+5. Change this line:
+   
+   private readonly string? _apiKey = "871cc9ddc1ea4733830dd2c30e3d691a";
 
-    ```bash
-    git clone https://github.com/fauxtix/MauiRecipesApp
-    ```
+   Change the _apiKey you grabbed from Spoonacular Website
+6. Restore the packages (Rebuild the solution)
+7. Run the app on an emulator or real device.
 
-2. Open the project in Visual Studio or Visual Studio Code.
-
-3. Run the app on an emulator or real device.
-
-4. The SQLite database will be automatically created in the app's data directory.
+The SQLite database will be automatically created in the app's data directory.
 
 ## **Future Features**
 
@@ -88,19 +95,39 @@ This project is currently a work in progress. While it provides basic functional
 ![RecipesMainPage4](https://github.com/user-attachments/assets/383186db-6378-45c4-bb79-70902895ee87)
 ![BottomSheet](https://github.com/user-attachments/assets/39470b04-c34c-4086-80c0-e823e557e3f3)
 ![RecipeRegionsPicker](https://github.com/user-attachments/assets/d935c6c8-b9d5-4aa0-ba2b-11749c93b666)
+![RecipesList](https://github.com/user-attachments/assets/b61327a6-6397-45ad-b1ec-113c6235e53f)
 ![ViewRecipe](https://github.com/user-attachments/assets/c4b810e8-529d-4393-a7ef-2cf7224afdf0)
-![RecipesMainPageWithIngredientSearch](https://github.com/user-attachments/assets/942675e7-d576-4c79-b5d5-bfca5a42f43d)
 ![ViewRecipe_Summary](https://github.com/user-attachments/assets/23b7fdfe-656b-47b0-b1fa-acc66d732841)
 ![ViewRecipe_Instructions](https://github.com/user-attachments/assets/e58a59c4-d234-4a45-a330-2fd647538aef)
 ![ViewRecipe_Ingredients](https://github.com/user-attachments/assets/d05162b3-9ddc-48e8-964c-43b0763634c9)
 ![Favorites](https://github.com/user-attachments/assets/3932ba20-228a-4fad-982a-473136f9a200)
 
-### Contributions
+### 🌟 Contributing
 
 Contributions are welcome! If you have suggestions for new features or improvements, feel free to submit a pull request or open an issue on GitHub.
+
+1. Fork the project (https://github.com/fauxtix/MauiRecipesApp/fork)
+2. Create a branch for your modification (git checkout -b fauxtix/MauiRecipesApp)
+3. Commit (git commit -am 'Add some fooBar')
+4. Push (git push origin fauxtix/MauiRecipesApp)
+5. Create a new Pull Request
+
+When contributing code, please follow the existing code style and submit a pull request with your changes.
 
 ### Disclaimer
 
 This project is a work in progress and may undergo changes and updates without prior notice. It is being developed for educational purposes and may include experimental features and components.
 It does not serve any commercial or production purposes.
 
+ ## ⚖ License
+
+The MauiRecipes project is licensed under the [MIT License](./LICENSE.md).
+
+## 📞 Contact
+
+If you have any questions or need further assistance, you can reach out to the project maintainer:
+
+- 👨‍💻 Maintainer: Fausto Luís
+- ✉ Email: fauxtix.luix@hotmail.com
+
+Feel free to contact me with any feedback or inquiries.
