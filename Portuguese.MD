@@ -1,5 +1,7 @@
 # **MAUI Recipes App - Receitas de Cozinha - Aplicação Móvel**
 
+- [Inglês](./README.md)
+
 Esta aplicação permite aos utilizadores pesquisar, visualizar e armazenar receitas de cozinha localmente, utilizando a API Spoonacular. As receitas podem ser filtradas por região e ingrediente, com funcionalidades de cache local e expiração de dados.  
 Os utilizadores podem também visualizar as receitas marcadas como favoritas e as pesquisas anteriores por Região e/ou Ingrediente (ver capturas de ecrã).  
 Ao visualizar uma receita, é possível marcá-la como Favorita; a aplicação tem uma opção separada (barra de separadores) para listar e consultar essas receitas individualmente.
