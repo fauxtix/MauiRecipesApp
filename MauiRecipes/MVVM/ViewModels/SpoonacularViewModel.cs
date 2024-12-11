@@ -51,6 +51,12 @@ public partial class SpoonacularViewModel : BaseViewModel, IDisposable
     [ObservableProperty]
     private List<RecipeInformation.RecipeInfo> recipesDetailsList = new();
 
+    [ObservableProperty]
+    private bool isExpanderExpanded; // Vinculado ao IsExpanded no Expander.
+
+    [ObservableProperty]
+    private string expanderIcon = "icon_expand.png";
+
     public ObservableCollection<RecipeInformation.RecipeInfo> RecipesDetailsCollection { get; } = new();
 
     public SpoonacularViewModel(ISpoonacularService service,
@@ -129,6 +135,12 @@ public partial class SpoonacularViewModel : BaseViewModel, IDisposable
 
     }
 
+    [RelayCommand]
+    private void ToggleExpander()
+    {
+        IsExpanderExpanded = !IsExpanderExpanded; // Alterna o estado do Expander.
+        ExpanderIcon = IsExpanderExpanded ? "icon_collapse.png" : "icon_expand.png"; // Atualiza o ícone.
+    }
 
     [RelayCommand]
     private async Task SearchRecipes()

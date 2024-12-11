@@ -134,24 +134,42 @@
 
                     <!--Recent searches-->
                     <Border Grid.Row="2" Stroke="AliceBlue"
-                            StrokeThickness="1"
+                            StrokeThickness="0"
                             StrokeShape="RoundRectangle 0,0,40,40"
                             Background="#1e9acc"
-                            Padding="8,2,8,0"
-                            Margin="4"
+                            Padding="0,0,2,2"
+                            Margin="0, -25, 0, 0"
                     HorizontalOptions="FillAndExpand">
-                        <toolkit:Expander Padding="2" Margin="6"
-                                  IsExpanded="false"  >
+                        <toolkit:Expander IsExpanded="{Binding IsExpanderExpanded}"
+                      Padding="2" Margin="6">
                             <toolkit:Expander.Header>
-                                <Frame 
-                                    BorderColor="Black"
-                                    BackgroundColor="SteelBlue" Margin="10, 0, 10, 0"
-                                    HeightRequest="70"
-                                    CornerRadius="30">
-                                    <Label Text="Recent Searches" FontSize="18" 
-                                           FontFamily="Poppins"
-                                           VerticalOptions="Center" HorizontalOptions="Center"
-                                           TextColor="Yellow"/>
+                                <Frame BorderColor="LightBlue"
+                                       BackgroundColor="#1e9acc"
+                                       Margin="10, 0, 10, 0"
+                                       HeightRequest="75"
+                                       CornerRadius="30">
+                                    <FlexLayout Direction="Row"
+                                            AlignItems="Center"
+                                            JustifyContent="SpaceBetween">
+                                        <Label Text="Recent Searches"
+                                               FontSize="18"
+                                               FontFamily="Poppins"
+                                               VerticalOptions="Center"
+                                               HorizontalOptions="Start"
+                                               TextColor="Yellow"
+                                               Margin="10,0,0,0"/>
+                                        <ImageButton Source="{Binding ExpanderIcon}"
+                                                 BackgroundColor="Transparent" 
+                                                 Command="{Binding ToggleExpanderCommand}"
+                                                 HeightRequest="32"
+                                                 WidthRequest="32"
+                                                 Margin="0,0,10,0">
+                                            <ImageButton.Behaviors>
+                                                <toolkit:IconTintColorBehavior TintColor="Black" />
+                                            </ImageButton.Behaviors>
+                                            
+                                        </ImageButton>
+                                    </FlexLayout>
                                 </Frame>
                             </toolkit:Expander.Header>
                             <toolkit:Expander.Content>
