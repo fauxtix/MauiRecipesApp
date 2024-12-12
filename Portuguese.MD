@@ -61,7 +61,7 @@ Ao visualizar uma receita, é possível marcá-la como Favorita; a aplicação t
 
 ~~~
 
-##### :Substitua _apiKey pela chave que obteve do site do Spoonacular.
+:Substitua _apiKey pela chave que obteve do site do Spoonacular.
 
 6. Restaure os pacotes (Reconstrua a solução)
 7. Execute a aplicação num emulador ou dispositivo real.
