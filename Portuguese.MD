@@ -66,6 +66,7 @@ Substitua _apiKey pela chave que obteve do site do Spoonacular.
 6. Restaure os pacotes (Reconstrua a solução)
 7. Execute a aplicação num emulador ou dispositivo real.
 
+
 A base de dados SQLite será automaticamente criada no diretório de dados da aplicação.
 
 ## **Funcionalidades Futuras**
