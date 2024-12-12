@@ -49,10 +49,10 @@ Ao visualizar uma receita, é possível marcá-la como Favorita; a aplicação t
 
 ## **Como Executar Localmente**
 
-1. Clone o repositório => git clone https://github.com/fauxtix/MauiRecipesApp
-2. Obtenha uma chave de API gratuita em https://spoonacular.com/food-api/console
-3. Abra o projeto no Visual Studio ou Visual Studio Code.
-4. Vá ao arquivo da classe SpoonacularService.cs em Services/Implementations
+1. Clone o repositório => git clone https://github.com/fauxtix/MauiRecipesApp;
+2. Obtenha uma chave de API gratuita em https://spoonacular.com/food-api/console;
+3. Abra o projeto no Visual Studio ou Visual Studio Code;
+4. Vá ao arquivo da classe SpoonacularService.cs em Services/Implementations;
 5. Altere esta linha:
 
 ~~~C#
@@ -64,7 +64,7 @@ Ao visualizar uma receita, é possível marcá-la como Favorita; a aplicação t
 
 
 
-6. Restaure os pacotes (Reconstrua a solução)
+6. Restaure os pacotes (Reconstrua a solução);
 7. Execute a aplicação num emulador ou dispositivo real.
 
 
