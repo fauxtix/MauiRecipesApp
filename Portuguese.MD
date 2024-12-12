@@ -54,6 +54,7 @@ Ao visualizar uma receita, é possível marcá-la como Favorita; a aplicação t
 3. Abra o projeto no Visual Studio ou Visual Studio Code.
 4. Vá ao arquivo da classe SpoonacularService.cs em Services/Implementations
 5. Altere esta linha:
+
 ˋˋˋ
    private readonly string? _apiKey = "871cc9ddc1ea4733830dd2c30e3d691a";
 ˋˋˋ
