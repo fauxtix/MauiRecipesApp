@@ -57,11 +57,12 @@ Ao visualizar uma receita, é possível marcá-la como Favorita; a aplicação t
 
 ~~~C#
 
+   // Substitua _apiKey pela chave que obteve do site do Spoonacular.
    private readonly string? _apiKey = "871cc9ddc1ea4733830dd2c30e3d691a";
 
 ~~~
 
-      Substitua _apiKey pela chave que obteve do site do Spoonacular.
+
 
 6. Restaure os pacotes (Reconstrua a solução)
 7. Execute a aplicação num emulador ou dispositivo real.
