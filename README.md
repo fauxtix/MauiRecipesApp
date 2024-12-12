@@ -59,7 +59,7 @@ When viewing a recipe, there is the possibility to mark it as a Favorite; the ap
    ~~~C#
 
    // change the _apiKey you grabbed from Spoonacular Website
-   private readonly string? _apiKey = "871cc9ddc1ea4733830dd2c30e3d691a";
+   private readonly string? _apiKey = "mykey";
 
    ~~~
    
