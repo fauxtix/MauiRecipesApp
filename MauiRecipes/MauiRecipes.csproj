@@ -75,7 +75,7 @@
 
 	<ItemGroup>
 		<!-- App Icon -->
-		<MauiIcon Include="Resources\AppIcon\appicon.svg" Color="#FF0000">
+		<MauiIcon Include="Resources\AppIcon\appicon.svg" Color="#1E9ACC">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		  <Resize>True</Resize>
 		  <BaseSize>128,128</BaseSize>
