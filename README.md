@@ -55,10 +55,14 @@ When viewing a recipe, there is the possibility to mark it as a Favorite; the ap
 3. Open the project in Visual Studio or Visual Studio Code.
 4. Go to SpoonacularService.cs class file in Services/Implementations
 5. Change this line:
-   
-   private readonly string? _apiKey = "871cc9ddc1ea4733830dd2c30e3d691a";
 
-   Change the _apiKey you grabbed from Spoonacular Website
+   ~~~C#
+
+   // change the _apiKey you grabbed from Spoonacular Website
+   private readonly string? _apiKey = "mykey";
+
+   ~~~
+   
 6. Restore the packages (Rebuild the solution)
 7. Run the app on an emulator or real device.
 

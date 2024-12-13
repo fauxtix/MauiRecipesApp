@@ -32,10 +32,9 @@ Ao visualizar uma receita, é possível marcá-la como Favorita; a aplicação t
 
 - **Visualização de Detalhes da Receita**:
   - Ao selecionar uma receita, os utilizadores podem ver informações detalhadas, incluindo ingredientes, instruções de preparação e informações adicionais sobre a receita.
-    Eles também podem marcar a receita como Favorita.
 
 - **Favoritos**
-  - A aplicação permite ao utilizador marcar uma receita como favorita; existe uma opção dedicada (separador) para listar e visualizar os detalhes das receitas.
+  - A aplicação permite ao utilizador marcar uma receita como favorita; existe uma opção dedicada (TabBar) para listar e visualizar os detalhes das receitas.
 
 - **Notificações e Alertas**:
   - A aplicação mostra notificações e alertas para informar o utilizador sobre o estado das receitas carregadas (ex: "Receitas carregadas com sucesso", "Receitas carregadas da base de dados", "Erro ao carregar receitas", etc.).
@@ -50,17 +49,24 @@ Ao visualizar uma receita, é possível marcá-la como Favorita; a aplicação t
 
 ## **Como Executar Localmente**
 
-1. Clone o repositório => git clone https://github.com/fauxtix/MauiRecipesApp
-2. Obtenha uma chave de API gratuita em https://spoonacular.com/food-api/console
-3. Abra o projeto no Visual Studio ou Visual Studio Code.
-4. Vá ao arquivo da classe SpoonacularService.cs em Services/Implementations
+1. Clone o repositório => git clone https://github.com/fauxtix/MauiRecipesApp;
+2. Obtenha uma chave de API gratuita em https://spoonacular.com/food-api/console;
+3. Abra o projeto no Visual Studio ou Visual Studio Code;
+4. Vá ao arquivo da classe SpoonacularService.cs em Services/Implementations;
 5. Altere esta linha:
-   
-   private readonly string? _apiKey = "871cc9ddc1ea4733830dd2c30e3d691a";
 
-   Substitua o _apiKey pela chave que obteve do site do Spoonacular.
-6. Restaure os pacotes (Reconstrua a solução)
+~~~C#
+
+   // Substitua _apiKey pela chave que obteve do site do Spoonacular.
+   private readonly string? _apiKey = "minhachave";
+
+~~~
+
+
+
+6. Restaure os pacotes (Reconstrua a solução);
 7. Execute a aplicação num emulador ou dispositivo real.
+
 
 A base de dados SQLite será automaticamente criada no diretório de dados da aplicação.
 
